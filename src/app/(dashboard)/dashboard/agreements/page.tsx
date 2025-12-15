@@ -44,10 +44,13 @@ export default function Page() {
               <p className="mt-4 text-xs text-muted">Document download links are placeholders in V1.</p>
             </Card>
             <Card className="p-6">
-              <p className="text-sm font-semibold tracking-tight">Payment schedule (example)</p>
-              <p className="mt-1 text-sm text-muted">A clear schedule view to reduce surprises.</p>
+              <p className="text-sm font-semibold tracking-tight">Payment schedule</p>
+              <p className="mt-1 text-sm text-muted">Your upcoming and past payments.</p>
               <div className="mt-4">
-                <PaymentScheduleTable rows={agreement.paymentSchedule} />
+                <PaymentScheduleTable 
+                  rows={agreement.paymentSchedule}
+                  showNextDueHighlight={true}
+                />
               </div>
               <div className="mt-5 flex flex-wrap gap-3">
                 <ButtonLink href="/dashboard/payments">Make a payment</ButtonLink>

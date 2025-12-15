@@ -28,40 +28,54 @@ export default function Page() {
         </p>
       </div>
 
+      {/* Next Payment Due Highlight */}
+      {nextDue && (
+        <Card className="border-l-4 border-l-brand bg-gradient-to-r from-brand/5 to-transparent p-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted">Next Payment Due</p>
+          <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="text-3xl font-bold text-fg">{formatUsd(nextDue.amount)}</p>
+              <p className="mt-1 text-sm text-muted">
+                {new Date(nextDue.dueDate).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric"
+                })}
+              </p>
+            </div>
+            <ButtonLink href="/dashboard/payments">Make Payment</ButtonLink>
+          </div>
+        </Card>
+      )}
+
+      {/* Key Metrics */}
       <div className="grid gap-3 md:grid-cols-3">
         <Metric
           label="Application status"
           value={app ? app.status.replaceAll("_", " ") : "No application"}
-          hint="Save/resume is available in Get Cash."
+          hint={app ? "View your application details" : "Start with Get Cash wizard"}
         />
         <Metric
-          label="Next payment due"
-          value={nextDue ? `${formatUsd(nextDue.amount)}` : "—"}
-          hint={nextDue ? new Date(nextDue.dueDate).toLocaleDateString() : "No upcoming payment scheduled."}
+          label="Active agreements"
+          value={agreement ? "1" : "0"}
+          hint={agreement ? "View payment schedule and details" : "No active agreements yet"}
         />
         <Metric
-          label="Vehicle value snapshot"
-          value={
-            vehicle?.valuationSnapshot
-              ? `${formatUsd(vehicle.valuationSnapshot.low)}–${formatUsd(vehicle.valuationSnapshot.high)}`
-              : "—"
-          }
-          hint={
-            vehicle?.valuationSnapshot
-              ? `Updated ${new Date(vehicle.valuationSnapshot.updatedAt).toLocaleDateString()}`
-              : "Add a vehicle to see a snapshot."
-          }
+          label="Vehicle on file"
+          value={vehicle ? `${vehicle.year} ${vehicle.make}` : "No vehicle"}
+          hint={vehicle ? `Mileage: ${vehicle.mileage.toLocaleString()}` : "Add a vehicle to continue"}
         />
       </div>
 
+      {/* Main Content Grid */}
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="p-6 md:col-span-2">
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold tracking-tight">Application timeline</p>
-              <p className="mt-1 text-sm text-muted">A clear lifecycle view (placeholder), designed to reduce anxiety.</p>
+              <p className="text-sm font-semibold tracking-tight">Application Timeline</p>
+              <p className="mt-1 text-sm text-muted">Track your progress through our CAB title access process.</p>
             </div>
-            <ButtonLink href="/dashboard/get-cash">Get Cash</ButtonLink>
+            {!app && <ButtonLink href="/dashboard/get-cash">Get Cash</ButtonLink>}
           </div>
           <div className="mt-5 grid gap-6 md:grid-cols-2">
             <Timeline
@@ -72,7 +86,7 @@ export default function Page() {
                   status: "done"
                 },
                 { title: "Verification", detail: "Upload photos and confirm identity/income.", status: "active" },
-                { title: "Offer + disclosures", detail: "Review fee categories and CAB disclosures.", status: "todo" },
+                { title: "Offer & disclosures", detail: "Review fee categories and CAB disclosures.", status: "todo" },
                 { title: "E-sign", detail: "Sign the CAB Title Access Agreement (if approved).", status: "todo" },
                 { title: "Funding", detail: "Track status updates through funding.", status: "todo" }
               ]}
@@ -85,31 +99,50 @@ export default function Page() {
           </div>
         </Card>
 
+        {/* Quick Actions Sidebar */}
         <Card className="p-6">
-          <p className="text-sm font-semibold tracking-tight">Quick actions</p>
+          <p className="text-sm font-semibold tracking-tight">Quick Actions</p>
           <div className="mt-4 grid gap-2">
+            {agreement && (
+              <>
+                <ButtonLink variant="secondary" href="/dashboard/agreements">
+                  View Agreements
+                </ButtonLink>
+                <ButtonLink variant="secondary" href="/dashboard/payments">
+                  Make Payment
+                </ButtonLink>
+              </>
+            )}
             <ButtonLink variant="secondary" href="/dashboard/documents">
-              Upload documents
+              Upload Documents
             </ButtonLink>
-            <ButtonLink variant="secondary" href="/dashboard/payments">
-              Make a payment
+            <ButtonLink variant="secondary" href="/dashboard/vehicles">
+              Manage Vehicles
+            </ButtonLink>
+            <ButtonLink variant="secondary" href="/dashboard/profile">
+              Update Profile
             </ButtonLink>
             <ButtonLink variant="secondary" href="/dashboard/support">
-              Contact support
+              Get Help
             </ButtonLink>
           </div>
-          <div className="mt-5">
-            <Notice tone="cab" title="CAB note">
+
+          {/* CAB Disclosure */}
+          <div className="mt-6 space-y-4">
+            <Notice tone="cab" title="CAB Disclosure">
               Dollar Loans facilitates access to credit. A third-party creditor may extend credit if approved. Estimates
-              are ranges only.
+              are ranges only. See{" "}
+              <Link className="underline underline-offset-4 hover:text-fg" href="/legal/cab-disclosures">
+                CAB disclosures
+              </Link>
+              .
             </Notice>
           </div>
+
           <p className="mt-4 text-xs text-muted">
-            Need help understanding fee categories? See{" "}
             <Link className="underline underline-offset-4 hover:text-fg" href="/cab-model-explained">
-              CAB model explained
+              Learn how CAB title access works →
             </Link>
-            .
           </p>
         </Card>
       </div>
