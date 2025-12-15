@@ -18,6 +18,51 @@ import { EsignPanel } from "@/components/wizard/EsignPanel";
 import Link from "next/link";
 import { track } from "@/lib/analytics";
 
+// Field validation rules
+interface FieldError {
+  field: string;
+  message: string;
+}
+
+function validateGoalAmount(amount: number): FieldError | null {
+  if (!amount || amount < 500) {
+    return { field: "desiredAmount", message: "Requested amount must be at least $500" };
+  }
+  if (amount > 10000) {
+    return { field: "desiredAmount", message: "Amount cannot exceed $10,000" };
+  }
+  return null;
+}
+
+function validateVehicle(data: any): FieldError | null {
+  if (!data.year) return { field: "year", message: "Year is required" };
+  const year = Number(data.year);
+  if (year < 2000 || year > new Date().getFullYear()) {
+    return { field: "year", message: `Year must be between 2000 and ${new Date().getFullYear()}` };
+  }
+  if (!data.make) return { field: "make", message: "Make is required" };
+  if (!data.model) return { field: "model", message: "Model is required" };
+  const mileage = Number(data.mileage || 0);
+  if (mileage < 0 || mileage > 999999) {
+    return { field: "mileage", message: "Mileage must be between 0 and 999,999" };
+  }
+  return null;
+}
+
+function validateIdentity(data: any): FieldError | null {
+  if (!data.fullName?.trim()) return { field: "fullName", message: "Full name is required" };
+  if (!data.dob) return { field: "dob", message: "Date of birth is required" };
+  if (!data.address?.trim()) return { field: "address", message: "Address is required" };
+  return null;
+}
+
+function validateIncome(data: any): FieldError | null {
+  if (!data.employer?.trim()) return { field: "employer", message: "Employer is required" };
+  if (!data.incomeRange?.trim()) return { field: "incomeRange", message: "Income range is required" };
+  if (!data.payFrequency?.trim()) return { field: "payFrequency", message: "Pay frequency is required" };
+  return null;
+}
+
 function nextStepId(id: WizardStepId) {
   const idx = WIZARD_STEPS.findIndex((s) => s.id === id);
   return WIZARD_STEPS[Math.min(WIZARD_STEPS.length - 1, idx + 1)]?.id || id;
@@ -36,11 +81,35 @@ export function GetCashWizard() {
 
   const [applicationId, setApplicationId] = useState<string | null>(null);
   const [isCreatingApp, setIsCreatingApp] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
+  const [showSaveIndicator, setShowSaveIndicator] = useState(false);
 
   const urlStep = (params.get("step") as WizardStepId | null) || null;
   const paramsString = params.toString();
   const initial = (data.activeStep as WizardStepId | undefined) || urlStep || "goal_amount";
   const [active, setActive] = useState<WizardStepId>(initial);
+
+  // Calculate estimate early so it's available to functions
+  const estimate = useMemo(() => {
+    const desired = Number(data.desiredAmount || 0);
+    const mileage = Number(data.mileage || 0);
+    const condition = String(data.condition || "good");
+    const base = Math.min(3800, Math.max(600, 2200 - mileage * 0.004));
+    const conditionAdj = condition === "excellent" ? 1.1 : condition === "fair" ? 0.85 : 1;
+    const center = base * conditionAdj;
+    const low = Math.max(300, Math.round(center * 0.55));
+    const high = Math.max(low + 200, Math.round(center * 1.05));
+    return {
+      low: desired > 0 ? Math.min(low, desired) : low,
+      high: Math.max(high, desired > 0 ? desired : high)
+    };
+  }, [data.desiredAmount, data.mileage, data.condition]);
+
+  // Calculate progress percentage
+  const currentStepIndex = WIZARD_STEPS.findIndex((s) => s.id === active);
+  const totalSteps = WIZARD_STEPS.length;
+  const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
 
   useEffect(() => {
     if (!ready) return;
@@ -53,8 +122,17 @@ export function GetCashWizard() {
     const sp = new URLSearchParams(paramsString);
     sp.set("step", active);
     router.replace(`/dashboard/get-cash?${sp.toString()}`);
-    void track("wizard_step_view", { step: active });
-  }, [active, paramsString, router, setDraft]);
+    void track("wizard_step_view", { step: active, progress: Math.round(progressPercent) });
+    setFieldErrors({});
+  }, [active, paramsString, router, setDraft, progressPercent]);
+
+  // Auto-save feedback
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSaveIndicator(false);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, [showSaveIndicator]);
 
   const stepsForUi = useMemo(
     () => WIZARD_STEPS.map((s) => ({ id: s.id, title: s.title, subtitle: s.subtitle })),
@@ -93,29 +171,55 @@ export function GetCashWizard() {
     }
   }
 
-  function goNext() {
+  function handleFieldChange(field: string, value: any) {
+    setDraft({ [field]: value });
+    setShowSaveIndicator(true);
+    setLastSaveTime(new Date());
+    // Clear error for this field when user corrects it
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev };
+        delete next[field];
+        return next;
+      });
+    }
+  }
+
+  function validateAndGoNext() {
+    // Validate based on current step
+    let error: FieldError | null = null;
+    
+    switch (active) {
+      case "goal_amount":
+        error = validateGoalAmount(Number(data.desiredAmount || 0));
+        break;
+      case "vehicle_quick":
+        error = validateVehicle(data);
+        break;
+      case "identity":
+        error = validateIdentity(data);
+        break;
+      case "income":
+        error = validateIncome(data);
+        break;
+    }
+
+    if (error) {
+      setFieldErrors((prev) => ({ ...prev, [error!.field]: error!.message }));
+      void track("wizard_step_view", { step: active, error: error.field });
+      return;
+    }
+
     void track("wizard_step_complete", { step: active });
     setActive(nextStepId(active));
   }
 
+  // Alias for backwards compatibility with existing button handlers
+  const goNext = validateAndGoNext;
+
   function goBack() {
     setActive(prevStepId(active));
   }
-
-  const estimate = useMemo(() => {
-    const desired = Number(data.desiredAmount || 0);
-    const mileage = Number(data.mileage || 0);
-    const condition = String(data.condition || "good");
-    const base = Math.min(3800, Math.max(600, 2200 - mileage * 0.004));
-    const conditionAdj = condition === "excellent" ? 1.1 : condition === "fair" ? 0.85 : 1;
-    const center = base * conditionAdj;
-    const low = Math.max(300, Math.round(center * 0.55));
-    const high = Math.max(low + 200, Math.round(center * 1.05));
-    return {
-      low: desired > 0 ? Math.min(low, desired) : low,
-      high: Math.max(high, desired > 0 ? desired : high)
-    };
-  }, [data.desiredAmount, data.mileage, data.condition]);
 
   return (
     <div className="space-y-6">
@@ -125,6 +229,31 @@ export function GetCashWizard() {
         <p className="max-w-prose text-sm text-muted">
           A premium, disclosure-first onboarding flow with autosave and resume (V1 scaffold).
         </p>
+      </div>
+
+      {/* Progress Indicator */}
+      <div className="rounded-2xl border border-border/60 bg-bg/25 p-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-widest text-muted">Progress</p>
+            <p className="mt-1 text-sm font-medium text-fg">
+              Step {currentStepIndex + 1} of {totalSteps}
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            {lastSaveTime && (
+              <div className={`flex items-center gap-1 text-xs transition ${showSaveIndicator ? "opacity-100" : "opacity-50"}`}>
+                <span className="text-muted">✓ Saved</span>
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-border/40">
+          <div
+            className="h-full bg-brand transition-all duration-300"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
       </div>
 
       <Notice tone="warn" title="Demo environment">
@@ -153,16 +282,20 @@ export function GetCashWizard() {
                 id="desiredAmount"
                 inputMode="numeric"
                 value={String(data.desiredAmount ?? 1200)}
-                onChange={(e) => setDraft({ desiredAmount: Number(e.target.value || 0) })}
+                onChange={(e) => handleFieldChange("desiredAmount", Number(e.target.value || 0))}
+                className={fieldErrors.desiredAmount ? "border-red-500" : ""}
               />
-              <p className="mt-2 text-xs text-muted">Non-guarantee estimate range will be shown next.</p>
+              {fieldErrors.desiredAmount && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.desiredAmount}</p>
+              )}
+              <p className="mt-2 text-xs text-muted">Range: $500 - $10,000</p>
             </div>
             <div>
               <Label htmlFor="urgency">Urgency (optional)</Label>
               <Input
                 id="urgency"
                 value={String(data.urgency ?? "Today")}
-                onChange={(e) => setDraft({ urgency: e.target.value })}
+                onChange={(e) => handleFieldChange("urgency", e.target.value)}
                 placeholder="Today / This week / Flexible"
               />
               <p className="mt-2 text-xs text-muted">Used for support routing in production.</p>
@@ -187,19 +320,43 @@ export function GetCashWizard() {
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <div>
               <Label htmlFor="vin">VIN or plate (optional)</Label>
-              <Input id="vin" value={String(data.vin ?? "")} onChange={(e) => setDraft({ vin: e.target.value })} />
+              <Input id="vin" value={String(data.vin ?? "")} onChange={(e) => handleFieldChange("vin", e.target.value)} />
             </div>
             <div>
               <Label htmlFor="year">Year</Label>
-              <Input id="year" value={String(data.year ?? "2016")} onChange={(e) => setDraft({ year: e.target.value })} />
+              <Input 
+                id="year" 
+                value={String(data.year ?? "2016")} 
+                onChange={(e) => handleFieldChange("year", e.target.value)}
+                className={fieldErrors.year ? "border-red-500" : ""}
+              />
+              {fieldErrors.year && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.year}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="make">Make</Label>
-              <Input id="make" value={String(data.make ?? "Toyota")} onChange={(e) => setDraft({ make: e.target.value })} />
+              <Input 
+                id="make" 
+                value={String(data.make ?? "Toyota")} 
+                onChange={(e) => handleFieldChange("make", e.target.value)}
+                className={fieldErrors.make ? "border-red-500" : ""}
+              />
+              {fieldErrors.make && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.make}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="model">Model</Label>
-              <Input id="model" value={String(data.model ?? "Camry")} onChange={(e) => setDraft({ model: e.target.value })} />
+              <Input 
+                id="model" 
+                value={String(data.model ?? "Camry")} 
+                onChange={(e) => handleFieldChange("model", e.target.value)}
+                className={fieldErrors.model ? "border-red-500" : ""}
+              />
+              {fieldErrors.model && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.model}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="mileage">Mileage</Label>
@@ -207,8 +364,12 @@ export function GetCashWizard() {
                 id="mileage"
                 inputMode="numeric"
                 value={String(data.mileage ?? 108000)}
-                onChange={(e) => setDraft({ mileage: Number(e.target.value || 0) })}
+                onChange={(e) => handleFieldChange("mileage", Number(e.target.value || 0))}
+                className={fieldErrors.mileage ? "border-red-500" : ""}
               />
+              {fieldErrors.mileage && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.mileage}</p>
+              )}
             </div>
             <div>
               <Label>Condition</Label>
@@ -223,7 +384,7 @@ export function GetCashWizard() {
                         ? "border-brand/50 bg-brand/10 text-fg"
                         : "border-border/60 bg-panel/40 text-muted hover:bg-panel/60")
                     }
-                    onClick={() => setDraft({ condition: v })}
+                    onClick={() => handleFieldChange("condition", v)}
                   >
                     {v[0].toUpperCase() + v.slice(1)}
                   </button>
@@ -364,24 +525,50 @@ export function GetCashWizard() {
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <div>
               <Label htmlFor="fullName">Full legal name</Label>
-              <Input id="fullName" value={String(data.fullName ?? "")} onChange={(e) => setDraft({ fullName: e.target.value })} />
+              <Input 
+                id="fullName" 
+                value={String(data.fullName ?? "")} 
+                onChange={(e) => handleFieldChange("fullName", e.target.value)}
+                className={fieldErrors.fullName ? "border-red-500" : ""}
+              />
+              {fieldErrors.fullName && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.fullName}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="dob">Date of birth</Label>
-              <Input id="dob" value={String(data.dob ?? "")} onChange={(e) => setDraft({ dob: e.target.value })} placeholder="MM/DD/YYYY" />
+              <Input 
+                id="dob" 
+                value={String(data.dob ?? "")} 
+                onChange={(e) => handleFieldChange("dob", e.target.value)}
+                placeholder="MM/DD/YYYY"
+                className={fieldErrors.dob ? "border-red-500" : ""}
+              />
+              {fieldErrors.dob && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.dob}</p>
+              )}
             </div>
             <div className="md:col-span-2">
               <Label htmlFor="address">Address</Label>
-              <Input id="address" value={String(data.address ?? "")} onChange={(e) => setDraft({ address: e.target.value })} placeholder="Street, city, TX ZIP" />
+              <Input 
+                id="address" 
+                value={String(data.address ?? "")} 
+                onChange={(e) => handleFieldChange("address", e.target.value)}
+                placeholder="Street, city, TX ZIP"
+                className={fieldErrors.address ? "border-red-500" : ""}
+              />
+              {fieldErrors.address && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.address}</p>
+              )}
               <p className="mt-2 text-xs text-muted">Texas residency is part of eligibility for this CAB flow.</p>
             </div>
             <div>
               <Label htmlFor="idType">ID type (placeholder)</Label>
-              <Input id="idType" value={String(data.idType ?? "TX Driver License")} onChange={(e) => setDraft({ idType: e.target.value })} />
+              <Input id="idType" value={String(data.idType ?? "TX Driver License")} onChange={(e) => handleFieldChange("idType", e.target.value)} />
             </div>
             <div>
               <Label htmlFor="idNumber">ID number (placeholder)</Label>
-              <Input id="idNumber" value={String(data.idNumber ?? "")} onChange={(e) => setDraft({ idNumber: e.target.value })} />
+              <Input id="idNumber" value={String(data.idNumber ?? "")} onChange={(e) => handleFieldChange("idNumber", e.target.value)} />
             </div>
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -400,15 +587,39 @@ export function GetCashWizard() {
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <div>
               <Label htmlFor="employer">Employer</Label>
-              <Input id="employer" value={String(data.employer ?? "")} onChange={(e) => setDraft({ employer: e.target.value })} />
+              <Input
+                id="employer"
+                value={String(data.employer ?? "")}
+                onChange={(e) => handleFieldChange("employer", e.target.value)}
+                className={fieldErrors.employer ? "border-red-500" : ""}
+              />
+              {fieldErrors.employer && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.employer}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="payFrequency">Pay frequency</Label>
-              <Input id="payFrequency" value={String(data.payFrequency ?? "Biweekly")} onChange={(e) => setDraft({ payFrequency: e.target.value })} />
+              <Input
+                id="payFrequency"
+                value={String(data.payFrequency ?? "Biweekly")}
+                onChange={(e) => handleFieldChange("payFrequency", e.target.value)}
+                className={fieldErrors.payFrequency ? "border-red-500" : ""}
+              />
+              {fieldErrors.payFrequency && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.payFrequency}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="incomeRange">Income range (monthly)</Label>
-              <Input id="incomeRange" value={String(data.incomeRange ?? "$2,000–$3,500")} onChange={(e) => setDraft({ incomeRange: e.target.value })} />
+              <Input
+                id="incomeRange"
+                value={String(data.incomeRange ?? "$2,000–$3,500")}
+                onChange={(e) => handleFieldChange("incomeRange", e.target.value)}
+                className={fieldErrors.incomeRange ? "border-red-500" : ""}
+              />
+              {fieldErrors.incomeRange && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.incomeRange}</p>
+              )}
             </div>
             <div>
               <Label htmlFor="paystub">Upload paystub (optional)</Label>
