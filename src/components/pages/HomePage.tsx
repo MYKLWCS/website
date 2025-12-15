@@ -12,10 +12,9 @@ import { HomeHero } from "@/components/pages/HomeHero";
 
 export function HomePage() {
   return (
-    <main className="bg-white">
+    <main>
       <TrackEvent name="visit_home" />
 
-      {/* Hero Section */}
       <Section className="pt-20 md:pt-32 pb-16 md:pb-24">
         <Container>
           <div className="grid items-center gap-16 lg:grid-cols-2">
@@ -31,7 +30,6 @@ export function HomePage() {
         </Container>
       </Section>
 
-      {/* How It Works - 3 Steps */}
       <Section className="bg-gradient-to-b from-white to-panel/20">
         <Container>
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -63,7 +61,6 @@ export function HomePage() {
         </Container>
       </Section>
 
-      {/* How It Works Details */}
       <Section>
         <Container>
           <div className="grid gap-16 lg:grid-cols-2 items-center">
@@ -80,7 +77,7 @@ export function HomePage() {
                 A calm, predictable process
               </h2>
               <p className="text-base text-muted leading-relaxed mb-8">
-                You start with an estimate range. If you continue, we'll collect the information needed to facilitate
+                You start with an estimate range. If you continue, we will collect the information needed to facilitate
                 access and present CAB disclosures before any agreement is signed.
               </p>
 
@@ -110,7 +107,6 @@ export function HomePage() {
         </Container>
       </Section>
 
-      {/* Why Choose Us */}
       <Section className="bg-panel/20">
         <Container>
           <div className="grid gap-16 lg:grid-cols-2 items-center">
@@ -120,7 +116,7 @@ export function HomePage() {
                 Built like a big-company fintech
               </h2>
               <p className="text-base text-muted leading-relaxed mb-10">
-                Premium visuals, predictable steps, and disclosure-first clarity — designed for trust-sensitive shoppers.
+                Premium visuals, predictable steps, and disclosure-first clarity - designed for trust-sensitive shoppers.
               </p>
 
               <div className="grid gap-6 sm:grid-cols-2">
@@ -143,9 +139,9 @@ export function HomePage() {
               <div className="mt-12 space-y-6">
                 <div>
                   <p className="text-xs font-bold uppercase tracking-widest text-brand mb-4">Education</p>
-                  <h3 className="text-2xl font-bold tracking-tight mb-4">CAB clarity — without the jargon</h3>
+                  <h3 className="text-2xl font-bold tracking-tight mb-4">CAB clarity - without the jargon</h3>
                   <p className="text-base text-muted leading-relaxed">
-                    We explain who does what, what you pay, and what your options are — in plain language.
+                    We explain who does what, what you pay, and what your options are - in plain language.
                   </p>
                 </div>
 
@@ -164,7 +160,7 @@ export function HomePage() {
                         <p className="font-semibold text-base mb-1">{t}</p>
                         <p className="text-sm text-muted">{d}</p>
                       </div>
-                      <div className="text-brand group-hover:translate-x-1 transition-transform">→</div>
+                      <div className="text-brand group-hover:translate-x-1 transition-transform">-&gt;</div>
                     </Link>
                   ))}
                 </div>
@@ -182,7 +178,6 @@ export function HomePage() {
         </Container>
       </Section>
 
-      {/* Social Proof & Calculator */}
       <Section>
         <Container>
           <div className="grid gap-12 lg:grid-cols-2">
@@ -195,9 +190,9 @@ export function HomePage() {
 
               <div className="space-y-4">
                 {[
-                  [""Felt legit from the start."", "The site explained the CAB model and set expectations clearly."],
-                  [""Loved the step-by-step progress."", "Autosave made it easy to finish when I had time."],
-                  [""The cost categories were clear."", "I understood what I was paying before signing anything."]
+                  ["Felt legit from the start", "The site explained the CAB model and set expectations clearly."],
+                  ["Loved the step-by-step progress", "Autosave made it easy to finish when I had time."],
+                  ["The cost categories were clear", "I understood what I was paying before signing anything."]
                 ].map(([q, d]) => (
                   <div key={q} className="p-6 rounded-2xl border border-border bg-white hover:border-brand/30 hover:shadow-lg transition-all duration-300">
                     <p className="font-semibold text-lg mb-3 text-brand">{q}</p>
@@ -211,7 +206,7 @@ export function HomePage() {
               <p className="text-xs font-bold uppercase tracking-widest text-brand mb-4">Calculator preview</p>
               <h2 className="text-3xl font-bold tracking-tight mb-4">Estimate education, not hype</h2>
               <p className="text-base text-muted leading-relaxed mb-8">
-                Use the calculator to explore ranges and "what affects your estimate," then continue to Get Cash.
+                Use the calculator to explore ranges and what affects your estimate, then continue to Get Cash.
               </p>
 
               <div className="p-8 rounded-2xl border-2 border-border bg-white hover:border-brand/30 hover:shadow-2xl transition-all duration-300 mb-6">
@@ -233,7 +228,6 @@ export function HomePage() {
         </Container>
       </Section>
 
-      {/* FAQ */}
       <Section className="bg-panel/20">
         <Container>
           <div className="max-w-4xl mx-auto">
@@ -254,7 +248,7 @@ export function HomePage() {
                   a: (
                     <>
                       Dollar Loans is a Texas Credit Access Business (CAB) that facilitates access to credit. A third-party
-                      creditor may extend credit if you're approved.
+                      creditor may extend credit if you are approved.
                     </>
                   )
                 },
