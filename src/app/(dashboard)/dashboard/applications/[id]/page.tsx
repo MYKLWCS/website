@@ -15,7 +15,10 @@ type Props = {
 const STATUS_COLORS: Record<Application["status"], "default" | "brand" | "ok" | "warn"> = {
   draft: "default",
   in_review: "warn",
+  needs_docs: "warn",
   offer_ready: "brand",
+  accepted: "brand",
+  signed: "brand",
   funded: "ok",
   declined: "warn"
 };
@@ -23,7 +26,10 @@ const STATUS_COLORS: Record<Application["status"], "default" | "brand" | "ok" | 
 const STATUS_LABELS: Record<Application["status"], string> = {
   draft: "Draft",
   in_review: "In Review",
+  needs_docs: "Documents Needed",
   offer_ready: "Offer Ready",
+  accepted: "Offer Accepted",
+  signed: "Agreement Signed",
   funded: "Funded",
   declined: "Declined"
 };
@@ -83,11 +89,6 @@ export default function ApplicationDetailPage({ params }: Props) {
     );
   }
 
-  // Calculate total fees from estimate
-  const estimateTotal = application.estimateRange
-    ? (application.estimateRange.high - application.estimateRange.low) * 0.1
-    : 0;
-
   // Determine next step based on status
   const getNextSteps = () => {
     switch (application.status) {
@@ -98,6 +99,7 @@ export default function ApplicationDetailPage({ params }: Props) {
           { title: "Offer & Agreement", detail: "Review your offer and CAB disclosures.", status: "todo" }
         ];
       case "in_review":
+      case "needs_docs":
         return [
           { title: "Document Review", detail: "We&apos;re reviewing your submitted documents and vehicle info.", status: "active" },
           { title: "Offer Confirmation", detail: "Once verified, you&apos;ll see your final offer.", status: "todo" },
@@ -108,6 +110,13 @@ export default function ApplicationDetailPage({ params }: Props) {
           { title: "Document Review", detail: "Your documents have been verified.", status: "done" },
           { title: "Offer Confirmation", detail: "Your offer is ready for review.", status: "active" },
           { title: "E-Sign & Funding", detail: "Review and sign the CAB agreement.", status: "todo" }
+        ];
+      case "accepted":
+      case "signed":
+        return [
+          { title: "Document Review", detail: "Completed", status: "done" },
+          { title: "Offer Confirmation", detail: "Completed", status: "done" },
+          { title: "E-Sign & Funding", detail: "Agreement signed. Funding in progress.", status: "active" }
         ];
       case "funded":
         return [
@@ -152,7 +161,7 @@ export default function ApplicationDetailPage({ params }: Props) {
         {/* Requested Amount */}
         <Card className="p-6">
           <p className="text-sm font-semibold tracking-tight">Requested Amount</p>
-          <p className="mt-2 text-2xl font-bold text-fg">{formatUsd(application.requestedAmount)}</p>
+          <p className="mt-2 text-2xl font-bold text-fg">{formatUsd(application.requestedAmount || 0)}</p>
           <p className="mt-1 text-xs text-muted">From initial pre-qualify form</p>
         </Card>
       </div>
@@ -183,15 +192,17 @@ export default function ApplicationDetailPage({ params }: Props) {
               <span className="font-semibold text-fg">{formatUsd(application.finalOffer.amount)}</span>
             </div>
             <div className="flex justify-between rounded-lg border border-border/40 bg-bg/25 p-3">
-              <span className="text-sm">Total Fees</span>
-              <span className="font-semibold text-fg">{formatUsd(application.finalOffer.totalFees)}</span>
+              <span className="text-sm">Financing Term</span>
+              <span className="font-semibold text-fg">{application.finalOffer.termMonths} months</span>
             </div>
             <div className="mt-3 border-t border-border/50 pt-3">
-              <div className="flex justify-between">
-                <span className="font-semibold">You&apos;ll Receive</span>
-                <span className="text-lg font-bold text-fg">
-                  {formatUsd(application.finalOffer.amount - application.finalOffer.totalFees)}
-                </span>
+              <div className="space-y-2">
+                {application.finalOffer.feeCategories.map((cat, idx) => (
+                  <div key={idx} className="flex justify-between text-sm">
+                    <span className="text-muted">{cat.label}</span>
+                    <span className="font-semibold">{formatUsd(cat.amount)}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -242,7 +253,7 @@ export default function ApplicationDetailPage({ params }: Props) {
       {/* Actions */}
       <div className="flex flex-wrap gap-3">
         <ButtonLink href="/dashboard/applications">Back to Applications</ButtonLink>
-        {!isDeclined && application.status === "draft" && (
+        {application.status === "draft" && (
           <ButtonLink href="/dashboard/get-cash" variant="secondary">
             Resume Application
           </ButtonLink>
