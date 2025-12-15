@@ -6,21 +6,24 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/Toast";
 import { cn } from "@/lib/cn";
+import { track } from "@/lib/analytics";
+import { formatUsd } from "@/lib/format";
 
 interface PaymentFormProps {
   minAmount?: number;
   maxAmount?: number;
   dueAmount?: number;
+  onPaymentCreated?: (payment: any) => void;
 }
 
-export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215 }: PaymentFormProps) {
+export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215, onPaymentCreated }: PaymentFormProps) {
   const [amount, setAmount] = useState(String(dueAmount));
   const [paymentMethod, setPaymentMethod] = useState("bank");
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedQuickAmount, setSelectedQuickAmount] = useState<number | null>(null);
-  const { showToast } = useToast();
+  const toast = useToast();
 
   const amountValue = parseFloat(amount) || 0;
   const isValidAmount = amountValue >= minAmount && amountValue <= maxAmount;
@@ -44,32 +47,37 @@ export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215 
 
   const handleSubmit = async () => {
     if (!isValidAmount) {
-      showToast({
-        title: "Invalid amount",
-        description: `Payment must be between $${minAmount} and $${maxAmount}`,
-        tone: "warn"
-      });
+      toast.push({ title: "Invalid amount", message: `Payment must be between $${minAmount} and $${maxAmount}`, tone: "warn" });
       return;
     }
 
     setIsProcessing(true);
     try {
-      // Simulate payment processing
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      void track("payment_initiated", { amount: amountValue, method: paymentMethod });
 
-      showToast({
-        title: "Payment submitted successfully",
-        description: `${paymentMethod.toUpperCase()} payment of $${amountValue.toFixed(2)} has been processed`,
+      const apiMethod = paymentMethod === "card" ? "card" : "bank";
+      const res = await fetch("/api/payments", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ amount: amountValue, method: apiMethod })
+      });
+      const json = (await res.json().catch(() => null)) as any;
+      if (!res.ok) throw new Error(json?.error || "Payment failed");
+
+      void track("payment_success", { amount: amountValue, method: paymentMethod, paymentId: json?.payment?.id });
+      toast.push({
+        title: "Payment submitted",
+        message: `${formatUsd(amountValue)} via ${paymentMethod.toUpperCase()} (demo).`,
         tone: "ok"
       });
-
+      onPaymentCreated?.(json?.payment);
       setAmount(String(dueAmount));
       setSelectedQuickAmount(null);
     } catch (error) {
-      showToast({
+      toast.push({
         title: "Payment failed",
-        description: "There was an error processing your payment. Please try again.",
-        tone: "warn"
+        message: error instanceof Error ? error.message : "There was an error processing your payment. Please try again.",
+        tone: "danger"
       });
     } finally {
       setIsProcessing(false);

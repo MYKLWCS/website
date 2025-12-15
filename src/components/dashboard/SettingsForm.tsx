@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/Toast";
 
 interface SettingsFormProps {
   userId: string;
@@ -45,19 +45,19 @@ export function SettingsForm({ userId }: SettingsFormProps) {
   });
   const [privacyLoading, setPrivacyLoading] = useState(false);
 
-  const { showToast } = useToast();
+  const toast = useToast();
 
   const handlePasswordChange = async () => {
     if (!currentPassword || !newPassword || !confirmPassword) {
-      showToast({ title: "Please fill in all fields", tone: "warn" });
+      toast.push({ title: "Please fill in all fields", tone: "warn" });
       return;
     }
     if (newPassword !== confirmPassword) {
-      showToast({ title: "New passwords do not match", tone: "warn" });
+      toast.push({ title: "New passwords do not match", tone: "warn" });
       return;
     }
     if (newPassword.length < 8) {
-      showToast({ title: "Password must be at least 8 characters", tone: "warn" });
+      toast.push({ title: "Password must be at least 8 characters", tone: "warn" });
       return;
     }
 
@@ -66,21 +66,13 @@ export function SettingsForm({ userId }: SettingsFormProps) {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      showToast({
-        title: "Password updated successfully",
-        description: "Your new password is now active",
-        tone: "ok"
-      });
+      toast.push({ title: "Password updated (demo)", message: "Your new password is now active.", tone: "ok" });
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
       setPasswordOpen(false);
     } catch (error) {
-      showToast({
-        title: "Failed to update password",
-        description: "Current password may be incorrect",
-        tone: "warn"
-      });
+      toast.push({ title: "Failed to update password", message: "Current password may be incorrect.", tone: "danger" });
     } finally {
       setPasswordLoading(false);
     }
@@ -91,10 +83,7 @@ export function SettingsForm({ userId }: SettingsFormProps) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 800));
       setTwoFAEnabled(!twoFAEnabled);
-      showToast({
-        title: twoFAEnabled ? "Two-factor auth disabled" : "Two-factor auth enabled",
-        tone: "ok"
-      });
+      toast.push({ title: twoFAEnabled ? "2FA disabled (demo)" : "2FA enabled (demo)", tone: "ok" });
       if (!twoFAEnabled) {
         setShowTwoFASetup(true);
       } else {
@@ -102,7 +91,7 @@ export function SettingsForm({ userId }: SettingsFormProps) {
         setTwoFACode("");
       }
     } catch (error) {
-      showToast({ title: "Failed to update 2FA settings", tone: "warn" });
+      toast.push({ title: "Failed to update 2FA settings", tone: "danger" });
     } finally {
       setTwoFALoading(false);
     }
@@ -113,7 +102,7 @@ export function SettingsForm({ userId }: SettingsFormProps) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       setNotifications((prev) => ({ ...prev, [key]: !prev[key] }));
-      showToast({ title: "Notification settings updated", tone: "ok" });
+      toast.push({ title: "Notification settings updated (demo)", tone: "ok" });
     } finally {
       setNotificationsLoading(false);
     }
@@ -124,7 +113,7 @@ export function SettingsForm({ userId }: SettingsFormProps) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 500));
       setPrivacy((prev) => ({ ...prev, [key]: !prev[key] }));
-      showToast({ title: "Privacy settings updated", tone: "ok" });
+      toast.push({ title: "Privacy settings updated (demo)", tone: "ok" });
     } finally {
       setPrivacyLoading(false);
     }

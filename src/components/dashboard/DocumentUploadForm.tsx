@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/Toast";
 
 interface DocumentUploadFormProps {
 }
@@ -18,7 +18,7 @@ export function DocumentUploadForm({}: DocumentUploadFormProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { showToast } = useToast();
+  const toast = useToast();
 
   const categories = [
     { id: "identity", label: "Identity Documents", icon: "🆔" },
@@ -32,17 +32,17 @@ export function DocumentUploadForm({}: DocumentUploadFormProps) {
     const validFiles = newFiles.filter((file) => {
       const validTypes = ["application/pdf", "image/jpeg", "image/png", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
       if (!validTypes.includes(file.type)) {
-        showToast({ title: `${file.name} has unsupported format`, tone: "warn" });
+        toast.push({ title: `${file.name} has unsupported format`, tone: "warn" });
         return false;
       }
       if (file.size > 10 * 1024 * 1024) {
-        showToast({ title: `${file.name} exceeds 10MB limit`, tone: "warn" });
+        toast.push({ title: `${file.name} exceeds 10MB limit`, tone: "warn" });
         return false;
       }
       return true;
     });
     setFiles((prev) => [...prev, ...validFiles]);
-  }, [showToast]);
+  }, [toast]);
 
   const handleRemoveFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
@@ -50,7 +50,7 @@ export function DocumentUploadForm({}: DocumentUploadFormProps) {
 
   const handleUpload = async () => {
     if (files.length === 0) {
-      showToast({ title: "Select at least one file to upload", tone: "warn" });
+      toast.push({ title: "Select at least one file to upload", tone: "warn" });
       return;
     }
 
@@ -67,15 +67,15 @@ export function DocumentUploadForm({}: DocumentUploadFormProps) {
 
       if (!response.ok) throw new Error("Upload failed");
 
-      showToast({ title: "Documents uploaded successfully", tone: "ok" });
+      toast.push({ title: "Documents uploaded", tone: "ok" });
       setFiles([]);
       if (fileInputRef.current) fileInputRef.current.value = "";
       router.refresh();
     } catch (error) {
-      showToast({
+      toast.push({
         title: "Failed to upload documents",
-        description: error instanceof Error ? error.message : "Please try again",
-        tone: "warn"
+        message: error instanceof Error ? error.message : "Please try again",
+        tone: "danger"
       });
     } finally {
       setIsUploading(false);

@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/Toast";
 
 export function SupportForm() {
   const [formData, setFormData] = useState({
@@ -15,7 +15,7 @@ export function SupportForm() {
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { showToast } = useToast();
+  const toast = useToast();
 
   const categories = [
     { id: "general", label: "General Question" },
@@ -41,7 +41,7 @@ export function SupportForm() {
     e.preventDefault();
 
     if (!formData.subject || !formData.message) {
-      showToast({ title: "Please fill in all required fields", tone: "warn" });
+      toast.push({ title: "Please fill in all required fields", tone: "warn" });
       return;
     }
 
@@ -50,10 +50,10 @@ export function SupportForm() {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      showToast({
+      toast.push({
         title: "Support ticket created",
-        description: `Ticket #${Math.floor(Math.random() * 100000)} - We'll respond within 24 hours`,
-        tone: "ok"
+        message: `Ticket #${Math.floor(Math.random() * 100000)} — we’ll respond within 24 hours.`,
+        tone: "ok",
       });
 
       setFormData({
@@ -63,11 +63,7 @@ export function SupportForm() {
         message: ""
       });
     } catch (error) {
-      showToast({
-        title: "Failed to submit ticket",
-        description: "Please try again or contact us directly",
-        tone: "warn"
-      });
+      toast.push({ title: "Failed to submit ticket", message: "Please try again or contact us directly.", tone: "danger" });
     } finally {
       setIsSubmitting(false);
     }

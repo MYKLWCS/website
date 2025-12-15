@@ -2,6 +2,18 @@
 
 This document outlines all remaining work needed to move the project from a functional scaffold to production-ready.
 
+## ✅ Recently Completed (scaffold improvements)
+- [x] Luxe black/gold/pink theme refresh + component consistency (cards/buttons/notices/header/footer)
+- [x] Wizard: applications/vehicles/documents flow wired end-to-end (mock APIs + resume)
+- [x] Documents: secure upload (session-based) + store metadata in mock DB + list in UI
+- [x] Payments: real mock API wiring + unify toast system (remove duplicate toast hook)
+
+## ⭐ Recommended Next Tasks (highest leverage)
+- [ ] Replace remaining payment placeholders with real processor integration (Stripe/Square) + webhook verification
+- [ ] Convert mock DB (`src/lib/mockDb.ts`) + routes to Prisma/Postgres
+- [ ] Replace auth stubs with real auth (NextAuth/RBAC)
+- [ ] Add admin workflows (doc review approvals change document status; application status transitions)
+
 ## 🚨 Critical Path Items (Must Complete Before Launch)
 
 ### 1. Database Integration & Backend

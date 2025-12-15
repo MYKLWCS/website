@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
 import { Notice } from "@/components/ui/Notice";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/components/ui/Toast";
 import { cn } from "@/lib/cn";
 
 export function AutopaySetup() {
@@ -16,7 +16,7 @@ export function AutopaySetup() {
   const [selectedMethod, setSelectedMethod] = useState("bank");
   const [paymentDay, setPaymentDay] = useState("14");
   const [isProcessing, setIsProcessing] = useState(false);
-  const { showToast } = useToast();
+  const toast = useToast();
 
   const paymentMethods = [
     {
@@ -48,14 +48,14 @@ export function AutopaySetup() {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setAutopayEnabled(true);
       setSetupMode("complete");
-      showToast({
-        title: "Autopay enabled successfully",
-        description: `Monthly payments of $215 will be charged on the ${paymentDay}th of each month`,
+      toast.push({
+        title: "Autopay enabled (demo)",
+        message: `Monthly payments of $215 will be charged on the ${paymentDay}th of each month.`,
         tone: "ok"
       });
       setTimeout(() => setSetupMode("method"), 3000);
     } catch (error) {
-      showToast({ title: "Failed to enable autopay", tone: "warn" });
+      toast.push({ title: "Failed to enable autopay", tone: "danger" });
     } finally {
       setIsProcessing(false);
     }
@@ -66,11 +66,7 @@ export function AutopaySetup() {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setAutopayEnabled(false);
-      showToast({
-        title: "Autopay disabled",
-        description: "You will need to make manual payments",
-        tone: "ok"
-      });
+      toast.push({ title: "Autopay disabled (demo)", message: "You will need to make manual payments.", tone: "ok" });
     } finally {
       setIsProcessing(false);
     }

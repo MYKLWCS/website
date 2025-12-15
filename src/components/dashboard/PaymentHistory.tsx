@@ -7,11 +7,11 @@ import { Button } from "@/components/ui/Button";
 
 interface Payment {
   id: string;
-  date: string;
+  timestamp: string;
   amount: number;
-  status: "completed" | "pending" | "failed";
+  status: "succeeded" | "processing" | "failed";
   method: "bank" | "card" | "ach";
-  receiptId: string;
+  receiptId?: string;
 }
 
 interface PaymentHistoryProps {
@@ -22,41 +22,41 @@ interface PaymentHistoryProps {
 const mockPayments: Payment[] = [
   {
     id: "1",
-    date: "Dec 14, 2025",
+    timestamp: new Date(Date.now() - 1 * 24 * 3600 * 1000).toISOString(),
     amount: 215.00,
-    status: "completed",
+    status: "succeeded",
     method: "bank",
     receiptId: "REC-20251214-001"
   },
   {
     id: "2",
-    date: "Nov 14, 2025",
+    timestamp: new Date(Date.now() - 31 * 24 * 3600 * 1000).toISOString(),
     amount: 215.00,
-    status: "completed",
+    status: "succeeded",
     method: "ach",
     receiptId: "REC-20251114-001"
   },
   {
     id: "3",
-    date: "Oct 14, 2025",
+    timestamp: new Date(Date.now() - 62 * 24 * 3600 * 1000).toISOString(),
     amount: 215.00,
-    status: "completed",
+    status: "succeeded",
     method: "bank",
     receiptId: "REC-20251014-001"
   },
   {
     id: "4",
-    date: "Sep 14, 2025",
+    timestamp: new Date(Date.now() - 93 * 24 * 3600 * 1000).toISOString(),
     amount: 215.00,
-    status: "completed",
+    status: "succeeded",
     method: "card",
     receiptId: "REC-20250914-001"
   },
   {
     id: "5",
-    date: "Aug 14, 2025",
+    timestamp: new Date(Date.now() - 124 * 24 * 3600 * 1000).toISOString(),
     amount: 100.00,
-    status: "completed",
+    status: "succeeded",
     method: "bank",
     receiptId: "REC-20250814-001"
   }
@@ -77,12 +77,12 @@ export function PaymentHistory({
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "completed":
+      case "succeeded":
         return "ok" as const;
-      case "pending":
+      case "processing":
         return "warn" as const;
       case "failed":
-        return "warn" as const;
+        return "error" as const;
       default:
         return "default" as const;
     }
@@ -102,7 +102,7 @@ export function PaymentHistory({
   };
 
   const getTotalPaid = () => {
-    return filteredPayments.reduce((sum, p) => (p.status === "completed" ? sum + p.amount : sum), 0);
+    return filteredPayments.reduce((sum, p) => (p.status === "succeeded" ? sum + p.amount : sum), 0);
   };
 
   return (
@@ -120,8 +120,8 @@ export function PaymentHistory({
             className="mt-2 w-full h-10 px-3 rounded-lg border border-border/70 bg-bg/50 text-fg focus:outline-none focus:ring-2 focus:ring-brand/60"
           >
             <option value="all">All Statuses</option>
-            <option value="completed">Completed</option>
-            <option value="pending">Pending</option>
+            <option value="succeeded">Succeeded</option>
+            <option value="processing">Processing</option>
             <option value="failed">Failed</option>
           </select>
         </div>
@@ -146,7 +146,7 @@ export function PaymentHistory({
           <div className="text-sm">
             <p className="text-muted">Total Paid</p>
             <p className="mt-1 text-2xl font-semibold">${getTotalPaid().toFixed(2)}</p>
-            <p className="mt-1 text-xs text-muted">{filteredPayments.filter((p) => p.status === "completed").length} payments completed</p>
+            <p className="mt-1 text-xs text-muted">{filteredPayments.filter((p) => p.status === "succeeded").length} payments succeeded</p>
           </div>
         </div>
       )}
@@ -173,15 +173,19 @@ export function PaymentHistory({
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-fg">${payment.amount.toFixed(2)}</span>
                       <Badge variant={getStatusColor(payment.status)}>
-                        {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
+                        {payment.status === "succeeded"
+                          ? "Succeeded"
+                          : payment.status === "processing"
+                            ? "Processing"
+                            : "Failed"}
                       </Badge>
                     </div>
                     <div className="mt-2 flex flex-wrap gap-3 text-xs text-muted">
-                      <span>{payment.date}</span>
+                      <span>{new Date(payment.timestamp).toLocaleString()}</span>
                       <span>•</span>
                       <span>{getMethodLabel(payment.method)}</span>
                       <span>•</span>
-                      <span className="font-mono">{payment.receiptId}</span>
+                      <span className="font-mono">{payment.receiptId || "—"}</span>
                     </div>
                   </div>
                   <div className="ml-4 flex gap-2">
