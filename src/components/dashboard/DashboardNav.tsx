@@ -30,8 +30,8 @@ export function DashboardNav() {
             key={it.href}
             href={it.href}
             className={cn(
-              "rounded-xl px-3 py-2 text-sm transition",
-              active ? "bg-brand2/12 text-fg border border-brand2/35" : "text-muted hover:bg-white/5 hover:text-fg"
+              "rounded-xl px-3 py-2 text-sm font-medium transition-smooth",
+              active ? "bg-brand/10 text-brand border border-brand/30" : "text-muted hover:bg-panel/60 hover:text-fg border border-transparent"
             )}
           >
             {it.label}

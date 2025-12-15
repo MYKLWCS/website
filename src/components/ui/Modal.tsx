@@ -76,7 +76,7 @@ export function Modal({
       onClick={handleBackdropClick}
       onKeyDown={handleKeyDown}
       className={cn(
-        "fixed inset-0 z-50 rounded-2xl border border-border/60 bg-bg shadow-2xl backdrop:bg-black/40",
+        "fixed inset-0 z-50 rounded-2xl border border-border bg-white shadow-2xl backdrop:bg-black/50",
         "p-6 max-h-[90vh] overflow-y-auto",
         sizes[size],
         className
@@ -92,7 +92,7 @@ export function Modal({
           {closeButton && (
             <button
               onClick={handleClose}
-              className="ml-4 inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border/60 bg-bg hover:bg-panel transition-colors"
+              className="ml-4 inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-white hover:bg-panel transition-smooth"
               aria-label="Close modal"
             >
               <span className="text-lg">×</span>
@@ -148,7 +148,7 @@ export function AlertDialog({
         <div className="flex w-full gap-3">
           <button
             onClick={onClose}
-            className="flex-1 rounded-xl border border-border/60 bg-panel px-4 py-2 text-sm font-medium hover:bg-panel/80 transition-colors"
+            className="flex-1 rounded-xl border border-border bg-white px-4 py-2 text-sm font-medium hover:bg-panel transition-smooth"
           >
             {cancelText}
           </button>

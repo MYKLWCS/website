@@ -16,10 +16,10 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/60 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-border bg-white/95 backdrop-blur">
         <Container className="flex items-center justify-between py-4">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl border border-border/14 bg-gradient-to-br from-brand2 to-brand2/60 shadow-glow" />
+            <div className="h-9 w-9 rounded-xl border border-brand/20 bg-gradient-to-br from-brand to-brand/70 shadow-sm" />
             <div className="leading-tight">
               <p className="text-sm font-semibold tracking-tight">Dollar Loans</p>
               <p className="text-xs text-muted">Customer portal</p>
@@ -36,7 +36,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       </header>
 
       <Container className="grid gap-8 py-8 md:grid-cols-[260px_1fr]">
-        <aside className="rounded-2xl border border-border/70 bg-panel/40 p-4">
+        <aside className="rounded-2xl border border-border bg-white p-4 shadow-sm">
           <DashboardNav />
           <div className="mt-4">
             <Notice tone="cab" title="CAB reminder">
@@ -63,7 +63,7 @@ function LogoutButton() {
   return (
     <button
       formAction={logout}
-      className="inline-flex h-9 items-center justify-center rounded-xl border border-border/70 bg-panel/60 px-3 text-sm text-fg transition hover:bg-panel/80"
+      className="inline-flex h-9 items-center justify-center rounded-xl border border-border bg-white px-3 text-sm text-fg transition-smooth hover:bg-panel shadow-sm"
     >
       Logout (stub)
     </button>

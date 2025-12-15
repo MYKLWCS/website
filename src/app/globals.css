@@ -3,17 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --bg: 255 255 255; /* White background */
-  --panel: 249 250 251; /* Light gray panel */
+  /* Core Color Palette: White, Black, Grey, Pink, Gold */
+  --bg: 255 255 255; /* Pure White background */
+  --panel: 249 250 251; /* Subtle light gray panel */
   --border: 229 231 235; /* Light gray border */
-  --fg: 17 24 39; /* Almost black text */
-  --muted: 107 114 128; /* Gray muted text */
-  --grey: 156 163 175; /* Medium gray */
-  --brand: 236 72 153; /* Pink accent */
-  --brand2: 234 179 8; /* Gold accent */
-  --danger: 239 68 68;
-  --warn: 234 179 8;
-  --ok: 34 197 94;
+  --fg: 17 24 39; /* Deep black text */
+  --muted: 107 114 128; /* Medium gray for secondary text */
+  --grey: 156 163 175; /* Light gray for tertiary elements */
+  --brand: 236 72 153; /* Pink - primary brand color */
+  --brand2: 234 179 8; /* Gold - secondary brand color */
+  --danger: 239 68 68; /* Red for errors */
+  --warn: 234 179 8; /* Gold for warnings */
+  --ok: 34 197 94; /* Green for success */
 }
 
 html,
@@ -26,6 +27,7 @@ body {
   color: rgb(var(--fg));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 * {
@@ -33,22 +35,65 @@ body {
   scrollbar-color: rgb(var(--border)) rgb(var(--bg));
 }
 
+/* Clean, subtle grid pattern for hero sections */
 .grid-glow {
   background-image:
-    linear-gradient(rgb(var(--border) / 0.10) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--border) / 0.08) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: radial-gradient(400px 200px at 50% 0%, black, transparent);
+    linear-gradient(rgb(var(--border) / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--border) / 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(500px 250px at 50% 0%, black, transparent);
 }
 
 ::selection {
-  background: rgb(var(--brand) / 0.35);
+  background: rgb(var(--brand) / 0.25);
+  color: rgb(var(--fg));
 }
 
+/* Smooth transitions for interactive elements */
+@layer components {
+  .transition-smooth {
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-clean {
+    background: rgb(var(--bg));
+    border: 1px solid rgb(var(--border) / 0.7);
+    border-radius: 16px;
+    transition: all 200ms ease-out;
+  }
+
+  .card-clean:hover {
+    border-color: rgb(var(--border));
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.06);
+  }
+
+  .button-clean {
+    transition: all 150ms ease-out;
+  }
+
+  .button-clean:hover {
+    transform: translateY(-1px);
+  }
+
+  .button-clean:active {
+    transform: translateY(0);
+  }
+}
+
+/* Crisp, clean image rendering */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Accessibility: Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 1ms !important;
-    transition-duration: 1ms !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
