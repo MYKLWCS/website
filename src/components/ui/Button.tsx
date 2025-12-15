@@ -13,16 +13,16 @@ type ButtonProps = ComponentProps<"button"> & {
 
 const styles: Record<Variant, string> = {
   primary:
-    "bg-brand text-white shadow-md hover:shadow-lg border border-brand/20 hover:bg-brand/90 button-clean",
-  secondary: "bg-white hover:bg-panel text-fg border border-border hover:border-border/80 shadow-sm button-clean",
-  tertiary: "bg-transparent hover:bg-panel/50 text-fg border border-transparent hover:border-border/40 button-clean",
-  danger: "bg-danger text-white hover:bg-danger/90 border border-danger/20 shadow-sm button-clean"
+    "bg-brand text-white shadow-md hover:shadow-xl border border-brand/20 hover:bg-brand/90 hover:scale-[1.02] button-clean",
+  secondary: "bg-white hover:bg-panel text-fg border border-border hover:border-brand/30 shadow-sm hover:shadow-md button-clean",
+  tertiary: "bg-transparent hover:bg-panel/60 text-fg border border-transparent hover:border-border button-clean",
+  danger: "bg-danger text-white hover:bg-danger/90 border border-danger/20 shadow-sm hover:shadow-md button-clean"
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-3 text-sm",
-  md: "h-11 px-4 text-sm",
-  lg: "h-12 px-5 text-base"
+  sm: "h-10 px-4 text-sm",
+  md: "h-12 px-6 text-sm font-semibold",
+  lg: "h-14 px-8 text-base font-semibold"
 };
 
 export function Button({ variant = "primary", size = "md", className, asChild, ...props }: ButtonProps) {
