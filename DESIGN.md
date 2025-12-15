@@ -24,7 +24,7 @@ The website uses a refined, sophisticated color scheme:
 | **Pink** | Primary Brand | `#EC4899` | `236, 72, 153` | Primary CTA buttons, links, accents |
 | **Gold** | Secondary Brand | `#EAB308` | `234, 179, 8` | Secondary accents, premium features, highlights |
 
-### Semantic Colors
+### Semantic Colorsz
 
 | Purpose | Color | RGB |
 |---------|-------|-----|
