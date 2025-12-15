@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { MobileMenu } from "./MobileMenu";
 
 export function MarketingHeader() {
   return (
@@ -35,7 +36,7 @@ export function MarketingHeader() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="hidden items-center gap-3 md:flex">
           <ButtonLink variant="secondary" size="sm" href="/auth/login">
             Login
           </ButtonLink>
@@ -43,6 +44,8 @@ export function MarketingHeader() {
             Check Your Estimate
           </ButtonLink>
         </div>
+
+        <MobileMenu />
       </div>
     </header>
   );
