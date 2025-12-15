@@ -6,7 +6,7 @@ import { Button, ButtonLink } from "@/components/ui/Button";
 import { Notice } from "@/components/ui/Notice";
 import { formatUsd } from "@/lib/format";
 import { Badge } from "@/components/ui/Badge";
-import type { Application } from "@/lib/types";
+import type { Application, Document } from "@/lib/types";
 
 type Props = {
   params: { id: string };
@@ -36,6 +36,7 @@ const STATUS_LABELS: Record<Application["status"], string> = {
 
 export default function ApplicationDetailPage({ params }: Props) {
   const [application, setApplication] = useState<Application | null>(null);
+  const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,7 +49,7 @@ export default function ApplicationDetailPage({ params }: Props) {
           throw new Error("Application not found");
         }
         const data = await response.json();
-        setApplication(data);
+        setApplication(data.application || null);
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to load application");
@@ -59,6 +60,20 @@ export default function ApplicationDetailPage({ params }: Props) {
     };
 
     fetchApplication();
+  }, [params.id]);
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      try {
+        const res = await fetch(`/api/documents?applicationId=${encodeURIComponent(params.id)}`);
+        if (!res.ok) return;
+        const json = (await res.json()) as any;
+        setDocuments(Array.isArray(json.documents) ? json.documents : []);
+      } catch {
+        // best-effort
+      }
+    };
+    fetchDocuments();
   }, [params.id]);
 
   if (loading) {
@@ -247,6 +262,44 @@ export default function ApplicationDetailPage({ params }: Props) {
               </div>
             ))}
           </div>
+        </Card>
+      )}
+
+      {/* Documents */}
+      {!isDeclined && (
+        <Card className="p-6">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold tracking-tight">Documents</p>
+              <p className="mt-1 text-sm text-muted">Files uploaded for this application</p>
+            </div>
+            <ButtonLink href="/dashboard/documents" variant="secondary">
+              Upload more
+            </ButtonLink>
+          </div>
+
+          {documents.length === 0 ? (
+            <p className="mt-4 text-sm text-muted">No documents uploaded yet.</p>
+          ) : (
+            <div className="mt-4 space-y-2">
+              {documents.map((doc) => (
+                <div
+                  key={doc.id}
+                  className="flex items-center justify-between rounded-lg border border-border/40 bg-bg/25 p-3"
+                >
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-medium text-fg">{doc.name}</p>
+                    <p className="mt-1 text-xs text-muted">
+                      {doc.category} • {(doc.size / 1024).toFixed(1)}KB • {new Date(doc.uploadedAt).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <Badge variant={doc.status === "approved" ? "ok" : doc.status === "rejected" ? "error" : "warn"}>
+                    {doc.status === "approved" ? "Approved" : doc.status === "rejected" ? "Rejected" : "Under Review"}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          )}
         </Card>
       )}
 
