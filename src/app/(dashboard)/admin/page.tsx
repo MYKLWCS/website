@@ -18,46 +18,46 @@ export default function Page() {
       label: "Pending Review",
       value: (appStats.inReview + appStats.needsDocs).toString(),
       subtext: `${appStats.inReview} in review, ${appStats.needsDocs} waiting`,
-      color: "amber"
+      valueClass: "text-brand2"
     },
     {
       label: "Ready for Offer",
       value: appStats.offerReady.toString(),
       subtext: "Documents verified",
-      color: "blue"
+      valueClass: "text-brand"
     },
     {
       label: "Active Pipeline",
       value: `$${(appStats.totalValue / 1000).toFixed(0)}K`,
       subtext: `Avg: $${appStats.averageAmount}`,
-      color: "green"
+      valueClass: "text-ok"
     },
     {
       label: "Funded This Month",
       value: appStats.funded.toString(),
       subtext: "Active agreements",
-      color: "green"
+      valueClass: "text-ok"
     }
   ];
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "in_review":
-        return "text-amber-600 bg-amber-500/10";
+        return "text-brand2 bg-brand2/10";
       case "needs_docs":
-        return "text-orange-600 bg-orange-500/10";
+        return "text-brand2 bg-brand2/10";
       case "offer_ready":
-        return "text-blue-600 bg-blue-500/10";
+        return "text-brand bg-brand/10";
       case "accepted":
-        return "text-green-600 bg-green-500/10";
+        return "text-ok bg-ok/10";
       case "signed":
-        return "text-green-600 bg-green-500/10";
+        return "text-ok bg-ok/10";
       case "funded":
-        return "text-green-600 bg-green-500/10";
+        return "text-ok bg-ok/10";
       case "declined":
-        return "text-red-600 bg-red-500/10";
+        return "text-danger bg-danger/10";
       default:
-        return "text-gray-600 bg-gray-500/10";
+        return "text-muted bg-white/5";
     }
   };
 
@@ -103,7 +103,7 @@ export default function Page() {
             <p className="text-xs font-semibold uppercase tracking-widest text-muted">
               {stat.label}
             </p>
-            <p className={`mt-2 text-3xl font-semibold tracking-tight text-${stat.color}-600`}>
+            <p className={`mt-2 text-3xl font-semibold tracking-tight ${stat.valueClass}`}>
               {stat.value}
             </p>
             <p className="mt-1 text-xs text-muted">{stat.subtext}</p>
@@ -145,17 +145,17 @@ export default function Page() {
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           <div className="rounded-lg border border-border/40 p-4">
             <p className="text-xs font-medium text-muted">In Review</p>
-            <p className="mt-1 text-2xl font-semibold text-amber-600">{appStats.inReview}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand2">{appStats.inReview}</p>
             <p className="mt-1 text-xs text-muted">Actively being reviewed</p>
           </div>
           <div className="rounded-lg border border-border/40 p-4">
             <p className="text-xs font-medium text-muted">Needs Documents</p>
-            <p className="mt-1 text-2xl font-semibold text-orange-600">{appStats.needsDocs}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand2">{appStats.needsDocs}</p>
             <p className="mt-1 text-xs text-muted">Awaiting applicant documents</p>
           </div>
           <div className="rounded-lg border border-border/40 p-4">
             <p className="text-xs font-medium text-muted">Offer Ready</p>
-            <p className="mt-1 text-2xl font-semibold text-blue-600">{appStats.offerReady}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand">{appStats.offerReady}</p>
             <p className="mt-1 text-xs text-muted">Ready to generate offers</p>
           </div>
         </div>
@@ -266,13 +266,13 @@ export default function Page() {
             <div className="flex items-center justify-between">
               <span className="text-sm">Database Connection</span>
               <span className="inline-flex items-center gap-2">
-                <span className="h-2 w-2 bg-green-500 rounded-full"></span>
-                <span className="text-xs text-green-600">Healthy</span>
+                <span className="h-2 w-2 bg-ok rounded-full"></span>
+                <span className="text-xs text-ok">Healthy</span>
               </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm">API Response Time</span>
-              <span className="text-xs text-green-600">45ms avg</span>
+              <span className="text-xs text-ok">45ms avg</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm">Document Storage</span>
@@ -287,8 +287,8 @@ export default function Page() {
       </div>
 
       {/* Compliance Reminders */}
-      <Card className="p-6 border-blue-500/30 bg-blue-500/5">
-        <h2 className="text-sm font-semibold tracking-tight text-blue-600">Compliance Reminders</h2>
+      <Card className="p-6 border-brand2/30 bg-brand2/5">
+        <h2 className="text-sm font-semibold tracking-tight text-brand2">Compliance Reminders</h2>
         <ul className="mt-3 space-y-2 text-sm text-muted">
           <li>✓ CAB disclosures provided to {appStats.signed + appStats.funded} applicants</li>
           <li>✓ {appStats.total} total applications in system</li>

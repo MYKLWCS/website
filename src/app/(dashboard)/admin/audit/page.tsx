@@ -192,7 +192,7 @@ export default function Page() {
         </Card>
         <Card className="p-4">
           <p className="text-xs font-medium text-muted">Failed Actions</p>
-          <p className="mt-2 text-2xl font-semibold text-red-600">0</p>
+          <p className="mt-2 text-2xl font-semibold text-danger">0</p>
         </Card>
       </div>
 
@@ -230,14 +230,14 @@ export default function Page() {
       </Card>
 
       {/* Export Options */}
-      <Card className="p-6 border-blue-500/30 bg-blue-500/5">
-        <h2 className="text-sm font-semibold tracking-tight text-blue-600">Export Audit Log</h2>
+      <Card className="p-6 border-brand2/30 bg-brand2/5">
+        <h2 className="text-sm font-semibold tracking-tight text-brand2">Export Audit Log</h2>
         <p className="mt-1 text-sm text-muted">Download audit logs for external audits and compliance reporting</p>
         <div className="mt-4 flex gap-2">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+          <button className="px-4 py-2 bg-brand2 text-bg rounded-lg text-sm font-medium hover:brightness-110 transition-colors">
             Export as CSV
           </button>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors">
+          <button className="px-4 py-2 bg-brand2 text-bg rounded-lg text-sm font-medium hover:brightness-110 transition-colors">
             Export as PDF
           </button>
           <button className="px-4 py-2 border border-border/70 text-fg rounded-lg text-sm font-medium hover:bg-panel transition-colors">
@@ -248,4 +248,3 @@ export default function Page() {
     </div>
   );
 }
-

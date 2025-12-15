@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
 import { useToast } from "@/hooks/useToast";
+import { cn } from "@/lib/cn";
 
 interface PaymentFormProps {
   minAmount?: number;
@@ -128,7 +129,7 @@ export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215 
           Allowed range: ${minAmount.toFixed(2)} - ${maxAmount.toFixed(2)}
         </p>
         {!isValidAmount && amount && (
-          <p className="mt-1 text-xs text-red-600">Amount is outside the allowed range</p>
+          <p className="mt-1 text-xs text-danger">Amount is outside the allowed range</p>
         )}
       </div>
 
@@ -139,11 +140,12 @@ export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215 
           {paymentMethods.map((method) => (
             <label
               key={method.id}
-              className="flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all"
-              style={{
-                borderColor: paymentMethod === method.id ? "var(--color-brand)" : "var(--color-border-40)",
-                backgroundColor: paymentMethod === method.id ? "rgba(var(--color-brand-rgb), 0.1)" : "rgba(255, 255, 255, 0.02)"
-              }}
+              className={cn(
+                "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
+                paymentMethod === method.id
+                  ? "border-brand2/40 bg-brand2/10"
+                  : "border-border/14 bg-bg/40 hover:border-border/24"
+              )}
             >
               <input
                 type="radio"
@@ -190,7 +192,7 @@ export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215 
       </div>
 
       {/* Processing Time Info */}
-      <div className="mt-4 p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg text-xs text-muted">
+      <div className="mt-4 p-3 bg-brand2/5 border border-brand2/20 rounded-lg text-xs text-muted">
         💡 Payments are typically applied within 1-2 business days. Your payment schedule will update automatically.
       </div>
 

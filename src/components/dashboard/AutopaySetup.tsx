@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
 import { Notice } from "@/components/ui/Notice";
 import { useToast } from "@/hooks/useToast";
+import { cn } from "@/lib/cn";
 
 export function AutopaySetup() {
   const [autopayEnabled, setAutopayEnabled] = useState(false);
@@ -104,7 +105,7 @@ export function AutopaySetup() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted">Status</span>
-                <span className="font-semibold text-green-600">Active</span>
+                <span className="font-semibold text-ok">Active</span>
               </div>
             </div>
           </div>
@@ -147,11 +148,12 @@ export function AutopaySetup() {
             {paymentMethods.map((method) => (
               <label
                 key={method.id}
-                className="flex items-start gap-3 p-4 rounded-lg border-2 cursor-pointer transition-all"
-                style={{
-                  borderColor: selectedMethod === method.id ? "var(--color-brand)" : "var(--color-border-40)",
-                  backgroundColor: selectedMethod === method.id ? "rgba(var(--color-brand-rgb), 0.1)" : "transparent"
-                }}
+                className={cn(
+                  "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
+                  selectedMethod === method.id
+                    ? "border-brand2/40 bg-brand2/10"
+                    : "border-border/14 bg-bg/30 hover:border-border/24"
+                )}
               >
                 <input
                   type="radio"
@@ -189,7 +191,7 @@ export function AutopaySetup() {
             </select>
           </div>
 
-          <div className="mt-6 p-4 bg-blue-500/5 rounded-lg border border-blue-500/20 text-xs text-muted">
+          <div className="mt-6 p-4 bg-brand2/5 rounded-lg border border-brand2/20 text-xs text-muted">
             ℹ️ Your monthly payment of <strong>$215.00</strong> will be automatically charged on the{" "}
             <strong>{paymentDay}th</strong> of each month starting next month.
           </div>

@@ -160,12 +160,12 @@ export default function Page() {
                   </div>
                 )}
                 {doc.status === "approved" && (
-                  <div className="ml-4 text-xs text-green-600 font-medium">
+                  <div className="ml-4 text-xs text-ok font-medium">
                     ✓ Approved
                   </div>
                 )}
                 {doc.status === "rejected" && (
-                  <div className="ml-4 text-xs text-orange-600 font-medium">
+                  <div className="ml-4 text-xs text-brand2 font-medium">
                     ✕ Rejected
                   </div>
                 )}
@@ -182,21 +182,21 @@ export default function Page() {
 
         <div className="mt-4 space-y-3">
           <div className="flex items-start gap-3 text-sm">
-            <span className="text-xs text-green-600 font-semibold mt-0.5">✓</span>
+            <span className="text-xs text-ok font-semibold mt-0.5">✓</span>
             <div className="flex-1">
               <p className="font-medium">Sarah Johnson - Pay stub approved</p>
               <p className="text-xs text-muted">James Rodriguez • 2 hours ago</p>
             </div>
           </div>
           <div className="flex items-start gap-3 text-sm">
-            <span className="text-xs text-red-600 font-semibold mt-0.5">✕</span>
+            <span className="text-xs text-danger font-semibold mt-0.5">✕</span>
             <div className="flex-1">
               <p className="font-medium">Michael Chen - Vehicle photo rejected</p>
               <p className="text-xs text-muted">Maria Garcia • 4 hours ago • Reason: Blurry image, resubmit</p>
             </div>
           </div>
           <div className="flex items-start gap-3 text-sm">
-            <span className="text-xs text-green-600 font-semibold mt-0.5">✓</span>
+            <span className="text-xs text-ok font-semibold mt-0.5">✓</span>
             <div className="flex-1">
               <p className="font-medium">Jennifer Lee - Government ID approved</p>
               <p className="text-xs text-muted">James Rodriguez • 1 day ago</p>
@@ -207,4 +207,3 @@ export default function Page() {
     </div>
   );
 }
-

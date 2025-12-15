@@ -535,10 +535,10 @@ export function GetCashWizard() {
                 inputMode="numeric"
                 value={String(data.desiredAmount ?? 1200)}
                 onChange={(e) => handleFieldChange("desiredAmount", Number(e.target.value || 0))}
-                className={fieldErrors.desiredAmount ? "border-red-500" : ""}
+                className={fieldErrors.desiredAmount ? "border-danger/50" : ""}
               />
               {fieldErrors.desiredAmount && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.desiredAmount}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.desiredAmount}</p>
               )}
               <p className="mt-2 text-xs text-muted">Range: $500 - $10,000</p>
             </div>
@@ -580,10 +580,10 @@ export function GetCashWizard() {
                 id="year" 
                 value={String(data.year ?? "2016")} 
                 onChange={(e) => handleFieldChange("year", e.target.value)}
-                className={fieldErrors.year ? "border-red-500" : ""}
+                className={fieldErrors.year ? "border-danger/50" : ""}
               />
               {fieldErrors.year && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.year}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.year}</p>
               )}
             </div>
             <div>
@@ -592,10 +592,10 @@ export function GetCashWizard() {
                 id="make" 
                 value={String(data.make ?? "Toyota")} 
                 onChange={(e) => handleFieldChange("make", e.target.value)}
-                className={fieldErrors.make ? "border-red-500" : ""}
+                className={fieldErrors.make ? "border-danger/50" : ""}
               />
               {fieldErrors.make && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.make}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.make}</p>
               )}
             </div>
             <div>
@@ -604,10 +604,10 @@ export function GetCashWizard() {
                 id="model" 
                 value={String(data.model ?? "Camry")} 
                 onChange={(e) => handleFieldChange("model", e.target.value)}
-                className={fieldErrors.model ? "border-red-500" : ""}
+                className={fieldErrors.model ? "border-danger/50" : ""}
               />
               {fieldErrors.model && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.model}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.model}</p>
               )}
             </div>
             <div>
@@ -617,10 +617,10 @@ export function GetCashWizard() {
                 inputMode="numeric"
                 value={String(data.mileage ?? 108000)}
                 onChange={(e) => handleFieldChange("mileage", Number(e.target.value || 0))}
-                className={fieldErrors.mileage ? "border-red-500" : ""}
+                className={fieldErrors.mileage ? "border-danger/50" : ""}
               />
               {fieldErrors.mileage && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.mileage}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.mileage}</p>
               )}
             </div>
             <div>
@@ -771,7 +771,7 @@ export function GetCashWizard() {
                   </p>
                 </div>
                 {fieldErrors.vehiclePhotos ? (
-                  <p className="mt-3 text-xs text-red-500 font-medium">{fieldErrors.vehiclePhotos}</p>
+                  <p className="mt-3 text-xs text-danger font-medium">{fieldErrors.vehiclePhotos}</p>
                 ) : null}
                 <div className="mt-4 flex flex-wrap gap-3">
                   <Button
@@ -832,10 +832,10 @@ export function GetCashWizard() {
                 id="fullName" 
                 value={String(data.fullName ?? "")} 
                 onChange={(e) => handleFieldChange("fullName", e.target.value)}
-                className={fieldErrors.fullName ? "border-red-500" : ""}
+                className={fieldErrors.fullName ? "border-danger/50" : ""}
               />
               {fieldErrors.fullName && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.fullName}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.fullName}</p>
               )}
             </div>
             <div>
@@ -845,10 +845,10 @@ export function GetCashWizard() {
                 value={String(data.dob ?? "")} 
                 onChange={(e) => handleFieldChange("dob", e.target.value)}
                 placeholder="MM/DD/YYYY"
-                className={fieldErrors.dob ? "border-red-500" : ""}
+                className={fieldErrors.dob ? "border-danger/50" : ""}
               />
               {fieldErrors.dob && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.dob}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.dob}</p>
               )}
             </div>
             <div className="md:col-span-2">
@@ -858,10 +858,10 @@ export function GetCashWizard() {
                 value={String(data.address ?? "")} 
                 onChange={(e) => handleFieldChange("address", e.target.value)}
                 placeholder="Street, city, TX ZIP"
-                className={fieldErrors.address ? "border-red-500" : ""}
+                className={fieldErrors.address ? "border-danger/50" : ""}
               />
               {fieldErrors.address && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.address}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.address}</p>
               )}
               <p className="mt-2 text-xs text-muted">Texas residency is part of eligibility for this CAB flow.</p>
             </div>
@@ -894,10 +894,10 @@ export function GetCashWizard() {
                 id="employer"
                 value={String(data.employer ?? "")}
                 onChange={(e) => handleFieldChange("employer", e.target.value)}
-                className={fieldErrors.employer ? "border-red-500" : ""}
+                className={fieldErrors.employer ? "border-danger/50" : ""}
               />
               {fieldErrors.employer && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.employer}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.employer}</p>
               )}
             </div>
             <div>
@@ -906,10 +906,10 @@ export function GetCashWizard() {
                 id="payFrequency"
                 value={String(data.payFrequency ?? "Biweekly")}
                 onChange={(e) => handleFieldChange("payFrequency", e.target.value)}
-                className={fieldErrors.payFrequency ? "border-red-500" : ""}
+                className={fieldErrors.payFrequency ? "border-danger/50" : ""}
               />
               {fieldErrors.payFrequency && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.payFrequency}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.payFrequency}</p>
               )}
             </div>
             <div>
@@ -918,10 +918,10 @@ export function GetCashWizard() {
                 id="incomeRange"
                 value={String(data.incomeRange ?? "$2,000–$3,500")}
                 onChange={(e) => handleFieldChange("incomeRange", e.target.value)}
-                className={fieldErrors.incomeRange ? "border-red-500" : ""}
+                className={fieldErrors.incomeRange ? "border-danger/50" : ""}
               />
               {fieldErrors.incomeRange && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.incomeRange}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.incomeRange}</p>
               )}
             </div>
             <div>
@@ -1018,7 +1018,7 @@ export function GetCashWizard() {
                 ))}
               </div>
               {fieldErrors.bankMethod && (
-                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.bankMethod}</p>
+                <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.bankMethod}</p>
               )}
               <p className="mt-2 text-xs text-muted">In production, bank link reduces errors and speeds verification.</p>
             </div>
@@ -1045,7 +1045,7 @@ export function GetCashWizard() {
                   </p>
                 </div>
                 {fieldErrors.bankLinkStatus && (
-                  <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.bankLinkStatus}</p>
+                  <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.bankLinkStatus}</p>
                 )}
               </div>
             ) : (
@@ -1058,10 +1058,10 @@ export function GetCashWizard() {
                       id="routing"
                       value={String(data.routing ?? "")}
                       onChange={(e) => handleFieldChange("routing", e.target.value)}
-                      className={fieldErrors.routing ? "border-red-500" : ""}
+                      className={fieldErrors.routing ? "border-danger/50" : ""}
                     />
                     {fieldErrors.routing && (
-                      <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.routing}</p>
+                      <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.routing}</p>
                     )}
                   </div>
                   <div>
@@ -1070,10 +1070,10 @@ export function GetCashWizard() {
                       id="account"
                       value={String(data.account ?? "")}
                       onChange={(e) => handleFieldChange("account", e.target.value)}
-                      className={fieldErrors.account ? "border-red-500" : ""}
+                      className={fieldErrors.account ? "border-danger/50" : ""}
                     />
                     {fieldErrors.account && (
-                      <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.account}</p>
+                      <p className="mt-2 text-xs text-danger font-medium">{fieldErrors.account}</p>
                     )}
                   </div>
                 </div>

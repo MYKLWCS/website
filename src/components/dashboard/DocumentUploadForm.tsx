@@ -172,7 +172,7 @@ export function DocumentUploadForm({}: DocumentUploadFormProps) {
                 </div>
                 <button
                   onClick={() => handleRemoveFile(idx)}
-                  className="ml-2 rounded p-2 hover:bg-red-500/10 text-red-500"
+                  className="ml-2 rounded p-2 hover:bg-danger/10 text-danger"
                 >
                   ✕
                 </button>

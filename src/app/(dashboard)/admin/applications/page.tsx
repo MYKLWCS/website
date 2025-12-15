@@ -93,11 +93,11 @@ export default function Page() {
       <div className="grid gap-4 md:grid-cols-3">
         <Card className="p-4">
           <p className="text-xs font-medium text-muted">Pending Docs</p>
-          <p className="mt-2 text-2xl font-semibold text-orange-600">{pendingDocsCount}</p>
+          <p className="mt-2 text-2xl font-semibold text-brand2">{pendingDocsCount}</p>
         </Card>
         <Card className="p-4">
           <p className="text-xs font-medium text-muted">Ready for Offer</p>
-          <p className="mt-2 text-2xl font-semibold text-blue-600">{offerReadyCount}</p>
+          <p className="mt-2 text-2xl font-semibold text-brand">{offerReadyCount}</p>
         </Card>
         <Card className="p-4">
           <p className="text-xs font-medium text-muted">Total</p>
@@ -188,4 +188,3 @@ export default function Page() {
     </div>
   );
 }
-

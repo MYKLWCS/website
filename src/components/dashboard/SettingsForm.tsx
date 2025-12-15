@@ -255,8 +255,8 @@ export function SettingsForm({ userId }: SettingsFormProps) {
             <p className="text-sm text-muted">
               Scan this QR code with your authenticator app (Google Authenticator, Authy, Microsoft Authenticator):
             </p>
-            <div className="inline-block p-3 bg-white rounded">
-              <div className="w-32 h-32 bg-gray-200 flex items-center justify-center text-xs text-gray-500">
+            <div className="inline-block rounded-xl border border-border/14 bg-bg/30 p-3">
+              <div className="w-32 h-32 rounded-lg bg-panel/60 flex items-center justify-center text-xs text-muted">
                 [QR Code Placeholder]
               </div>
             </div>

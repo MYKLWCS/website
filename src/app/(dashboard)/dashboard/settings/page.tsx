@@ -22,14 +22,14 @@ export default function Page() {
 
       <SettingsForm userId={userId} />
 
-      <Card className="p-6 border-red-500/30 bg-red-500/5">
-        <h2 className="text-sm font-semibold tracking-tight text-red-600">Danger Zone</h2>
+      <Card className="p-6 border-danger/30 bg-danger/10">
+        <h2 className="text-sm font-semibold tracking-tight text-danger">Danger Zone</h2>
         <p className="mt-1 text-sm text-muted">Irreversible account actions</p>
         <div className="mt-4 space-y-3">
           <p className="text-sm text-muted">
             Closing your account will permanently delete all your data and remove access to Dollar Loans services.
           </p>
-          <button className="px-4 py-2 text-sm font-medium text-red-600 border border-red-500/30 rounded-lg hover:bg-red-500/10 transition-colors">
+          <button className="px-4 py-2 text-sm font-medium text-danger border border-danger/30 rounded-lg hover:bg-danger/10 transition-colors">
             Close Account
           </button>
         </div>

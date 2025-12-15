@@ -232,8 +232,8 @@ export default function Page() {
             </div>
           </Card>
 
-          <Card className="p-6 bg-orange-500/5 border-orange-500/30">
-            <h2 className="text-sm font-semibold tracking-tight text-orange-600">Rate Floor & Ceiling</h2>
+          <Card className="p-6 bg-brand2/5 border-brand2/30">
+            <h2 className="text-sm font-semibold tracking-tight text-brand2">Rate Floor & Ceiling</h2>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               <div>
                 <label className="text-xs font-medium text-muted">Minimum Rate (Floor)</label>
@@ -262,12 +262,15 @@ export default function Page() {
 
             <div className="mt-4 space-y-3">
               {cabRules.map((rule) => (
-                <div key={rule.id} className="flex items-start justify-between p-4 border border-border/40 rounded-lg bg-green-500/5 border-green-500/30">
+                <div
+                  key={rule.id}
+                  className="flex items-start justify-between p-4 border border-border/40 rounded-lg bg-ok/5 border-ok/30"
+                >
                   <div className="flex-1">
                     <p className="font-semibold text-sm">{rule.requirement}</p>
                     <p className="text-xs text-muted mt-1">{rule.description}</p>
                     <div className="mt-2 flex items-center gap-2">
-                      <span className="text-xs font-medium text-green-600">✓ {rule.compliance} Compliance</span>
+                      <span className="text-xs font-medium text-ok">✓ {rule.compliance} Compliance</span>
                     </div>
                   </div>
                   <Badge variant="ok">Required</Badge>
@@ -301,8 +304,8 @@ export default function Page() {
             </div>
           </Card>
 
-          <Card className="p-6 border-blue-500/30 bg-blue-500/5">
-            <h2 className="text-sm font-semibold tracking-tight text-blue-600">Compliance Monitoring</h2>
+          <Card className="p-6 border-brand/30 bg-brand/5">
+            <h2 className="text-sm font-semibold tracking-tight text-brand">Compliance Monitoring</h2>
             <div className="mt-3 grid gap-4 md:grid-cols-3">
               <div>
                 <p className="text-xs font-medium text-muted">Documents Requiring CAB</p>
@@ -311,7 +314,7 @@ export default function Page() {
               </div>
               <div>
                 <p className="text-xs font-medium text-muted">Compliance Rate</p>
-                <p className="mt-1 text-2xl font-semibold text-green-600">100%</p>
+                <p className="mt-1 text-2xl font-semibold text-ok">100%</p>
                 <p className="text-xs text-muted">All compliant</p>
               </div>
               <div>
@@ -326,4 +329,3 @@ export default function Page() {
     </div>
   );
 }
-
