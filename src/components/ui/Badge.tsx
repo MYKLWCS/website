@@ -4,11 +4,11 @@ import { cn } from "@/lib/cn";
 type Variant = "default" | "brand" | "ok" | "warn" | "error";
 
 const variants: Record<Variant, string> = {
-  default: "bg-white/5 text-muted border-border/50",
+  default: "bg-white/5 text-muted border-border/20",
   brand: "bg-brand/10 text-fg border-brand/30",
   ok: "bg-ok/10 text-fg border-ok/30",
   warn: "bg-warn/10 text-fg border-warn/30",
-  error: "bg-red-500/10 text-fg border-red-500/30"
+  error: "bg-danger/12 text-fg border-danger/30"
 };
 
 type BadgeProps = ComponentProps<"span"> & { variant?: Variant };

@@ -159,7 +159,7 @@ export function AlertDialog({
             }}
             className={cn(
               "flex-1 rounded-xl px-4 py-2 text-sm font-medium text-white transition-colors",
-              destructive ? "bg-red-600 hover:bg-red-700" : "bg-brand hover:bg-brand/90"
+              destructive ? "bg-danger hover:bg-danger/90" : "bg-brand hover:bg-brand/90"
             )}
           >
             {confirmText}

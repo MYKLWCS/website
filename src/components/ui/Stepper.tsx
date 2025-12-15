@@ -8,7 +8,7 @@ export function Stepper({ steps, activeId }: { steps: StepperStep[]; activeId: s
     steps.findIndex((s) => s.id === activeId)
   );
   return (
-    <ol className="flex flex-wrap gap-3">
+    <ol className="flex flex-wrap gap-2">
       {steps.map((s, idx) => {
         const done = idx < activeIndex;
         const active = s.id === activeId;
@@ -16,14 +16,18 @@ export function Stepper({ steps, activeId }: { steps: StepperStep[]; activeId: s
           <li
             key={s.id}
             className={cn(
-              "flex items-center gap-3 rounded-2xl border px-4 py-3",
-              active ? "border-brand/50 bg-brand/10" : "border-border/60 bg-panel/40"
+              "flex items-center gap-3 rounded-2xl border px-4 py-3 backdrop-blur-sm",
+              active ? "border-brand2/40 bg-brand2/10" : "border-border/14 bg-panel/40"
             )}
           >
             <span
               className={cn(
                 "flex h-7 w-7 items-center justify-center rounded-full border text-xs font-semibold",
-                done ? "border-ok/50 bg-ok/10 text-fg" : active ? "border-brand/50 bg-brand/10" : "border-border/60"
+                done
+                  ? "border-brand2/45 bg-brand2/10 text-fg"
+                  : active
+                    ? "border-brand/45 bg-brand/10"
+                    : "border-border/18"
               )}
             >
               {done ? "✓" : idx + 1}
@@ -38,4 +42,3 @@ export function Stepper({ steps, activeId }: { steps: StepperStep[]; activeId: s
     </ol>
   );
 }
-

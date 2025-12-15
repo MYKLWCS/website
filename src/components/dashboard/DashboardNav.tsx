@@ -31,7 +31,7 @@ export function DashboardNav() {
             href={it.href}
             className={cn(
               "rounded-xl px-3 py-2 text-sm transition",
-              active ? "bg-brand/10 text-fg border border-brand/30" : "text-muted hover:bg-white/5 hover:text-fg"
+              active ? "bg-brand2/12 text-fg border border-brand2/35" : "text-muted hover:bg-white/5 hover:text-fg"
             )}
           >
             {it.label}

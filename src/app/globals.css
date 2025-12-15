@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --bg: 255 255 255;
-  --panel: 250 250 252;
-  --border: 220 220 225;
-  --fg: 20 20 25;
-  --muted: 120 120 135;
-  --brand: 236 72 153;
-  --brand2: 217 119 6;
-  --danger: 239 68 68;
-  --warn: 217 119 6;
-  --ok: 34 197 94;
+  --bg: 6 6 8;
+  --panel: 12 12 16;
+  --border: 255 255 255;
+  --fg: 255 255 255;
+  --muted: 182 182 200;
+  --brand: 255 77 166; /* pink */
+  --brand2: 212 175 55; /* gold */
+  --danger: 248 113 113;
+  --warn: 212 175 55;
+  --ok: 74 222 128;
 }
 
 html,
@@ -21,11 +21,14 @@ body {
 }
 
 body {
-  background: linear-gradient(135deg, 
-    rgb(236 72 153 / 0.05) 0%, 
-    rgb(217 119 6 / 0.03) 50%, 
-    rgb(255 255 255) 100%);
+  background:
+    radial-gradient(900px 420px at 18% 0%, rgb(var(--brand2) / 0.18), transparent 60%),
+    radial-gradient(720px 360px at 82% 10%, rgb(var(--brand) / 0.16), transparent 55%),
+    radial-gradient(520px 260px at 55% 0%, rgb(255 255 255 / 0.06), transparent 55%),
+    rgb(var(--bg));
   color: rgb(var(--fg));
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 * {
@@ -34,10 +37,15 @@ body {
 }
 
 .grid-glow {
-  background-image: linear-gradient(rgb(var(--border) / 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(var(--border) / 0.25) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgb(var(--border) / 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--border) / 0.08) 1px, transparent 1px);
   background-size: 28px 28px;
   mask-image: radial-gradient(400px 200px at 50% 0%, black, transparent);
+}
+
+::selection {
+  background: rgb(var(--brand) / 0.35);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -47,4 +55,3 @@ body {
     scroll-behavior: auto !important;
   }
 }
-

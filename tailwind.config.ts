@@ -17,7 +17,8 @@ export default {
         ok: "rgb(var(--ok) / <alpha-value>)"
       },
       boxShadow: {
-        glow: "0 0 0 1px rgb(var(--border) / 0.7), 0 12px 40px rgb(0 0 0 / 0.35)"
+        glow:
+          "0 0 0 1px rgb(var(--border) / 0.14), 0 18px 70px rgb(0 0 0 / 0.65), 0 0 60px rgb(var(--brand) / 0.10)"
       },
       keyframes: {
         "fade-up": {
@@ -32,4 +33,3 @@ export default {
   },
   plugins: []
 } satisfies Config;
-

@@ -4,15 +4,15 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/40 bg-white pt-16 pb-8">
+    <footer className="border-t border-border/12 bg-bg pt-16 pb-8">
       <div className="mx-auto max-w-7xl px-6">
         {/* Top Section */}
         <div className="grid grid-cols-2 gap-8 md:grid-cols-4 mb-12">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-pink-500 to-orange-500">
-                <span className="text-sm font-bold text-white">$</span>
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand2 to-brand shadow-glow">
+                <span className="text-sm font-bold text-bg">$</span>
               </div>
               <span className="font-bold text-fg">Dollar Loans</span>
             </div>
@@ -104,7 +104,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-border/30 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="border-t border-border/12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-muted text-center md:text-left">
             © 2025 Dollar Loans. All rights reserved. Dollar Loans is a Texas Credit Access Business (CAB).
           </p>

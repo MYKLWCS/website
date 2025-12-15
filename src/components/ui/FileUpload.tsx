@@ -159,7 +159,7 @@ export function FileUpload({
       </div>
 
       {error && (
-        <div className="rounded-lg border border-red-200/50 bg-red-50/50 p-3 text-sm text-red-700">
+        <div className="rounded-lg border border-danger/30 bg-danger/10 p-3 text-sm text-fg">
           {error}
         </div>
       )}
@@ -196,7 +196,7 @@ export function FileUpload({
                 </div>
                 <button
                   onClick={() => removeFile(index)}
-                  className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded hover:bg-red-500/10 text-red-600 hover:text-red-700 transition-colors flex-shrink-0"
+                  className="ml-2 inline-flex h-6 w-6 items-center justify-center rounded hover:bg-danger/10 text-danger hover:text-danger transition-colors flex-shrink-0"
                   aria-label="Remove file"
                 >
                   ×

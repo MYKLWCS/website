@@ -13,10 +13,10 @@ type ButtonProps = ComponentProps<"button"> & {
 
 const styles: Record<Variant, string> = {
   primary:
-    "bg-gradient-to-r from-pink-500 to-orange-500 hover:from-pink-600 hover:to-orange-600 text-white shadow-lg hover:shadow-xl hover:shadow-pink-500/30 border-0",
-  secondary: "bg-white hover:bg-gray-50 text-fg border border-border/50 hover:border-border/70",
-  tertiary: "bg-transparent hover:bg-pink-50 text-fg border border-border/40 hover:border-pink-300",
-  danger: "bg-red-50 hover:bg-red-100 text-red-700 border border-red-200"
+    "bg-gradient-to-r from-brand2 to-brand text-bg shadow-glow border border-white/10 hover:border-white/20",
+  secondary: "bg-bg/40 hover:bg-bg/60 text-fg border border-border/14 hover:border-border/24",
+  tertiary: "bg-transparent hover:bg-white/5 text-fg border border-border/10 hover:border-border/20",
+  danger: "bg-danger/15 hover:bg-danger/22 text-fg border border-danger/25 hover:border-danger/35"
 };
 
 const sizes: Record<Size, string> = {

@@ -185,7 +185,7 @@ export function DatePicker({
           className={cn(
             "w-full rounded-xl border px-4 py-2 text-sm outline-none transition",
             error
-              ? "border-red-500 bg-red-50/30 placeholder:text-red-300"
+              ? "border-danger/50 bg-danger/10 placeholder:text-danger/70"
               : "border-border/60 bg-panel placeholder:text-muted hover:border-border focus:border-brand focus:ring-1 focus:ring-brand/30"
           )}
         />
@@ -254,7 +254,7 @@ export function DatePicker({
         )}
       </div>
 
-      {error && <p className="text-xs font-medium text-red-500">{error}</p>}
+      {error && <p className="text-xs font-medium text-danger">{error}</p>}
     </div>
   );
 }
@@ -307,7 +307,7 @@ export function DateRangePicker({
         />
       </div>
 
-      {error && <p className="text-xs font-medium text-red-500">{error}</p>}
+      {error && <p className="text-xs font-medium text-danger">{error}</p>}
     </div>
   );
 }

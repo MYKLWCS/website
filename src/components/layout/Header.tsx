@@ -13,16 +13,16 @@ export function Header() {
   if (isAuth) return null;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/40 bg-white/80 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 border-b border-border/12 bg-bg/70 backdrop-blur-xl">
       <nav className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-orange-500">
-            <span className="text-lg font-bold text-white">$</span>
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand2 to-brand shadow-glow">
+            <span className="text-lg font-bold text-bg">$</span>
           </div>
           <div className="flex flex-col">
             <span className="text-lg font-bold tracking-tight text-fg">Dollar</span>
-            <span className="text-xs font-semibold text-brand uppercase tracking-widest">Loans</span>
+            <span className="text-xs font-semibold text-brand2 uppercase tracking-widest">Loans</span>
           </div>
         </Link>
 
@@ -70,7 +70,7 @@ export function Header() {
               </Link>
               <Link
                 href="/dashboard/get-cash"
-                className="rounded-full bg-gradient-to-r from-pink-500 to-orange-500 px-6 py-2 text-sm font-semibold text-white hover:shadow-lg hover:shadow-pink-500/30 transition-all"
+                className="rounded-full bg-gradient-to-r from-brand2 to-brand px-6 py-2 text-sm font-semibold text-bg shadow-glow transition hover:brightness-110"
               >
                 Get Cash
               </Link>
