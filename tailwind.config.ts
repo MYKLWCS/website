@@ -10,6 +10,7 @@ export default {
         border: "rgb(var(--border) / <alpha-value>)",
         fg: "rgb(var(--fg) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
+        grey: "rgb(var(--grey) / <alpha-value>)",
         brand: "rgb(var(--brand) / <alpha-value>)",
         brand2: "rgb(var(--brand2) / <alpha-value>)",
         danger: "rgb(var(--danger) / <alpha-value>)",

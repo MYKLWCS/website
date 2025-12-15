@@ -17,7 +17,7 @@ export function Header() {
       <nav className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand2 to-brand shadow-glow">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand2 to-brand2/60 shadow-glow">
             <span className="text-lg font-bold text-bg">$</span>
           </div>
           <div className="flex flex-col">
@@ -70,7 +70,7 @@ export function Header() {
               </Link>
               <Link
                 href="/dashboard/get-cash"
-                className="rounded-full bg-gradient-to-r from-brand2 to-brand px-6 py-2 text-sm font-semibold text-bg shadow-glow transition hover:brightness-110"
+                className="rounded-full bg-brand2 px-6 py-2 text-sm font-semibold text-bg shadow-glow transition hover:brightness-110"
               >
                 Get Cash
               </Link>

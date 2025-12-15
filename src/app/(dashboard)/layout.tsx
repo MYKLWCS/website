@@ -19,7 +19,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/60 backdrop-blur">
         <Container className="flex items-center justify-between py-4">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl border border-border/14 bg-gradient-to-br from-brand2 to-brand shadow-glow" />
+            <div className="h-9 w-9 rounded-xl border border-border/14 bg-gradient-to-br from-brand2 to-brand2/60 shadow-glow" />
             <div className="leading-tight">
               <p className="text-sm font-semibold tracking-tight">Dollar Loans</p>
               <p className="text-xs text-muted">Customer portal</p>

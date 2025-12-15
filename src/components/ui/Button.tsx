@@ -13,7 +13,7 @@ type ButtonProps = ComponentProps<"button"> & {
 
 const styles: Record<Variant, string> = {
   primary:
-    "bg-gradient-to-r from-brand2 to-brand text-bg shadow-glow border border-white/10 hover:border-white/20",
+    "bg-brand2 text-bg shadow-glow border border-white/10 hover:border-white/20 hover:brightness-110",
   secondary: "bg-bg/40 hover:bg-bg/60 text-fg border border-border/14 hover:border-border/24",
   tertiary: "bg-transparent hover:bg-white/5 text-fg border border-border/10 hover:border-border/20",
   danger: "bg-danger/15 hover:bg-danger/22 text-fg border border-danger/25 hover:border-danger/35"

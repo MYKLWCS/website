@@ -3,16 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --bg: 6 6 8;
-  --panel: 12 12 16;
-  --border: 255 255 255;
-  --fg: 255 255 255;
-  --muted: 182 182 200;
-  --brand: 255 77 166; /* pink */
-  --brand2: 212 175 55; /* gold */
-  --danger: 248 113 113;
-  --warn: 212 175 55;
-  --ok: 74 222 128;
+  --bg: 255 255 255; /* White background */
+  --panel: 249 250 251; /* Light gray panel */
+  --border: 229 231 235; /* Light gray border */
+  --fg: 17 24 39; /* Almost black text */
+  --muted: 107 114 128; /* Gray muted text */
+  --grey: 156 163 175; /* Medium gray */
+  --brand: 236 72 153; /* Pink accent */
+  --brand2: 234 179 8; /* Gold accent */
+  --danger: 239 68 68;
+  --warn: 234 179 8;
+  --ok: 34 197 94;
 }
 
 html,
@@ -21,11 +22,7 @@ body {
 }
 
 body {
-  background:
-    radial-gradient(900px 420px at 18% 0%, rgb(var(--brand2) / 0.18), transparent 60%),
-    radial-gradient(720px 360px at 82% 10%, rgb(var(--brand) / 0.16), transparent 55%),
-    radial-gradient(520px 260px at 55% 0%, rgb(255 255 255 / 0.06), transparent 55%),
-    rgb(var(--bg));
+  background: rgb(var(--bg));
   color: rgb(var(--fg));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -30,7 +30,7 @@ export default function Page() {
 
       {/* Next Payment Due Highlight */}
       {nextDue && (
-        <Card className="border-l-4 border-l-brand bg-gradient-to-r from-brand/5 to-transparent p-6">
+        <Card className="border-l-4 border-l-brand bg-brand/5 p-6">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted">Next Payment Due</p>
           <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
