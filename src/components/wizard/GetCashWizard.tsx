@@ -24,6 +24,27 @@ interface FieldError {
   message: string;
 }
 
+function validateBanking(data: any): FieldError | null {
+  const method = String(data.bankMethod || "link");
+  if (method === "link") {
+    if (String(data.bankLinkStatus || "") !== "connected") {
+      return {
+        field: "bankLinkStatus",
+        message: "Connect your bank (placeholder) or choose manual entry to continue."
+      };
+    }
+    return null;
+  }
+
+  if (method === "manual") {
+    if (!String(data.routing || "").trim()) return { field: "routing", message: "Routing number is required" };
+    if (!String(data.account || "").trim()) return { field: "account", message: "Account number is required" };
+    return null;
+  }
+
+  return { field: "bankMethod", message: "Choose a payout method to continue" };
+}
+
 function validateGoalAmount(amount: number): FieldError | null {
   if (!amount || amount < 500) {
     return { field: "desiredAmount", message: "Requested amount must be at least $500" };
@@ -81,6 +102,10 @@ export function GetCashWizard() {
 
   const [applicationId, setApplicationId] = useState<string | null>(null);
   const [isCreatingApp, setIsCreatingApp] = useState(false);
+  const [isUpdatingEstimate, setIsUpdatingEstimate] = useState(false);
+  const [isSubmittingApp, setIsSubmittingApp] = useState(false);
+  const [isSavingVehicle, setIsSavingVehicle] = useState(false);
+  const [appError, setAppError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
   const [showSaveIndicator, setShowSaveIndicator] = useState(false);
@@ -118,12 +143,20 @@ export function GetCashWizard() {
   }, [ready, data.activeStep, urlStep]);
 
   useEffect(() => {
+    if (!ready) return;
+    if (applicationId) return;
+    const saved = typeof (data as any).applicationId === "string" ? String((data as any).applicationId) : null;
+    if (saved) setApplicationId(saved);
+  }, [applicationId, data, ready]);
+
+  useEffect(() => {
     setDraft({ activeStep: active }, { immediate: true });
     const sp = new URLSearchParams(paramsString);
     sp.set("step", active);
     router.replace(`/dashboard/get-cash?${sp.toString()}`);
     void track("wizard_step_view", { step: active, progress: Math.round(progressPercent) });
     setFieldErrors({});
+    setAppError(null);
   }, [active, paramsString, router, setDraft, progressPercent]);
 
   // Auto-save feedback
@@ -141,15 +174,23 @@ export function GetCashWizard() {
 
   async function createOrUpdateApplication() {
     if (applicationId) return applicationId;
+
+    const saved = typeof (data as any).applicationId === "string" ? String((data as any).applicationId) : null;
+    if (saved) {
+      setApplicationId(saved);
+      return saved;
+    }
     
     setIsCreatingApp(true);
+    setAppError(null);
     try {
       const res = await fetch("/api/applications", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
           requestedAmount: data.desiredAmount || 1500,
-          estimateRange: estimate
+          estimateRange: estimate,
+          vehicleId: typeof (data as any).vehicleId === "string" ? (data as any).vehicleId : undefined
         })
       });
       
@@ -164,10 +205,95 @@ export function GetCashWizard() {
       return appId;
     } catch (e) {
       console.error("Error creating application:", e);
+      setAppError("We couldn’t start your application right now. Please try again.");
       void track("application_create_error", { error: String(e) });
       throw e;
     } finally {
       setIsCreatingApp(false);
+    }
+  }
+
+  async function updateServerEstimate(appId: string) {
+    setIsUpdatingEstimate(true);
+    setAppError(null);
+    try {
+      const res = await fetch(`/api/applications/${encodeURIComponent(appId)}/estimate`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          year: data.year,
+          make: data.make,
+          model: data.model,
+          mileage: data.mileage,
+          condition: data.condition,
+          desiredAmount: data.desiredAmount
+        })
+      });
+      if (!res.ok) throw new Error("Failed to update estimate");
+      const json = (await res.json()) as any;
+      if (json?.estimateRange) setDraft({ applicationEstimateRange: json.estimateRange }, { immediate: true });
+      void track("application_estimate_updated", { applicationId: appId });
+    } catch (e) {
+      console.error("Error updating estimate:", e);
+      setAppError("We couldn’t refresh your estimate right now. You can still continue.");
+      void track("application_estimate_error", { applicationId: appId, error: String(e) });
+    } finally {
+      setIsUpdatingEstimate(false);
+    }
+  }
+
+  async function submitApplication(appId: string) {
+    setIsSubmittingApp(true);
+    setAppError(null);
+    try {
+      const res = await fetch(`/api/applications/${encodeURIComponent(appId)}/submit`, { method: "POST" });
+      if (!res.ok) throw new Error("Failed to submit application");
+      void track("application_submitted", { applicationId: appId });
+      setDraft({ applicationSubmittedAt: new Date().toISOString() }, { immediate: true });
+    } catch (e) {
+      console.error("Error submitting application:", e);
+      setAppError("We couldn’t submit your application right now. Please try again.");
+      void track("application_submit_error", { applicationId: appId, error: String(e) });
+      throw e;
+    } finally {
+      setIsSubmittingApp(false);
+    }
+  }
+
+  async function createVehicleIfNeeded() {
+    const existing = typeof (data as any).vehicleId === "string" ? String((data as any).vehicleId) : null;
+    if (existing) return existing;
+
+    setIsSavingVehicle(true);
+    setAppError(null);
+    try {
+      const res = await fetch("/api/vehicles", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          vin: data.vin,
+          plate: data.plate,
+          year: data.year,
+          make: data.make,
+          model: data.model,
+          trim: data.trim,
+          mileage: data.mileage,
+          condition: data.condition,
+          titleStatus: data.titleStatus
+        })
+      });
+      if (!res.ok) throw new Error("Failed to create vehicle");
+      const json = (await res.json()) as any;
+      const vehicleId = json?.vehicle?.id ? String(json.vehicle.id) : null;
+      if (!vehicleId) throw new Error("No vehicle ID returned");
+      setDraft({ vehicleId }, { immediate: true });
+      return vehicleId;
+    } catch (e) {
+      console.error("Error creating vehicle:", e);
+      setAppError("We couldn’t save your vehicle details right now. You can still continue.");
+      return null;
+    } finally {
+      setIsSavingVehicle(false);
     }
   }
 
@@ -185,7 +311,7 @@ export function GetCashWizard() {
     }
   }
 
-  function validateAndGoNext() {
+  async function validateAndGoNext() {
     // Validate based on current step
     let error: FieldError | null = null;
     
@@ -202,12 +328,19 @@ export function GetCashWizard() {
       case "income":
         error = validateIncome(data);
         break;
+      case "banking":
+        error = validateBanking(data);
+        break;
     }
 
     if (error) {
       setFieldErrors((prev) => ({ ...prev, [error!.field]: error!.message }));
       void track("wizard_step_view", { step: active, error: error.field });
       return;
+    }
+
+    if (active === "vehicle_quick") {
+      await createVehicleIfNeeded();
     }
 
     void track("wizard_step_complete", { step: active });
@@ -270,6 +403,12 @@ export function GetCashWizard() {
         </Link>
         .
       </Notice>
+
+      {appError ? (
+        <Notice tone="warn" title="Action needed">
+          {appError}
+        </Notice>
+      ) : null}
 
       {active === "goal_amount" ? (
         <Card className="p-6">
@@ -396,7 +535,9 @@ export function GetCashWizard() {
             <Button variant="secondary" onClick={goBack}>
               Back
             </Button>
-            <Button onClick={goNext}>See estimate</Button>
+            <Button disabled={isSavingVehicle} onClick={goNext}>
+              {isSavingVehicle ? "Saving vehicle…" : "See estimate"}
+            </Button>
           </div>
         </Card>
       ) : null}
@@ -649,22 +790,87 @@ export function GetCashWizard() {
           <p className="mt-1 text-sm text-muted">Choose how you’d like to receive funds (if approved).</p>
           <p className="mt-3 text-xs text-muted">Demo-only fields. Do not enter real bank account details.</p>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
-            <Notice tone="info" title="Bank link (placeholder)">
-              In production, connect a secure bank-link provider. This scaffold shows a manual fallback.
-            </Notice>
-            <div className="rounded-2xl border border-border/60 bg-bg/25 p-5">
-              <p className="text-sm font-semibold tracking-tight">Manual entry</p>
-              <div className="mt-4 grid gap-3">
-                <div>
-                  <Label htmlFor="routing">Routing number</Label>
-                  <Input id="routing" value={String(data.routing ?? "")} onChange={(e) => setDraft({ routing: e.target.value })} />
+            <div>
+              <Label>Payout method</Label>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {(["link", "manual"] as const).map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    className={
+                      "rounded-xl border px-3 py-2 text-sm transition " +
+                      (String((data as any).bankMethod || "link") === v
+                        ? "border-brand/50 bg-brand/10 text-fg"
+                        : "border-border/60 bg-panel/40 text-muted hover:bg-panel/60")
+                    }
+                    onClick={() => handleFieldChange("bankMethod", v)}
+                  >
+                    {v === "link" ? "Secure bank link" : "Manual entry"}
+                  </button>
+                ))}
+              </div>
+              {fieldErrors.bankMethod && (
+                <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.bankMethod}</p>
+              )}
+              <p className="mt-2 text-xs text-muted">In production, bank link reduces errors and speeds verification.</p>
+            </div>
+
+            {String((data as any).bankMethod || "link") === "link" ? (
+              <div className="rounded-2xl border border-border/60 bg-bg/25 p-5">
+                <p className="text-sm font-semibold tracking-tight">Connect bank (placeholder)</p>
+                <p className="mt-1 text-xs text-muted">No bank credentials are collected in this demo.</p>
+                <div className="mt-4 flex flex-wrap items-center gap-3">
+                  <Button
+                    variant="secondary"
+                    onClick={() => {
+                      handleFieldChange("bankLinkStatus", "connected");
+                      void track("bank_link_connected");
+                    }}
+                  >
+                    {String((data as any).bankLinkStatus || "") === "connected" ? "Connected" : "Connect bank"}
+                  </Button>
+                  <p className="text-xs text-muted">
+                    Status:{" "}
+                    <span className="font-medium text-fg">
+                      {String((data as any).bankLinkStatus || "") === "connected" ? "Connected" : "Not connected"}
+                    </span>
+                  </p>
                 </div>
-                <div>
-                  <Label htmlFor="account">Account number</Label>
-                  <Input id="account" value={String(data.account ?? "")} onChange={(e) => setDraft({ account: e.target.value })} />
+                {fieldErrors.bankLinkStatus && (
+                  <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.bankLinkStatus}</p>
+                )}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-border/60 bg-bg/25 p-5">
+                <p className="text-sm font-semibold tracking-tight">Manual entry</p>
+                <div className="mt-4 grid gap-3">
+                  <div>
+                    <Label htmlFor="routing">Routing number</Label>
+                    <Input
+                      id="routing"
+                      value={String(data.routing ?? "")}
+                      onChange={(e) => handleFieldChange("routing", e.target.value)}
+                      className={fieldErrors.routing ? "border-red-500" : ""}
+                    />
+                    {fieldErrors.routing && (
+                      <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.routing}</p>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="account">Account number</Label>
+                    <Input
+                      id="account"
+                      value={String(data.account ?? "")}
+                      onChange={(e) => handleFieldChange("account", e.target.value)}
+                      className={fieldErrors.account ? "border-red-500" : ""}
+                    />
+                    {fieldErrors.account && (
+                      <p className="mt-2 text-xs text-red-500 font-medium">{fieldErrors.account}</p>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <Button variant="secondary" onClick={goBack}>
@@ -708,10 +914,11 @@ export function GetCashWizard() {
                 Back
               </Button>
               <Button
-                disabled={isCreatingApp}
+                disabled={isCreatingApp || isUpdatingEstimate}
                 onClick={async () => {
                   try {
-                    await createOrUpdateApplication();
+                    const appId = await createOrUpdateApplication();
+                    await updateServerEstimate(appId);
                     void track("offer_accept");
                     goNext();
                   } catch (e) {
@@ -719,7 +926,11 @@ export function GetCashWizard() {
                   }
                 }}
               >
-                {isCreatingApp ? "Creating application…" : "Accept and continue"}
+                {isCreatingApp
+                  ? "Creating application…"
+                  : isUpdatingEstimate
+                    ? "Refreshing estimate…"
+                    : "Accept and continue"}
               </Button>
             </div>
             <p className="mt-4 text-xs text-muted">
@@ -733,9 +944,17 @@ export function GetCashWizard() {
         <div className="space-y-6">
           <EsignPanel
             onSign={() => {
-              void track("esign_start");
-              void track("esign_complete");
-              goNext();
+              (async () => {
+                try {
+                  void track("esign_start");
+                  const appId = await createOrUpdateApplication();
+                  await submitApplication(appId);
+                  void track("esign_complete");
+                  goNext();
+                } catch (e) {
+                  console.error("E-sign submit failed:", e);
+                }
+              })();
             }}
           />
           <div className="flex flex-wrap gap-3">
@@ -752,6 +971,16 @@ export function GetCashWizard() {
           <p className="text-sm font-semibold tracking-tight">Funding tracker</p>
           <p className="mt-1 text-sm text-muted">Status timeline (placeholder) — exact timing depends on verification and processing.</p>
           <div className="mt-5 grid gap-4 md:grid-cols-2">
+            {applicationId ? (
+              <Notice tone="info" title="Application">
+                <p className="text-sm text-muted">
+                  ID: <span className="font-medium text-fg">{applicationId}</span>
+                </p>
+                {typeof (data as any).applicationSubmittedAt === "string" ? (
+                  <p className="mt-1 text-xs text-muted">Submitted: {String((data as any).applicationSubmittedAt)}</p>
+                ) : null}
+              </Notice>
+            ) : null}
             <Notice tone="info" title="Status">
               Under review → Approved → Funded (example). You’ll see updates here.
             </Notice>

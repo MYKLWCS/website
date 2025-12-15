@@ -20,7 +20,12 @@ export type AnalyticsEvent =
   | "payment_success"
   | "support_contact"
   | "application_created"
-  | "application_create_error";
+  | "application_create_error"
+  | "application_estimate_updated"
+  | "application_estimate_error"
+  | "application_submitted"
+  | "application_submit_error"
+  | "bank_link_connected";
 
 export async function track(event: AnalyticsEvent, props?: Record<string, unknown>) {
   try {
@@ -33,4 +38,3 @@ export async function track(event: AnalyticsEvent, props?: Record<string, unknow
     // Best-effort stub
   }
 }
-

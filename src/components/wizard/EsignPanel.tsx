@@ -3,9 +3,11 @@ import { Notice } from "@/components/ui/Notice";
 import { Button } from "@/components/ui/Button";
 
 export function EsignPanel({
-  onSign
+  onSign,
+  signing
 }: {
   onSign: () => void;
+  signing?: boolean;
 }) {
   return (
     <Card className="p-6">
@@ -23,7 +25,9 @@ export function EsignPanel({
         </Notice>
       </div>
       <div className="mt-5 flex flex-wrap gap-3">
-        <Button onClick={onSign}>E-sign (placeholder)</Button>
+        <Button disabled={Boolean(signing)} onClick={onSign}>
+          {signing ? "Submitting…" : "E-sign (placeholder)"}
+        </Button>
         <Button variant="secondary" onClick={() => window.print()}>
           Print review
         </Button>
@@ -32,4 +36,3 @@ export function EsignPanel({
     </Card>
   );
 }
-
