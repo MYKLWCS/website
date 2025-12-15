@@ -1,13 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSessionUserId } from "@/lib/session";
+import { addDocuments } from "@/lib/mockDb";
 
 export async function POST(request: NextRequest) {
   try {
+    const sessionUserId = getSessionUserId();
+    if (!sessionUserId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const formData = await request.formData();
-    const userId = formData.get("userId") as string;
     const category = formData.get("category") as string;
     const files = formData.getAll("files") as File[];
+    const applicationId = (formData.get("applicationId") as string | null) || undefined;
+    const vehicleId = (formData.get("vehicleId") as string | null) || undefined;
 
-    if (!userId || !category || files.length === 0) {
+    if (!category || files.length === 0) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
@@ -31,19 +39,17 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // In a real application, you would:
-    // 1. Save files to cloud storage (S3, GCS, etc.)
-    // 2. Store metadata in database
-    // 3. Trigger document review process
-    // 4. Send confirmation email
-
-    // For this mock, we'll just return success
-    const uploadedFiles = files.map((file) => ({
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      uploadedAt: new Date().toISOString()
-    }));
+    const uploadedFiles = addDocuments(
+      sessionUserId,
+      files.map((file) => ({
+        category,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        applicationId,
+        vehicleId
+      }))
+    );
 
     return NextResponse.json({
       success: true,

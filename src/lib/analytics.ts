@@ -25,7 +25,10 @@ export type AnalyticsEvent =
   | "application_estimate_error"
   | "application_submitted"
   | "application_submit_error"
-  | "bank_link_connected";
+  | "bank_link_connected"
+  | "documents_upload_started"
+  | "documents_upload_completed"
+  | "documents_upload_error";
 
 export async function track(event: AnalyticsEvent, props?: Record<string, unknown>) {
   try {

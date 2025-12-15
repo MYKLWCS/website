@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -9,10 +10,10 @@ import { Badge } from "@/components/ui/Badge";
 import { useToast } from "@/hooks/useToast";
 
 interface DocumentUploadFormProps {
-  userId: string;
 }
 
-export function DocumentUploadForm({ userId }: DocumentUploadFormProps) {
+export function DocumentUploadForm({}: DocumentUploadFormProps) {
+  const router = useRouter();
   const [selectedCategory, setSelectedCategory] = useState("identity");
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -56,7 +57,6 @@ export function DocumentUploadForm({ userId }: DocumentUploadFormProps) {
     setIsUploading(true);
     try {
       const formData = new FormData();
-      formData.append("userId", userId);
       formData.append("category", selectedCategory);
       files.forEach((file) => formData.append("files", file));
 
@@ -70,6 +70,7 @@ export function DocumentUploadForm({ userId }: DocumentUploadFormProps) {
       showToast({ title: "Documents uploaded successfully", tone: "ok" });
       setFiles([]);
       if (fileInputRef.current) fileInputRef.current.value = "";
+      router.refresh();
     } catch (error) {
       showToast({
         title: "Failed to upload documents",

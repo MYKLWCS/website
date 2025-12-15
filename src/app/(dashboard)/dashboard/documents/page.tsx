@@ -1,5 +1,5 @@
 import { getSessionUserId } from "@/lib/session";
-import { getPrimaryVehicle } from "@/lib/mockDb";
+import { getPrimaryVehicle, listDocumentsForUser } from "@/lib/mockDb";
 import { Card } from "@/components/ui/Card";
 import { Notice } from "@/components/ui/Notice";
 import { DocumentUploadForm } from "@/components/dashboard/DocumentUploadForm";
@@ -9,6 +9,7 @@ import Link from "next/link";
 export default function Page() {
   const userId = getSessionUserId()!;
   const vehicle = getPrimaryVehicle(userId);
+  const uploadedDocuments = listDocumentsForUser(userId);
 
   const documentCategories = [
     {
@@ -31,12 +32,6 @@ export default function Page() {
       description: "Signed agreements and transaction records",
       items: ["Signed CAB Agreement", "Payment Receipts"]
     }
-  ];
-
-  const uploadedDocuments = [
-    { name: "Government ID (front).pdf", category: "Identity", status: "approved" as const, date: "Dec 13, 2025" },
-    { name: "Proof of address.pdf", category: "Identity", status: "approved" as const, date: "Dec 13, 2025" },
-    { name: "Vehicle front photo.jpg", category: "Vehicle", status: "pending" as const, date: "Dec 14, 2025" }
   ];
 
   const getStatusBadgeVariant = (status: "pending" | "approved" | "rejected") => {
@@ -87,7 +82,7 @@ export default function Page() {
       </div>
 
       {/* Upload Form */}
-      <DocumentUploadForm userId={userId} />
+      <DocumentUploadForm />
 
       {/* Uploaded Documents List */}
       {uploadedDocuments.length > 0 && (
@@ -106,7 +101,7 @@ export default function Page() {
                   <div className="mt-1 flex items-center gap-2">
                     <span className="text-xs text-muted">{doc.category}</span>
                     <span className="text-xs text-muted">•</span>
-                    <span className="text-xs text-muted">{doc.date}</span>
+                    <span className="text-xs text-muted">{new Date(doc.uploadedAt).toLocaleDateString()}</span>
                   </div>
                 </div>
                 <Badge variant={getStatusBadgeVariant(doc.status)}>

@@ -63,10 +63,22 @@ export type Payment = {
   timestamp: string;
 };
 
+export type Document = {
+  id: string;
+  userId: string;
+  applicationId?: string;
+  vehicleId?: string;
+  category: string;
+  name: string;
+  size: number;
+  type: string;
+  status: "pending" | "approved" | "rejected";
+  uploadedAt: string;
+};
+
 export type WizardDraft = {
   id: string;
   userId: string;
   updatedAt: string;
   data: Record<string, unknown>;
 };
-

@@ -1,4 +1,4 @@
-import type { Agreement, Application, Payment, User, Vehicle, WizardDraft } from "@/lib/types";
+import type { Agreement, Application, Document, Payment, User, Vehicle, WizardDraft } from "@/lib/types";
 
 type Db = {
   users: User[];
@@ -6,6 +6,7 @@ type Db = {
   applications: Application[];
   agreements: Agreement[];
   payments: Payment[];
+  documents: Document[];
   wizardDrafts: WizardDraft[];
 };
 
@@ -99,6 +100,7 @@ export const db: Db = {
       timestamp: now()
     }
   ],
+  documents: [],
   wizardDrafts: []
 };
 
@@ -198,4 +200,37 @@ export function addPayment(agreementId: string, amount: number, method: Payment[
   };
   db.payments.push(payment);
   return payment;
+}
+
+export function listDocumentsForUser(userId: string) {
+  return db.documents
+    .filter((d) => d.userId === userId)
+    .sort((a, b) => (a.uploadedAt < b.uploadedAt ? 1 : -1));
+}
+
+export function addDocuments(
+  userId: string,
+  input: Array<{
+    category: string;
+    name: string;
+    size: number;
+    type: string;
+    applicationId?: string;
+    vehicleId?: string;
+  }>
+) {
+  const docs: Document[] = input.map((x) => ({
+    id: uid("doc"),
+    userId,
+    category: x.category,
+    name: x.name,
+    size: x.size,
+    type: x.type,
+    applicationId: x.applicationId,
+    vehicleId: x.vehicleId,
+    status: "pending",
+    uploadedAt: now()
+  }));
+  db.documents.push(...docs);
+  return docs;
 }

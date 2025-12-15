@@ -4,10 +4,10 @@ import type { ComponentProps } from "react";
 type Tone = "info" | "cab" | "warn" | "danger";
 
 const tones: Record<Tone, string> = {
-  info: "border-border/70 bg-panel/55",
-  cab: "border-brand/40 bg-brand/10",
-  warn: "border-warn/40 bg-warn/10",
-  danger: "border-danger/40 bg-danger/10"
+  info: "border-blue-200 bg-blue-50",
+  cab: "border-pink-200 bg-pink-50",
+  warn: "border-orange-200 bg-orange-50",
+  danger: "border-red-200 bg-red-50"
 };
 
 export function Notice({
@@ -15,10 +15,16 @@ export function Notice({
   ...props
 }: ComponentProps<"div"> & { tone?: Tone; title?: string }) {
   const { className, title, children, ...rest } = props as any;
+  const titleColors: Record<Tone, string> = {
+    info: "text-blue-900",
+    cab: "text-pink-900",
+    warn: "text-orange-900",
+    danger: "text-red-900"
+  };
   return (
     <div className={cn("rounded-2xl border p-4", tones[tone], className)} {...rest}>
-      {title ? <p className="text-sm font-medium">{title}</p> : null}
-      <div className={cn("text-sm text-muted", title ? "mt-1" : "")}>{children}</div>
+      {title ? <p className={cn("text-sm font-semibold", titleColors[tone])}>{title}</p> : null}
+      <div className={cn("text-sm text-muted", title ? "mt-2" : "")}>{children}</div>
     </div>
   );
 }

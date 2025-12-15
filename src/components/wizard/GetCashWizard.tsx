@@ -15,6 +15,7 @@ import { CabMicrocopy } from "@/components/common/CabMicrocopy";
 import { UploadGuidanceCard } from "@/components/wizard/UploadGuidance";
 import { FeeBreakdown } from "@/components/dashboard/FeeBreakdown";
 import { EsignPanel } from "@/components/wizard/EsignPanel";
+import { MultiFileUpload } from "@/components/ui/FileUpload";
 import Link from "next/link";
 import { track } from "@/lib/analytics";
 
@@ -84,6 +85,14 @@ function validateIncome(data: any): FieldError | null {
   return null;
 }
 
+function validateVehiclePhotos(data: any): FieldError | null {
+  const uploaded = (data.vehiclePhotosUploaded && Array.isArray(data.vehiclePhotosUploaded)
+    ? data.vehiclePhotosUploaded
+    : []) as any[];
+  if (uploaded.length === 0) return { field: "vehiclePhotos", message: "Upload at least one vehicle photo to continue." };
+  return null;
+}
+
 function nextStepId(id: WizardStepId) {
   const idx = WIZARD_STEPS.findIndex((s) => s.id === id);
   return WIZARD_STEPS[Math.min(WIZARD_STEPS.length - 1, idx + 1)]?.id || id;
@@ -101,10 +110,17 @@ export function GetCashWizard() {
   const { ready, data, set: setDraft, clear } = draft;
 
   const [applicationId, setApplicationId] = useState<string | null>(null);
+  const [application, setApplication] = useState<any | null>(null);
+  const [isLoadingApplication, setIsLoadingApplication] = useState(false);
   const [isCreatingApp, setIsCreatingApp] = useState(false);
   const [isUpdatingEstimate, setIsUpdatingEstimate] = useState(false);
   const [isSubmittingApp, setIsSubmittingApp] = useState(false);
   const [isSavingVehicle, setIsSavingVehicle] = useState(false);
+  const [isUploadingDocs, setIsUploadingDocs] = useState(false);
+  const [vehiclePhotoFiles, setVehiclePhotoFiles] = useState<File[]>([]);
+  const [paystubFiles, setPaystubFiles] = useState<File[]>([]);
+  const [vehicleUploadKey, setVehicleUploadKey] = useState(0);
+  const [paystubUploadKey, setPaystubUploadKey] = useState(0);
   const [appError, setAppError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
@@ -131,6 +147,18 @@ export function GetCashWizard() {
     };
   }, [data.desiredAmount, data.mileage, data.condition]);
 
+  const effectiveEstimate = useMemo(() => {
+    const fromApp = application?.estimateRange;
+    const fromDraft = (data as any).applicationEstimateRange;
+    const candidate = fromApp || fromDraft;
+    if (candidate && typeof candidate === "object") {
+      const low = Number((candidate as any).low);
+      const high = Number((candidate as any).high);
+      if (Number.isFinite(low) && Number.isFinite(high)) return { low, high };
+    }
+    return estimate;
+  }, [application, data, estimate]);
+
   // Calculate progress percentage
   const currentStepIndex = WIZARD_STEPS.findIndex((s) => s.id === active);
   const totalSteps = WIZARD_STEPS.length;
@@ -148,6 +176,23 @@ export function GetCashWizard() {
     const saved = typeof (data as any).applicationId === "string" ? String((data as any).applicationId) : null;
     if (saved) setApplicationId(saved);
   }, [applicationId, data, ready]);
+
+  useEffect(() => {
+    if (!ready) return;
+    if (!applicationId) return;
+    if (application?.id === applicationId) return;
+    (async () => {
+      setIsLoadingApplication(true);
+      try {
+        const res = await fetch(`/api/applications/${encodeURIComponent(applicationId)}`);
+        if (!res.ok) return;
+        const json = (await res.json()) as any;
+        if (json?.application) setApplication(json.application);
+      } finally {
+        setIsLoadingApplication(false);
+      }
+    })();
+  }, [application?.id, applicationId, ready]);
 
   useEffect(() => {
     setDraft({ activeStep: active }, { immediate: true });
@@ -172,15 +217,59 @@ export function GetCashWizard() {
     []
   );
 
-  async function createOrUpdateApplication() {
-    if (applicationId) return applicationId;
-
-    const saved = typeof (data as any).applicationId === "string" ? String((data as any).applicationId) : null;
-    if (saved) {
-      setApplicationId(saved);
-      return saved;
+  async function patchApplication(appId: string, patch: Record<string, unknown>) {
+    try {
+      const res = await fetch(`/api/applications/${encodeURIComponent(appId)}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(patch)
+      });
+      if (!res.ok) return null;
+      const json = (await res.json()) as any;
+      if (json?.application) setApplication(json.application);
+      return json?.application || null;
+    } catch {
+      return null;
     }
-    
+  }
+
+  async function uploadDocuments(category: string, files: File[]) {
+    if (files.length === 0) throw new Error("No files selected");
+
+    setIsUploadingDocs(true);
+    setAppError(null);
+    try {
+      void track("documents_upload_started", { category, count: files.length });
+      const formData = new FormData();
+      formData.set("category", category);
+      if (applicationId) formData.set("applicationId", applicationId);
+      if (typeof (data as any).vehicleId === "string") formData.set("vehicleId", String((data as any).vehicleId));
+      for (const file of files) formData.append("files", file, file.name);
+
+      const res = await fetch("/api/documents/upload", { method: "POST", body: formData });
+      if (!res.ok) throw new Error("Upload failed");
+      const json = (await res.json()) as any;
+      void track("documents_upload_completed", { category, count: files.length });
+      return json;
+    } catch (e) {
+      void track("documents_upload_error", { category, error: String(e) });
+      throw e;
+    } finally {
+      setIsUploadingDocs(false);
+    }
+  }
+
+  async function createOrUpdateApplication() {
+    const existing = applicationId || (typeof (data as any).applicationId === "string" ? String((data as any).applicationId) : null);
+    if (existing) {
+      if (!applicationId) setApplicationId(existing);
+      await patchApplication(existing, {
+        requestedAmount: data.desiredAmount || 1500,
+        vehicleId: typeof (data as any).vehicleId === "string" ? (data as any).vehicleId : undefined
+      });
+      return existing;
+    }
+
     setIsCreatingApp(true);
     setAppError(null);
     try {
@@ -200,6 +289,7 @@ export function GetCashWizard() {
       if (!appId) throw new Error("No application ID returned");
       
       setApplicationId(appId);
+      if (json.application) setApplication(json.application);
       setDraft({ applicationId: appId }, { immediate: true });
       void track("application_created", { applicationId: appId });
       return appId;
@@ -232,6 +322,7 @@ export function GetCashWizard() {
       if (!res.ok) throw new Error("Failed to update estimate");
       const json = (await res.json()) as any;
       if (json?.estimateRange) setDraft({ applicationEstimateRange: json.estimateRange }, { immediate: true });
+      if (json?.application) setApplication(json.application);
       void track("application_estimate_updated", { applicationId: appId });
     } catch (e) {
       console.error("Error updating estimate:", e);
@@ -248,8 +339,10 @@ export function GetCashWizard() {
     try {
       const res = await fetch(`/api/applications/${encodeURIComponent(appId)}/submit`, { method: "POST" });
       if (!res.ok) throw new Error("Failed to submit application");
+      const json = (await res.json().catch(() => null)) as any;
       void track("application_submitted", { applicationId: appId });
       setDraft({ applicationSubmittedAt: new Date().toISOString() }, { immediate: true });
+      if (json?.application) setApplication(json.application);
     } catch (e) {
       console.error("Error submitting application:", e);
       setAppError("We couldn’t submit your application right now. Please try again.");
@@ -287,6 +380,7 @@ export function GetCashWizard() {
       const vehicleId = json?.vehicle?.id ? String(json.vehicle.id) : null;
       if (!vehicleId) throw new Error("No vehicle ID returned");
       setDraft({ vehicleId }, { immediate: true });
+      if (applicationId) await patchApplication(applicationId, { vehicleId });
       return vehicleId;
     } catch (e) {
       console.error("Error creating vehicle:", e);
@@ -327,6 +421,9 @@ export function GetCashWizard() {
         break;
       case "income":
         error = validateIncome(data);
+        break;
+      case "vehicle_photos":
+        error = validateVehiclePhotos(data);
         break;
       case "banking":
         error = validateBanking(data);
@@ -403,6 +500,22 @@ export function GetCashWizard() {
         </Link>
         .
       </Notice>
+
+      {applicationId ? (
+        <Notice tone="info" title="Resume">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm text-muted">
+              Application{" "}
+              <span className="font-mono text-xs text-fg">{applicationId}</span>
+              {application?.status ? <span className="ml-2">• Status: {String(application.status)}</span> : null}
+              {isLoadingApplication ? <span className="ml-2">• Syncing…</span> : null}
+            </p>
+            <Link className="text-sm font-medium underline underline-offset-4 hover:text-fg" href={`/dashboard/applications/${applicationId}`}>
+              View application
+            </Link>
+          </div>
+        </Notice>
+      ) : null}
 
       {appError ? (
         <Notice tone="warn" title="Action needed">
@@ -549,7 +662,7 @@ export function GetCashWizard() {
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <Notice tone="cab" title="Estimate (not guaranteed)">
               <p className="mt-1 text-base">
-                {formatUsd(estimate.low)}–{formatUsd(estimate.high)}
+                {formatUsd(effectiveEstimate.low)}–{formatUsd(effectiveEstimate.high)}
               </p>
               <p className="mt-2 text-sm text-muted">
                 Final terms depend on verification, vehicle eligibility, and CAB disclosures.
@@ -578,14 +691,14 @@ export function GetCashWizard() {
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <div>
               <Label htmlFor="trim">Trim (optional)</Label>
-              <Input id="trim" value={String(data.trim ?? "")} onChange={(e) => setDraft({ trim: e.target.value })} />
+              <Input id="trim" value={String(data.trim ?? "")} onChange={(e) => handleFieldChange("trim", e.target.value)} />
             </div>
             <div>
               <Label htmlFor="titleStatus">Title status</Label>
               <Input
                 id="titleStatus"
                 value={String(data.titleStatus ?? "clear")}
-                onChange={(e) => setDraft({ titleStatus: e.target.value })}
+                onChange={(e) => handleFieldChange("titleStatus", e.target.value)}
                 placeholder="clear / lien / other"
               />
               <p className="mt-2 text-xs text-muted">Title rules and pathways vary by situation.</p>
@@ -595,7 +708,7 @@ export function GetCashWizard() {
               <Input
                 id="useOfVehicle"
                 value={String(data.useOfVehicle ?? "I can continue using my vehicle during the process.")}
-                onChange={(e) => setDraft({ useOfVehicle: e.target.value })}
+                onChange={(e) => handleFieldChange("useOfVehicle", e.target.value)}
               />
             </div>
           </div>
@@ -629,24 +742,73 @@ export function GetCashWizard() {
           <Card className="p-6 md:col-span-2">
             <p className="text-sm font-semibold tracking-tight">Upload (V1 placeholder)</p>
             <p className="mt-1 text-sm text-muted">
-              This scaffold does not store files. In production, connect S3-compatible storage and client-side photo QA.
+              Upload to the mock API (metadata only). In production, connect S3-compatible storage and client-side photo QA.
             </p>
-            <div className="mt-4 grid gap-3 md:grid-cols-3">
-              {["Front", "Back", "Left side", "Right side", "Odometer", "VIN plate", "Title"].map((label) => (
-                <label key={label} className="cursor-pointer rounded-2xl border border-border/60 bg-bg/25 p-4 hover:bg-bg/35">
-                  <p className="text-sm font-semibold tracking-tight">{label}</p>
-                  <p className="mt-1 text-xs text-muted">Click to choose a file (placeholder)</p>
-                  <input
-                    type="file"
-                    className="mt-3 w-full text-xs text-muted"
-                    onChange={() => {
-                      void track("upload_started", { label });
-                      setDraft({ [`upload_${label}`]: "selected" }, { immediate: true });
-                      void track("upload_completed", { label });
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <MultiFileUpload
+                key={`vehicle-upload-${vehicleUploadKey}`}
+                accept="image/jpeg,image/png,application/pdf"
+                label="Select vehicle photos"
+                description="Front/back/sides, odometer, VIN plate, and title photo (if available)."
+                onFilesSelected={(files) => {
+                  void track("upload_started", { label: "vehicle_photos" });
+                  setVehiclePhotoFiles(files);
+                  if (fieldErrors.vehiclePhotos) setFieldErrors((prev) => ({ ...prev, vehiclePhotos: "" }));
+                }}
+              />
+              <div className="rounded-2xl border border-border/60 bg-bg/25 p-5">
+                <p className="text-sm font-semibold tracking-tight">Upload status</p>
+                <p className="mt-1 text-xs text-muted">Uploads are stored as metadata only in this demo.</p>
+                <div className="mt-3 space-y-2 text-sm">
+                  <p className="text-muted">
+                    Selected: <span className="font-medium text-fg">{vehiclePhotoFiles.length}</span>
+                  </p>
+                  <p className="text-muted">
+                    Uploaded:{" "}
+                    <span className="font-medium text-fg">
+                      {Array.isArray((data as any).vehiclePhotosUploaded) ? (data as any).vehiclePhotosUploaded.length : 0}
+                    </span>
+                  </p>
+                </div>
+                {fieldErrors.vehiclePhotos ? (
+                  <p className="mt-3 text-xs text-red-500 font-medium">{fieldErrors.vehiclePhotos}</p>
+                ) : null}
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <Button
+                    disabled={isUploadingDocs || vehiclePhotoFiles.length === 0}
+                    variant="secondary"
+                    onClick={async () => {
+                      try {
+                        const json = await uploadDocuments("vehicle_photos", vehiclePhotoFiles);
+                        setDraft(
+                          {
+                            vehiclePhotosUploaded: json?.files || [],
+                            vehiclePhotosUploadedAt: new Date().toISOString()
+                          },
+                          { immediate: true }
+                        );
+                        void track("upload_completed", { label: "vehicle_photos" });
+                      } catch (e) {
+                        console.error("Vehicle photo upload failed:", e);
+                        setAppError("Vehicle photo upload failed. Please try again.");
+                      }
                     }}
-                  />
-                </label>
-              ))}
+                  >
+                    {isUploadingDocs ? "Uploading…" : "Upload now"}
+                  </Button>
+                  <Button
+                    disabled={isUploadingDocs}
+                    variant="tertiary"
+                    onClick={() => {
+                      setVehiclePhotoFiles([]);
+                      setDraft({ vehiclePhotosUploaded: [] }, { immediate: true });
+                      setVehicleUploadKey((n) => n + 1);
+                    }}
+                  >
+                    Clear
+                  </Button>
+                </div>
+              </div>
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button variant="secondary" onClick={goBack}>
@@ -764,15 +926,61 @@ export function GetCashWizard() {
             </div>
             <div>
               <Label htmlFor="paystub">Upload paystub (optional)</Label>
-              <Input
-                id="paystub"
-                type="file"
-                onChange={() => {
-                  void track("upload_started", { label: "paystub" });
-                  setDraft({ upload_paystub: "selected" }, { immediate: true });
-                  void track("upload_completed", { label: "paystub" });
-                }}
-              />
+              <div className="mt-2">
+                <MultiFileUpload
+                  key={`paystub-upload-${paystubUploadKey}`}
+                  accept="image/jpeg,image/png,application/pdf"
+                  label="Select paystub file(s)"
+                  description="Optional, but can speed verification in production."
+                  onFilesSelected={(files) => {
+                    void track("upload_started", { label: "paystub" });
+                    setPaystubFiles(files);
+                  }}
+                />
+                <div className="mt-3 flex flex-wrap gap-3">
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    disabled={isUploadingDocs || paystubFiles.length === 0}
+                    onClick={async () => {
+                      try {
+                        const json = await uploadDocuments("income_paystub", paystubFiles);
+                        setDraft(
+                          {
+                            paystubUploaded: true,
+                            paystubUploadedAt: new Date().toISOString(),
+                            paystubUploadedFiles: json?.files || []
+                          },
+                          { immediate: true }
+                        );
+                        void track("upload_completed", { label: "paystub" });
+                      } catch (e) {
+                        console.error("Paystub upload failed:", e);
+                        setAppError("Paystub upload failed. Please try again.");
+                      }
+                    }}
+                  >
+                    {isUploadingDocs ? "Uploading…" : "Upload"}
+                  </Button>
+                  {Boolean((data as any).paystubUploaded) ? (
+                    <span className="self-center text-xs text-muted">✓ Uploaded</span>
+                  ) : null}
+                  {paystubFiles.length > 0 ? (
+                    <Button
+                      size="sm"
+                      variant="tertiary"
+                      disabled={isUploadingDocs}
+                      onClick={() => {
+                        setPaystubFiles([]);
+                        setDraft({ paystubUploaded: false, paystubUploadedFiles: [] }, { immediate: true });
+                        setPaystubUploadKey((n) => n + 1);
+                      }}
+                    >
+                      Clear
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
             </div>
           </div>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -881,7 +1089,23 @@ export function GetCashWizard() {
         </Card>
       ) : null}
 
-      {active === "cab_disclosures" ? <CabDisclosuresStep draft={draft} onBack={goBack} onNext={goNext} /> : null}
+      {active === "cab_disclosures" ? (
+        <CabDisclosuresStep
+          draft={draft}
+          onBack={goBack}
+          onNext={async () => {
+            try {
+              const appId = await createOrUpdateApplication();
+              await patchApplication(appId, { cabDisclosureVersion: "v1", status: "offer_ready" });
+              setDraft({ cabDisclosureAcceptedAt: new Date().toISOString() }, { immediate: true });
+              await goNext();
+            } catch (e) {
+              console.error("CAB disclosures save failed:", e);
+              setAppError("We couldn’t save your disclosure acknowledgement right now. Please try again.");
+            }
+          }}
+        />
+      ) : null}
 
       {active === "offer" ? (
         <div className="grid gap-6 md:grid-cols-2">
@@ -904,6 +1128,11 @@ export function GetCashWizard() {
                 <p className="mt-1 text-2xl font-semibold tracking-tight">{formatUsd(Math.max(500, Number(data.desiredAmount || 1500)))}</p>
                 <p className="mt-2 text-sm text-muted">Term scenario: 6 months (example)</p>
               </div>
+              <div className="mt-4">
+                <Notice tone="info" title="Current estimate range">
+                  {formatUsd(effectiveEstimate.low)}–{formatUsd(effectiveEstimate.high)}
+                </Notice>
+              </div>
             <div className="mt-4">
               <Notice tone="warn" title="Not a guarantee">
                 Offers can change after document review. You will always see disclosures before signing.
@@ -919,6 +1148,7 @@ export function GetCashWizard() {
                   try {
                     const appId = await createOrUpdateApplication();
                     await updateServerEstimate(appId);
+                    await patchApplication(appId, { status: "accepted" });
                     void track("offer_accept");
                     goNext();
                   } catch (e) {
@@ -976,6 +1206,9 @@ export function GetCashWizard() {
                 <p className="text-sm text-muted">
                   ID: <span className="font-medium text-fg">{applicationId}</span>
                 </p>
+                {application?.status ? (
+                  <p className="mt-1 text-xs text-muted">Status: {String(application.status)}</p>
+                ) : null}
                 {typeof (data as any).applicationSubmittedAt === "string" ? (
                   <p className="mt-1 text-xs text-muted">Submitted: {String((data as any).applicationSubmittedAt)}</p>
                 ) : null}
@@ -994,6 +1227,9 @@ export function GetCashWizard() {
               variant="secondary"
               onClick={() => {
                 clear();
+                setApplicationId(null);
+                setApplication(null);
+                setActive("goal_amount");
                 router.push("/dashboard/get-cash");
               }}
             >

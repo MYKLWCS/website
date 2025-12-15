@@ -26,6 +26,8 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   if (body.requestedAmount !== undefined) updates.requestedAmount = body.requestedAmount;
   if (body.vehicleId !== undefined) updates.vehicleId = body.vehicleId;
   if (body.finalOffer !== undefined) updates.finalOffer = body.finalOffer;
+  if (body.estimateRange !== undefined) updates.estimateRange = body.estimateRange;
+  if (body.cabDisclosureVersion !== undefined) updates.cabDisclosureVersion = body.cabDisclosureVersion;
 
   const updated = { ...app, ...updates, updatedAt: new Date().toISOString() };
   Object.assign(app, updated);
