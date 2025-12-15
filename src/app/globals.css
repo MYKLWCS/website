@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: 9 11 16;
+  --panel: 16 19 28;
+  --border: 44 54 76;
+  --fg: 242 244 248;
+  --muted: 167 176 198;
+  --brand: 90 212 255;
+  --brand2: 139 92 246;
+  --danger: 255 92 92;
+  --warn: 255 201 71;
+  --ok: 74 222 128;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(1200px 700px at 10% 0%, rgb(var(--brand) / 0.12), transparent 60%),
+    radial-gradient(900px 700px at 90% 0%, rgb(var(--brand2) / 0.14), transparent 60%),
+    rgb(var(--bg));
+  color: rgb(var(--fg));
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border)) rgb(var(--bg));
+}
+
+.grid-glow {
+  background-image: linear-gradient(rgb(var(--border) / 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(var(--border) / 0.25) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(400px 200px at 50% 0%, black, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
