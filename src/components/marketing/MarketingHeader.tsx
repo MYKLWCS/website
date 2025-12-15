@@ -4,10 +4,10 @@ import { Badge } from "@/components/ui/Badge";
 
 export function MarketingHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border/60 bg-bg/60 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-border bg-white/95 backdrop-blur shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="group flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl border border-border/70 bg-gradient-to-b from-white/10 to-white/0 shadow-glow" />
+          <div className="h-9 w-9 rounded-xl border border-brand/20 bg-gradient-to-br from-brand to-brand/70 shadow-sm" />
           <div className="leading-tight">
             <p className="text-sm font-semibold tracking-tight">Dollar Loans</p>
             <p className="text-xs text-muted">Texas CAB title access</p>
@@ -18,19 +18,19 @@ export function MarketingHeader() {
         </Link>
 
         <nav className="hidden items-center gap-5 text-sm text-muted md:flex">
-          <Link className="hover:text-fg" href="/how-it-works">
+          <Link className="transition-smooth hover:text-fg" href="/how-it-works">
             How it works
           </Link>
-          <Link className="hover:text-fg" href="/cab-model-explained">
+          <Link className="transition-smooth hover:text-fg" href="/cab-model-explained">
             CAB model
           </Link>
-          <Link className="hover:text-fg" href="/rates-fees">
+          <Link className="transition-smooth hover:text-fg" href="/rates-fees">
             Rates & fees
           </Link>
-          <Link className="hover:text-fg" href="/faq">
+          <Link className="transition-smooth hover:text-fg" href="/faq">
             FAQ
           </Link>
-          <Link className="hover:text-fg" href="/security-trust">
+          <Link className="transition-smooth hover:text-fg" href="/security-trust">
             Security
           </Link>
         </nav>

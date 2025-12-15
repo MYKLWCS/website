@@ -38,8 +38,8 @@ export function HomePage() {
               ["2", "Verify details", "Guided uploads and verification steps to reduce back-and-forth."],
               ["3", "Review + sign", "Offer view + CAB disclosures before signing any agreement (if approved)."]
             ].map(([n, t, d]) => (
-              <div key={t} className="rounded-2xl border border-border/70 bg-panel/45 p-6 shadow-glow">
-                <p className="text-xs text-muted">Step {n}</p>
+              <div key={t} className="rounded-2xl border border-border bg-white p-6 shadow-sm transition-smooth hover:shadow-md hover:border-border/80">
+                <p className="text-xs font-semibold text-brand">Step {n}</p>
                 <p className="mt-2 text-lg font-semibold tracking-tight">{t}</p>
                 <p className="mt-2 text-sm text-muted">{d}</p>
               </div>
@@ -70,7 +70,7 @@ export function HomePage() {
                   ["Offer + disclosures", "Review fee categories and acknowledge CAB disclosures."],
                   ["E-sign + funding tracker", "Confirm, sign, and track your funding status timeline."]
                 ].map(([t, d]) => (
-                  <div key={t} className="rounded-2xl border border-border/70 bg-panel/45 p-5">
+                  <div key={t} className="rounded-2xl border border-border bg-white p-5 shadow-sm transition-smooth hover:shadow-md">
                     <p className="text-sm font-semibold tracking-tight">{t}</p>
                     <p className="mt-1 text-sm text-muted">{d}</p>
                   </div>
@@ -103,7 +103,7 @@ export function HomePage() {
                   ["Security posture", "Secure-by-default architecture placeholders for V1 and beyond."],
                   ["Support", "Ticket-style support and clear complaint pathways (placeholders)."]
                 ].map(([t, d]) => (
-                  <div key={t} className="rounded-2xl border border-border/70 bg-panel/45 p-5">
+                  <div key={t} className="rounded-2xl border border-border bg-white p-5 shadow-sm transition-smooth hover:shadow-md">
                     <p className="text-sm font-semibold tracking-tight">{t}</p>
                     <p className="mt-1 text-sm text-muted">{d}</p>
                   </div>
@@ -121,10 +121,10 @@ export function HomePage() {
                   ["Security & Trust", "How we handle data, what we ask for, and anti-fraud tips.", "/security-trust"],
                   ["Eligibility", "Quick checklist + pre-check experience for Texas.", "/eligibility"]
                 ].map(([t, d, href]) => (
-                  <li key={t} className="rounded-2xl border border-border/70 bg-panel/45 p-5">
+                  <li key={t} className="rounded-2xl border border-border bg-white p-5 shadow-sm transition-smooth hover:shadow-md">
                     <p className="text-sm font-semibold tracking-tight">{t}</p>
                     <p className="mt-1 text-sm text-muted">{d}</p>
-                    <Link className="mt-3 inline-block text-sm text-fg underline underline-offset-4" href={href}>
+                    <Link className="mt-3 inline-block text-sm text-brand hover:text-brand/80 font-medium transition-smooth" href={href}>
                       Learn more
                     </Link>
                   </li>
@@ -154,7 +154,7 @@ export function HomePage() {
                 ["“Loved the step-by-step progress.”", "Autosave made it easy to finish when I had time."],
                 ["“The cost categories were clear.”", "I understood what I was paying before signing anything."]
               ].map(([q, d]) => (
-                <div key={q} className="rounded-2xl border border-border/70 bg-panel/45 p-5">
+                <div key={q} className="rounded-2xl border border-border bg-white p-5 shadow-sm transition-smooth hover:shadow-md">
                   <p className="text-sm font-semibold tracking-tight">{q}</p>
                   <p className="mt-1 text-sm text-muted">{d}</p>
                 </div>
@@ -166,7 +166,7 @@ export function HomePage() {
               <p className="text-sm text-muted">
                 Use the calculator to explore ranges and “what affects your estimate,” then continue to Get Cash.
               </p>
-              <div className="rounded-2xl border border-border/70 bg-panel/45 p-6">
+              <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
                 <p className="text-sm font-semibold tracking-tight">Loan calculator (preview)</p>
                 <p className="mt-1 text-sm text-muted">Vehicle year/make/model, mileage, condition, desired amount, term toggles.</p>
                 <div className="mt-4 flex flex-wrap gap-3">

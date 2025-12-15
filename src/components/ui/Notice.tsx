@@ -4,10 +4,10 @@ import type { ComponentProps } from "react";
 type Tone = "info" | "cab" | "warn" | "danger";
 
 const tones: Record<Tone, string> = {
-  info: "border-border/14 bg-bg/35",
-  cab: "border-brand2/35 bg-brand2/10",
-  warn: "border-warn/35 bg-warn/10",
-  danger: "border-danger/30 bg-danger/10"
+  info: "border-border bg-white shadow-sm",
+  cab: "border-brand2/40 bg-brand2/5",
+  warn: "border-warn/40 bg-warn/5",
+  danger: "border-danger/40 bg-danger/5"
 };
 
 export function Notice({

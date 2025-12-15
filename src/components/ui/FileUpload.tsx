@@ -117,10 +117,10 @@ export function FileUpload({
         onDrop={handleDrop}
         onClick={handleClick}
         className={cn(
-          "relative cursor-pointer rounded-2xl border-2 border-dashed p-6 transition-all",
+          "relative cursor-pointer rounded-2xl border-2 border-dashed p-6 transition-smooth",
           isDragActive
             ? "border-brand bg-brand/5"
-            : "border-border/40 bg-bg/25 hover:border-border/60 hover:bg-bg/35",
+            : "border-border bg-white hover:border-brand/40 hover:bg-panel/30",
           disabled && "cursor-not-allowed opacity-50"
         )}
       >
@@ -135,7 +135,7 @@ export function FileUpload({
         />
 
         <div className="text-center">
-          <div className="mx-auto mb-3 h-10 w-10 rounded-xl border border-border/60 bg-panel flex items-center justify-center">
+          <div className="mx-auto mb-3 h-10 w-10 rounded-xl border border-border bg-panel/50 flex items-center justify-center">
             <svg
               className="h-5 w-5 text-muted"
               fill="none"
@@ -173,7 +173,7 @@ export function FileUpload({
             {files.map((file, index) => (
               <div
                 key={`${file.name}-${index}`}
-                className="flex items-center justify-between rounded-lg border border-border/40 bg-panel/40 px-3 py-2"
+                className="flex items-center justify-between rounded-lg border border-border bg-white px-3 py-2 shadow-sm"
               >
                 <div className="flex items-center gap-2 min-w-0">
                   <svg
