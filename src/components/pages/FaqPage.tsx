@@ -52,29 +52,39 @@ export function FaqPage() {
 
       <Section>
         <Container>
-          <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted">Full FAQ</p>
-            <h2 className="text-2xl font-semibold tracking-tight">Everything you’re likely to ask</h2>
-            <p className="max-w-prose text-sm text-muted">
-              This section is intentionally comprehensive for trust. It’s still a scaffold and should be reviewed for compliance before launch.
+          <div className="flex flex-col gap-4 mb-12">
+            <p className="text-xs font-bold uppercase tracking-widest text-brand">Full FAQ</p>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Everything You Need to Know</h2>
+            <p className="max-w-2xl text-lg text-muted leading-relaxed">
+              Find answers to all your questions about our services, the CAB model, and how we can help you access credit.
             </p>
           </div>
 
-          <div className="mt-6">
+          <div className="mb-16">
             <FaqSearch />
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <Infographic
-              variant="feeComposition"
-              title="Fee categories overview"
-              caption="Example-only category chart used for education."
-            />
-            <Infographic
-              variant="securityDataJourney"
-              title="Security & verification journey"
-              caption="A high-level look at what you share and why."
-            />
+          <div className="grid gap-8 md:grid-cols-2">
+            <div className="group relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand to-brand2 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
+              <div className="relative">
+                <Infographic
+                  variant="feeComposition"
+                  title="Fee categories overview"
+                  caption="Example-only category chart used for education."
+                />
+              </div>
+            </div>
+            <div className="group relative">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand to-brand2 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
+              <div className="relative">
+                <Infographic
+                  variant="securityDataJourney"
+                  title="Security & verification journey"
+                  caption="A high-level look at what you share and why."
+                />
+              </div>
+            </div>
           </div>
         </Container>
       </Section>
