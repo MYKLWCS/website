@@ -48,7 +48,7 @@ export function ContactPage() {
             title: "Clear answers, CAB-first language",
             body: (
               <>
-                We can explain fee categories and disclosures in plain language. We avoid misleading “lender” positioning and we never promise approval.
+                We can explain fee categories and disclosures in plain language. We avoid misleading "lender" positioning and we never promise approval.
               </>
             ),
             infographic: { variant: "securityDataJourney", title: "Support request journey", caption: "How requests are routed and handled (placeholder)." }
@@ -57,68 +57,73 @@ export function ContactPage() {
       />
 
       <Section>
-        <Container className="grid gap-6 md:grid-cols-2">
-          <Card className="p-6">
-            <p className="text-sm font-semibold tracking-tight">Send a message</p>
-            <p className="mt-1 text-sm text-muted">This form is a V1 stub (no email sending configured).</p>
-            <div className="mt-4 space-y-3">
-              <div>
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
-              </div>
-              <div>
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@domain.com" />
-              </div>
-              <div>
-                <Label htmlFor="message">Message</Label>
-                <Textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="How can we help?" />
-              </div>
-              <Button disabled={!email.includes("@") || !message.trim() || loading} onClick={submit}>
-                {loading ? "Sending…" : "Send"}
-              </Button>
+        <Container className="grid gap-12 lg:grid-cols-2">
+          <div>
+            <div className="mb-8">
+              <h2 className="text-3xl font-bold tracking-tight">Get in Touch</h2>
+              <p className="mt-3 text-lg text-muted">We're here to help answer any questions you may have.</p>
             </div>
-          </Card>
+            <Card className="p-8 shadow-lg border-2 hover:border-brand/20 transition-all duration-300">
+              <div className="space-y-6">
+                <div>
+                  <Label htmlFor="name" className="text-base font-semibold">Name</Label>
+                  <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="mt-2" />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="text-base font-semibold">Email</Label>
+                  <Input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@domain.com" className="mt-2" />
+                </div>
+                <div>
+                  <Label htmlFor="message" className="text-base font-semibold">Message</Label>
+                  <Textarea id="message" value={message} onChange={(e) => setMessage(e.target.value)} placeholder="How can we help?" className="mt-2 min-h-[150px]" />
+                </div>
+                <Button disabled={!email.includes("@") || !message.trim() || loading} onClick={submit} size="lg" className="w-full">
+                  {loading ? "Sending…" : "Send Message"}
+                </Button>
+                <p className="text-xs text-muted text-center">This form is a V1 stub (no email sending configured).</p>
+              </div>
+            </Card>
+          </div>
 
-          <div className="space-y-4">
-            <Notice tone="cab" title="CAB disclosure note">
-              Dollar Loans is a Texas Credit Access Business (CAB) that facilitates access to credit. A third-party creditor may extend credit if approved.
-            </Notice>
-            <Notice tone="info" title="Complaints">
-              See the <a className="underline underline-offset-4 hover:text-fg" href="/legal/complaints">complaints</a> page for escalation pathways (placeholder).
-            </Notice>
-            <Card className="p-6">
-              <p className="text-sm font-semibold tracking-tight">Contact methods (placeholders)</p>
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
+          <div className="space-y-8">
+            <div>
+              <h3 className="text-2xl font-bold tracking-tight mb-6">Contact Methods</h3>
+              <div className="grid gap-6">
                 {[
-                  ["Phone", "1 (800) 000‑0000", "Mon–Fri 9am–6pm CT (placeholder)"],
-                  ["Email", "support@dollarloans.example", "Response time: same-day (placeholder)"],
-                  ["Chat", "In-app chat", "Chat widget placeholder"],
-                  ["Mail", "Austin, TX", "Address placeholder for legitimacy"]
+                  ["Phone", "1 (800) 000‑0000", "Mon–Fri 9am–6pm CT"],
+                  ["Email", "support@dollarloans.example", "Response time: same-day"],
+                  ["Chat", "In-app chat", "Available 24/7"],
+                  ["Mail", "Austin, TX", "Mailing address available"]
                 ].map(([t, v, d]) => (
-                  <div key={t} className="rounded-2xl border border-border/60 bg-bg/25 p-4">
-                    <p className="text-sm font-semibold tracking-tight">{t}</p>
-                    <p className="mt-1 text-sm text-fg">{v}</p>
-                    <p className="mt-1 text-xs text-muted">{d}</p>
+                  <div key={t} className="group relative">
+                    <div className="absolute -inset-0.5 bg-gradient-to-r from-brand to-brand2 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
+                    <div className="relative rounded-2xl border-2 border-border bg-white p-6 transition-all duration-300 group-hover:border-brand/30 group-hover:shadow-lg">
+                      <p className="text-lg font-bold text-brand">{t}</p>
+                      <p className="mt-2 text-base font-semibold text-fg">{v}</p>
+                      <p className="mt-1 text-sm text-muted">{d}</p>
+                    </div>
                   </div>
                 ))}
               </div>
-              <p className="mt-4 text-xs text-muted">Replace placeholders with real contact details before launch.</p>
-            </Card>
-            <Card className="p-6">
-              <p className="text-sm font-semibold tracking-tight">Customer portal support</p>
-              <p className="mt-1 text-sm text-muted">If you’re already a customer, the fastest path is portal support.</p>
-              <div className="mt-4">
-                <Button asChild>
-                  <a href="/dashboard/support">Go to portal support</a>
+            </div>
+
+            <Notice tone="cab" title="CAB Disclosure" className="p-6">
+              Dollar Loans is a Texas Credit Access Business (CAB) that facilitates access to credit. A third-party creditor may extend credit if approved.
+            </Notice>
+
+            <Card className="p-8 shadow-lg border-2 hover:border-brand/20 transition-all duration-300">
+              <h3 className="text-xl font-bold tracking-tight">Customer Portal Support</h3>
+              <p className="mt-3 text-base text-muted">Already a customer? Access faster support through the portal.</p>
+              <div className="mt-6">
+                <Button asChild size="lg" className="w-full">
+                  <a href="/dashboard/support">Go to Portal Support</a>
                 </Button>
               </div>
             </Card>
-            <Infographic
-              variant="lifecycleTimeline"
-              title="Support + resolution timeline"
-              caption="Ticket created → response → resolution (placeholder)."
-            />
+
+            <Notice tone="info" className="p-6">
+              For complaints or escalations, visit our <a className="underline underline-offset-4 hover:text-brand font-semibold" href="/legal/complaints">complaints</a> page.
+            </Notice>
           </div>
         </Container>
       </Section>

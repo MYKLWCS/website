@@ -2,29 +2,37 @@ import { Badge } from "@/components/ui/Badge";
 
 export function TrustStrip() {
   return (
-    <div className="grid gap-3 rounded-2xl border border-border/70 bg-panel/50 p-5 md:grid-cols-4">
-      <div>
-        <p className="text-xs text-muted">Compliance</p>
-        <p className="mt-1 text-sm font-semibold tracking-tight">CAB-first disclosure UX</p>
-        <p className="mt-1 text-xs text-muted">Clear “who does what” and non-guarantee microcopy.</p>
+    <div className="grid gap-4 rounded-2xl border-2 border-brand/20 bg-gradient-to-br from-white to-brand/5 p-8 md:grid-cols-4 shadow-lg hover:shadow-xl transition-all duration-300">
+      <div className="space-y-2">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand2 flex items-center justify-center mb-3 shadow-md">
+          <div className="w-4 h-4 rounded-full bg-white"></div>
+        </div>
+        <p className="text-xs font-bold uppercase tracking-widest text-brand">Compliance</p>
+        <p className="text-sm font-bold text-fg">CAB-first disclosure</p>
       </div>
-      <div>
-        <p className="text-xs text-muted">Security</p>
-        <p className="mt-1 text-sm font-semibold tracking-tight">Encrypted data handling</p>
-        <p className="mt-1 text-xs text-muted">Modern secure-by-default patterns (V1 placeholder).</p>
+      <div className="space-y-2">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand2 flex items-center justify-center mb-3 shadow-md">
+          <div className="w-4 h-4 rounded-full bg-white"></div>
+        </div>
+        <p className="text-xs font-bold uppercase tracking-widest text-brand">Security</p>
+        <p className="text-sm font-bold text-fg">Encrypted data</p>
       </div>
-      <div>
-        <p className="text-xs text-muted">Speed</p>
-        <p className="mt-1 text-sm font-semibold tracking-tight">Fast estimate workflow</p>
-        <p className="mt-1 text-xs text-muted">Save/resume wizard with autosave.</p>
+      <div className="space-y-2">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand2 flex items-center justify-center mb-3 shadow-md">
+          <div className="w-4 h-4 rounded-full bg-white"></div>
+        </div>
+        <p className="text-xs font-bold uppercase tracking-widest text-brand">Speed</p>
+        <p className="text-sm font-bold text-fg">Fast workflow</p>
       </div>
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-xs text-muted">Transparency</p>
-          <p className="mt-1 text-sm font-semibold tracking-tight">Fee categories in plain language</p>
-          <p className="mt-1 text-xs text-muted">Example scenarios only — not promises.</p>
+        <div className="space-y-2">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-brand2 flex items-center justify-center mb-3 shadow-md">
+            <div className="w-4 h-4 rounded-full bg-white"></div>
+          </div>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand">Transparency</p>
+          <p className="text-sm font-bold text-fg">Plain language</p>
         </div>
-        <Badge variant="brand">Texas</Badge>
+        <Badge variant="brand" className="mt-2">Texas</Badge>
       </div>
     </div>
   );

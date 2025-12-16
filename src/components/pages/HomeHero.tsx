@@ -10,25 +10,54 @@ export function HomeHero() {
   const heroCopy = heroVariantCopy(hero);
 
   return (
-    <div className="pt-3">
-      <p className="text-xs font-semibold uppercase tracking-widest text-muted">Texas • Credit Access Business</p>
-      <h1 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">{heroCopy.headline}</h1>
-      <p className="mt-4 max-w-prose text-base text-muted">{heroCopy.subheadline}</p>
-      <div className="mt-6 flex flex-wrap gap-3">
-        <ButtonLink href="#prequal">{heroCopy.primaryCta}</ButtonLink>
-        <ButtonLink variant="secondary" href={heroCopy.secondaryHref}>
+    <div>
+      <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand/10 border border-brand/20 mb-8">
+        <div className="w-2 h-2 rounded-full bg-brand animate-pulse"></div>
+        <p className="text-xs font-bold uppercase tracking-widest text-brand">Texas Credit Access Business</p>
+      </div>
+
+      <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-8">
+        {heroCopy.headline}
+      </h1>
+
+      <p className="text-xl md:text-2xl text-muted leading-relaxed mb-10 max-w-2xl">
+        {heroCopy.subheadline}
+      </p>
+
+      <div className="flex flex-wrap gap-4 mb-10">
+        <ButtonLink href="#prequal" size="lg">{heroCopy.primaryCta}</ButtonLink>
+        <ButtonLink variant="secondary" size="lg" href={heroCopy.secondaryHref}>
           {heroCopy.secondaryCta}
         </ButtonLink>
       </div>
-      <div className="mt-6">
+
+      <div className="p-6 rounded-2xl bg-panel/30 border border-border mb-8">
         <CabMicrocopy />
       </div>
-      <div className="mt-10 grid gap-3 sm:grid-cols-3">
-        <Metric label="Experience goal" value="Big‑company trust" hint="Modern UX + compliance-first copy." />
-        <Metric label="Primary CTA" value="Get Cash" hint="Wizard-style flow with autosave." />
-        <Metric label="Transparency" value="Fee taxonomy" hint="Plain-language categories + examples." />
+
+      <div className="grid gap-6 sm:grid-cols-3">
+        <div className="space-y-2">
+          <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+            <div className="w-4 h-4 rounded-full bg-brand"></div>
+          </div>
+          <p className="font-bold text-base">Big‑company trust</p>
+          <p className="text-sm text-muted">Modern UX + compliance-first</p>
+        </div>
+        <div className="space-y-2">
+          <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+            <div className="w-4 h-4 rounded-full bg-brand"></div>
+          </div>
+          <p className="font-bold text-base">Get Cash</p>
+          <p className="text-sm text-muted">Wizard flow with autosave</p>
+        </div>
+        <div className="space-y-2">
+          <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+            <div className="w-4 h-4 rounded-full bg-brand"></div>
+          </div>
+          <p className="font-bold text-base">Fee taxonomy</p>
+          <p className="text-sm text-muted">Plain-language categories</p>
+        </div>
       </div>
-      <p className="mt-4 text-xs text-muted">Hero variant: {hero} (A/B scaffold; override with `?exp_hero=A`…`E`).</p>
     </div>
   );
 }
