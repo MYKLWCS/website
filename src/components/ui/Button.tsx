@@ -13,10 +13,10 @@ type ButtonProps = ComponentProps<"button"> & {
 
 const styles: Record<Variant, string> = {
   primary:
-    "bg-brand text-white shadow-md hover:shadow-xl border border-brand/20 hover:bg-brand/90 hover:scale-[1.02] button-clean",
-  secondary: "bg-white hover:bg-panel text-fg border border-border hover:border-brand/30 shadow-sm hover:shadow-md button-clean",
-  tertiary: "bg-transparent hover:bg-panel/60 text-fg border border-transparent hover:border-border button-clean",
-  danger: "bg-danger text-white hover:bg-danger/90 border border-danger/20 shadow-sm hover:shadow-md button-clean"
+    "bg-gradient-to-br from-brand to-brand/90 text-white shadow-[0_10px_30px_rgb(var(--brand)/0.3),0_4px_12px_rgb(0,0,0/0.08)] hover:shadow-[0_14px_40px_rgb(var(--brand)/0.4),0_6px_16px_rgb(0,0,0/0.12)] border border-white/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250",
+  secondary: "bg-white hover:bg-panel text-fg border border-border hover:border-brand/40 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250",
+  tertiary: "bg-transparent hover:bg-panel/80 text-fg border border-transparent hover:border-border transition-all duration-250",
+  danger: "bg-gradient-to-br from-danger to-danger/90 text-white border border-white/20 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250"
 };
 
 const sizes: Record<Size, string> = {
