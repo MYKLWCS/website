@@ -47,23 +47,23 @@ export function HomePage() {
 
         <Container className="relative">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/10 to-brand2/10 border border-brand/20 mb-6 backdrop-blur-sm">
-              <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">Simple Process</p>
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/15 to-brand2/15 border-2 border-brand/30 mb-6 backdrop-blur-sm shadow-lg">
+              <div className="w-2 h-2 rounded-full bg-brand animate-pulse"></div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">Lightning Fast Process</p>
             </div>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 bg-gradient-to-br from-fg via-fg to-fg/80 bg-clip-text text-transparent">
-              Get cash in 3 easy steps
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 bg-gradient-to-br from-fg via-fg to-fg/80 bg-clip-text text-transparent">
+              Get Your Loan in 3 Simple Steps
             </h2>
             <p className="text-xl md:text-2xl text-muted leading-relaxed max-w-2xl mx-auto">
-              Fast, transparent, and designed with your trust in mind
+              From application to cash in your account — <span className="text-brand font-bold">in as little as 1 hour</span>
             </p>
           </div>
 
           <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
             {[
-              ["1", "Check your estimate", "Enter vehicle details + desired amount for an instant range estimate"],
-              ["2", "Verify details", "Upload photos and documents for quick verification"],
-              ["3", "Review + sign", "Review CAB disclosures and e-sign to get funded"]
+              ["1", "Apply in 60 Seconds", "Tell us about your car and how much cash you need. Instant pre-approval decision."],
+              ["2", "Upload Your Docs", "Quick photo upload of your ID, car title, and vehicle. We verify everything instantly."],
+              ["3", "Get Your Cash", "E-sign your loan agreement and receive funds directly to your bank account today."]
             ].map(([n, t, d], i) => (
               <div key={t} className="group relative animate-fade-in-up" style={{ animationDelay: `${i * 150}ms` }}>
                 <div className="absolute -inset-1 bg-gradient-to-br from-brand via-brand2 to-brand rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
@@ -80,14 +80,17 @@ export function HomePage() {
             ))}
           </div>
 
-          <div className="mt-12 text-center">
-            <div className="inline-flex items-center gap-3 text-sm text-muted">
-              <div className="flex -space-x-1">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-brand to-brand2 border-2 border-white"></div>
+          <div className="mt-16 text-center">
+            <div className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-panel/80 to-white/80 border-2 border-brand/20 shadow-xl backdrop-blur-sm">
+              <div className="flex -space-x-2">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-brand2 border-3 border-white shadow-md"></div>
                 ))}
               </div>
-              <span className="font-semibold">Join 1,000+ Texans who trusted this process</span>
+              <div className="text-left">
+                <p className="font-bold text-lg text-brand">5,000+ Loans Approved</p>
+                <p className="text-sm text-muted font-medium">Join thousands of satisfied Texas customers</p>
+              </div>
             </div>
           </div>
         </Container>
