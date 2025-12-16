@@ -44,7 +44,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <div
             key={t.id}
             className={cn(
-              "pointer-events-auto animate-fade-up rounded-2xl border p-4 shadow-glow backdrop-blur",
+              "pointer-events-auto animate-fade-up rounded-2xl border p-4 shadow-sm backdrop-blur",
               toneClasses(t.tone)
             )}
           >

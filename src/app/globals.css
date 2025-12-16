@@ -34,6 +34,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Base typography */
+body, button, input, textarea {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--border)) rgb(var(--bg));
@@ -101,8 +108,20 @@ body {
 .border-muted { border-color: rgb(var(--border)) !important; }
 
 /* Button variants */
-.btn-primary { background: rgb(var(--brand)); color: rgb(var(--primary)); }
-.btn-outline-accent { background: transparent; border: 1px solid rgb(var(--accent)); color: rgb(var(--accent)); }
+.btn-primary {
+  background: rgb(var(--brand));
+  color: rgb(var(--primary));
+  padding: 0.55rem 1rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.06);
+}
+.btn-primary:hover { filter: brightness(1.02); }
+
+.btn-outline-accent { background: transparent; border: 1px solid rgb(var(--accent)); color: rgb(var(--accent)); padding: 0.45rem 0.8rem; border-radius: 10px; }
 
 /* Links default to accent pink for subtle pops */
 a { color: rgb(var(--accent)); text-decoration: underline; text-underline-offset: 3px; }

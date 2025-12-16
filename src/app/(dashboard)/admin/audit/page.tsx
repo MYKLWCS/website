@@ -230,14 +230,14 @@ export default function Page() {
       </Card>
 
       {/* Export Options */}
-      <Card className="p-6 border-brand2/30 bg-brand2/5">
-        <h2 className="text-sm font-semibold tracking-tight text-brand2">Export Audit Log</h2>
+      <Card className="p-6 border-brand/30 bg-brand/5">
+        <h2 className="text-sm font-semibold tracking-tight text-brand">Export Audit Log</h2>
         <p className="mt-1 text-sm text-muted">Download audit logs for external audits and compliance reporting</p>
         <div className="mt-4 flex gap-2">
-          <button className="px-4 py-2 bg-brand2 text-bg rounded-lg text-sm font-medium hover:brightness-110 transition-colors">
+          <button className="px-4 py-2 btn-primary rounded-lg text-sm font-medium hover:brightness-110 transition-colors">
             Export as CSV
           </button>
-          <button className="px-4 py-2 bg-brand2 text-bg rounded-lg text-sm font-medium hover:brightness-110 transition-colors">
+          <button className="px-4 py-2 btn-primary rounded-lg text-sm font-medium hover:brightness-110 transition-colors">
             Export as PDF
           </button>
           <button className="px-4 py-2 border border-border/70 text-fg rounded-lg text-sm font-medium hover:bg-panel transition-colors">

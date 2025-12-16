@@ -101,9 +101,9 @@ export default function Page() {
 
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-4">
-        <Card className="p-4">
+          <Card className="p-4">
           <p className="text-xs font-medium text-muted">Pending Review</p>
-          <p className="mt-2 text-2xl font-semibold text-brand2">1</p>
+          <p className="mt-2 text-2xl font-semibold text-brand">1</p>
         </Card>
         <Card className="p-4">
           <p className="text-xs font-medium text-muted">Approved Today</p>
@@ -194,8 +194,8 @@ export default function Page() {
       </div>
 
       {/* Eligibility Guidelines */}
-      <Card className="p-6 border-brand2/30 bg-brand2/5">
-        <h2 className="text-sm font-semibold tracking-tight text-brand2">Vehicle Eligibility Guidelines</h2>
+      <Card className="p-6 border-brand/30 bg-brand/5">
+        <h2 className="text-sm font-semibold tracking-tight text-brand">Vehicle Eligibility Guidelines</h2>
         <div className="mt-4 space-y-2 text-sm text-muted">
           <p>• <strong>Maximum Age:</strong> 15 years from current model year</p>
           <p>• <strong>Minimum Value:</strong> $3,000 NADA or KBB valuation</p>

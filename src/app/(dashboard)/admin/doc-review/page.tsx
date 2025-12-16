@@ -165,7 +165,7 @@ export default function Page() {
                   </div>
                 )}
                 {doc.status === "rejected" && (
-                  <div className="ml-4 text-xs text-brand2 font-medium">
+                  <div className="ml-4 text-xs text-danger font-medium">
                     ✕ Rejected
                   </div>
                 )}
