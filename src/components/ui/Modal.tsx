@@ -1,205 +1,166 @@
 "use client";
 
-import { ReactNode, useEffect, useRef, useCallback, useState } from "react";
-import { cn } from "@/lib/cn";
+import { useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Button } from "./Button";
 
-interface ModalProps {
-  open: boolean;
+export interface ModalProps {
+  isOpen: boolean;
   onClose: () => void;
   title?: string;
-  description?: string;
-  children: ReactNode;
-  actions?: ReactNode;
+  children: React.ReactNode;
+  footer?: React.ReactNode;
   size?: "sm" | "md" | "lg" | "xl";
-  closeButton?: boolean;
-  backdrop?: boolean;
-  className?: string;
 }
 
-const sizes = {
-  sm: "max-w-sm",
-  md: "max-w-md",
-  lg: "max-w-lg",
-  xl: "max-w-xl",
-};
-
-export function Modal({
-  open,
-  onClose,
-  title,
-  description,
-  children,
-  actions,
-  size = "md",
-  closeButton = true,
-  backdrop = true,
-  className,
-}: ModalProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
+export function Modal({ isOpen, onClose, title, children, footer, size = "md" }: ModalProps) {
+  // Lock body scroll when modal is open
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-
-    if (open) {
-      dialog.showModal();
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
     } else {
-      dialog.close();
+      document.body.style.overflow = "unset";
     }
-  }, [open]);
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
-  const handleClose = useCallback(() => {
-    onClose();
-  }, [onClose]);
-
-  const handleBackdropClick = useCallback(
-    (e: React.MouseEvent<HTMLDialogElement>) => {
-      if (e.target === e.currentTarget && backdrop) {
-        handleClose();
+  // Close on escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isOpen) {
+        onClose();
       }
-    },
-    [backdrop, handleClose]
-  );
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [isOpen, onClose]);
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDialogElement>) => {
-      if (e.key === "Escape") {
-        handleClose();
-      }
-    },
-    [handleClose]
-  );
+  const sizeClasses = {
+    sm: "max-w-md",
+    md: "max-w-lg",
+    lg: "max-w-2xl",
+    xl: "max-w-4xl"
+  };
 
   return (
-    <dialog
-      ref={dialogRef}
-      onClick={handleBackdropClick}
-      onKeyDown={handleKeyDown}
-      className={cn(
-        "fixed inset-0 z-50 rounded-2xl border border-border bg-white shadow-2xl backdrop:bg-black/50",
-        "p-6 max-h-[90vh] overflow-y-auto",
-        sizes[size],
-        className
-      )}
-    >
-      <div className="space-y-4">
-        {/* Header */}
-        <div className="flex items-start justify-between">
-          <div>
-            {title && <h2 className="text-lg font-semibold tracking-tight">{title}</h2>}
-            {description && <p className="mt-1 text-sm text-muted">{description}</p>}
-          </div>
-          {closeButton && (
-            <button
-              onClick={handleClose}
-              className="ml-4 inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-white hover:bg-panel transition-smooth"
-              aria-label="Close modal"
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-bg/80 backdrop-blur-sm"
+            onClick={onClose}
+            aria-hidden="true"
+          />
+
+          {/* Modal */}
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className={`relative w-full ${sizeClasses[size]} rounded-2xl border border-border/70 bg-bg shadow-2xl`}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={title ? "modal-title" : undefined}
+              onClick={(e) => e.stopPropagation()}
             >
-              <span className="text-lg">×</span>
-            </button>
-          )}
-        </div>
+              {/* Header */}
+              {title && (
+                <div className="flex items-center justify-between border-b border-border/40 px-6 py-4">
+                  <h2 id="modal-title" className="text-lg font-semibold tracking-tight">
+                    {title}
+                  </h2>
+                  <button
+                    onClick={onClose}
+                    className="rounded-lg p-1 text-muted hover:bg-panel/50 hover:text-fg"
+                    aria-label="Close modal"
+                  >
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              )}
 
-        {/* Content */}
-        <div className="py-4">{children}</div>
+              {/* Content */}
+              <div className="max-h-[calc(100vh-200px)] overflow-y-auto px-6 py-5">
+                {children}
+              </div>
 
-        {/* Actions */}
-        {actions && <div className="flex flex-wrap gap-3 pt-4 border-t border-border/40">{actions}</div>}
-      </div>
-    </dialog>
+              {/* Footer */}
+              {footer && (
+                <div className="flex items-center justify-end gap-3 border-t border-border/40 px-6 py-4">
+                  {footer}
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }
 
-/**
- * Alert dialog variant
- */
-interface AlertDialogProps {
-  open: boolean;
-  onClose: () => void;
-  title: string;
-  description?: string;
-  children?: ReactNode;
-  onConfirm: () => void;
-  confirmText?: string;
-  cancelText?: string;
-  destructive?: boolean;
-}
-
-export function AlertDialog({
-  open,
+// Convenience component for confirm dialogs
+export function ConfirmModal({
+  isOpen,
   onClose,
-  title,
-  description,
-  children,
   onConfirm,
+  title = "Confirm Action",
+  message,
   confirmText = "Confirm",
   cancelText = "Cancel",
-  destructive = false,
-}: AlertDialogProps) {
+  variant = "default"
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title?: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
+  variant?: "default" | "danger";
+}) {
   return (
     <Modal
-      open={open}
+      isOpen={isOpen}
       onClose={onClose}
       title={title}
-      description={description}
       size="sm"
-      closeButton={false}
-      actions={
-        <div className="flex w-full gap-3">
-          <button
-            onClick={onClose}
-            className="flex-1 rounded-xl border border-border bg-white px-4 py-2 text-sm font-medium hover:bg-panel transition-smooth"
-          >
+      footer={
+        <>
+          <Button variant="secondary" onClick={onClose}>
             {cancelText}
-          </button>
-          <button
+          </Button>
+          <Button
+            variant={variant === "danger" ? "primary" : "primary"}
             onClick={() => {
               onConfirm();
               onClose();
             }}
-            className={cn(
-              "flex-1 rounded-xl px-4 py-2 text-sm font-medium text-white transition-colors",
-              destructive ? "bg-danger hover:bg-danger/90" : "bg-brand hover:bg-brand/90"
-            )}
           >
             {confirmText}
-          </button>
-        </div>
+          </Button>
+        </>
       }
     >
-      {children}
+      <p className="text-sm text-muted">{message}</p>
     </Modal>
   );
-}
-
-/**
- * Confirmation dialog hook
- */
-export function useAlertDialog() {
-  const [open, setOpen] = useState(false);
-  const [config, setConfig] = useState<Partial<AlertDialogProps>>({});
-
-  const confirm = useCallback(
-    (options: Partial<AlertDialogProps>) => {
-      setConfig(options);
-      setOpen(true);
-      return new Promise((resolve) => {
-        setConfig((prev) => ({
-          ...prev,
-          onConfirm: () => {
-            options.onConfirm?.();
-            resolve(true);
-            setOpen(false);
-          },
-        }));
-      });
-    },
-    []
-  );
-
-  const close = useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  return { open, close, confirm, config };
 }

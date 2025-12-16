@@ -25,10 +25,15 @@ export default {
         "fade-up": {
           "0%": { opacity: "0", transform: "translateY(10px)" },
           "100%": { opacity: "1", transform: "translateY(0)" }
+        },
+        shimmer: {
+          "0%": { backgroundPosition: "200% 0" },
+          "100%": { backgroundPosition: "-200% 0" }
         }
       },
       animation: {
-        "fade-up": "fade-up 500ms ease-out both"
+        "fade-up": "fade-up 500ms ease-out both",
+        shimmer: "shimmer 2s linear infinite"
       }
     }
   },
