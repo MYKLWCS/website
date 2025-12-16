@@ -2,85 +2,45 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/Button";
+import { Container } from "@/components/layout/Container";
 
 export function Header() {
   const pathname = usePathname();
 
-  const isAuth = pathname.startsWith("/auth");
-  const isDashboard = pathname.startsWith("/dashboard");
-  const isAdmin = pathname.startsWith("/admin");
-
-  if (isAuth) return null;
+  // We don't want to show the header on auth pages
+  if (pathname.startsWith("/auth")) return null;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/12 bg-bg/90">
-      <nav className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3">
-          <div className="h-10 w-10 flex items-center justify-center rounded-full bg-brand">
-            <span className="text-lg font-bold text-primary">$</span>
-          </div>
-          <div className="flex flex-col leading-tight">
-            <span className="text-base font-semibold text-primary">Dollar</span>
-            <span className="text-xs font-medium text-muted uppercase tracking-widest">Loans</span>
-          </div>
-        </Link>
+    <header className="absolute top-0 left-0 right-0 z-50 py-6">
+      <Container>
+        <nav className="flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3">
+            <div className="h-10 w-10 flex items-center justify-center rounded-full bg-gradient-to-br from-gold-500 to-gold-700 shadow-md">
+              <span className="text-lg font-bold text-white">$</span>
+            </div>
+            <div className="flex flex-col leading-tight">
+              <span className="font-bold text-lg text-brown-800 tracking-tighter">Gilded</span>
+              <span className="text-xs font-medium text-gold-800 uppercase tracking-widest">Finance</span>
+            </div>
+          </Link>
 
-        {/* Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {!isDashboard && !isAdmin && (
-            <>
-              <Link href="/how-it-works" className="text-sm font-medium text-muted hover:text-primary transition-colors">How It Works</Link>
-              <Link
-                href="/calculator"
-                className="text-sm font-medium text-muted hover:text-primary transition-colors"
-              >
-                Calculator
-              </Link>
-              <Link
-                href="/rates-fees"
-                className="text-sm font-medium text-muted hover:text-primary transition-colors"
-              >
-                Rates & Fees
-              </Link>
-              <Link
-                href="/faq"
-                className="text-sm font-medium text-muted hover:text-primary transition-colors"
-              >
-                FAQ
-              </Link>
-            </>
-          )}
-        </div>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-10">
+            <Link href="/how-it-works" className="text-sm font-semibold text-brown-800/60 hover:text-brown-800 transition-colors">How It Works</Link>
+            <Link href="/about" className="text-sm font-semibold text-brown-800/60 hover:text-brown-800 transition-colors">About Us</Link>
+            <Link href="/faq" className="text-sm font-semibold text-brown-800/60 hover:text-brown-800 transition-colors">FAQ</Link>
+          </div>
 
-        {/* CTA */}
-        <div className="flex items-center gap-4">
-          {!isDashboard && !isAdmin && (
-            <>
-              <Link
-                href="/auth/login"
-                className="hidden sm:block text-sm font-medium text-muted hover:text-primary transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/dashboard/get-cash"
-                className="btn-primary"
-              >
-                Get Cash
-              </Link>
-            </>
-          )}
-          {(isDashboard || isAdmin) && (
-            <Link
-              href="/auth/logout"
-              className="text-sm font-medium text-muted hover:text-fg transition-colors"
-            >
-              Sign Out
-            </Link>
-          )}
-        </div>
-      </nav>
+          {/* CTA */}
+          <div className="flex items-center gap-4">
+            <Button href="/dashboard/get-cash" variant="primary" className="bg-gold-600 hover:bg-gold-700 text-white shadow-lg">
+              Get Cash Now
+            </Button>
+          </div>
+        </nav>
+      </Container>
     </header>
   );
 }
