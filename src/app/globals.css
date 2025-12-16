@@ -3,15 +3,16 @@
 @tailwind utilities;
 
 :root {
-  /* Core Color Palette: White, Black, Grey, Pink, Gold */
+  /* Core Color Palette: White, Black, Grey, Gold (Primary), Pink (Accent) */
   --bg: 255 255 255; /* Pure White background */
   --panel: 249 250 251; /* Subtle light gray panel */
   --border: 229 231 235; /* Light gray border */
   --fg: 17 24 39; /* Deep black text */
   --muted: 107 114 128; /* Medium gray for secondary text */
   --grey: 156 163 175; /* Light gray for tertiary elements */
-  --brand: 236 72 153; /* Pink - primary brand color */
-  --brand2: 234 179 8; /* Gold - secondary brand color */
+  --brand: 234 179 8; /* Gold - PRIMARY brand color */
+  --brand2: 236 72 153; /* Pink - accent/touch color */
+  --accent: 236 72 153; /* Pink - accent/touch color (alias) */
   --danger: 239 68 68; /* Red for errors */
   --warn: 234 179 8; /* Gold for warnings */
   --ok: 34 197 94; /* Green for success */
@@ -77,8 +78,8 @@ body {
   .button-clean:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 10px 30px rgb(var(--brand) / 0.15),
-      0 4px 12px rgb(var(--brand) / 0.1);
+      0 10px 30px rgb(var(--brand) / 0.2),
+      0 4px 12px rgb(var(--brand) / 0.15);
   }
 
   .button-clean:active {
@@ -113,7 +114,7 @@ body {
     transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, rgb(var(--brand) / 0.03) 0%, transparent 70%);
+    background: radial-gradient(circle, rgb(var(--brand) / 0.05) 0%, transparent 70%);
     border-radius: 50%;
     z-index: -1;
   }

@@ -47,9 +47,9 @@ export function HomePage() {
               ["3", "Review + sign", "Review CAB disclosures and e-sign to get funded"]
             ].map(([n, t, d]) => (
               <div key={t} className="group relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-brand to-brand2 rounded-3xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
-                <div className="relative rounded-3xl border-2 border-border bg-white p-8 transition-all duration-300 group-hover:border-brand/30 group-hover:shadow-2xl group-hover:-translate-y-1">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-brand/10 text-brand font-bold text-xl mb-6">
+                <div className="absolute -inset-0.5 bg-gradient-to-br from-brand via-brand2 to-brand rounded-3xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
+                <div className="relative rounded-3xl border-2 border-border bg-white p-8 transition-all duration-300 group-hover:border-brand/40 group-hover:shadow-2xl group-hover:-translate-y-1">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-gradient-to-br from-brand to-brand2 text-white font-bold text-xl mb-6">
                     {n}
                   </div>
                   <h3 className="text-xl font-bold tracking-tight mb-3">{t}</h3>
@@ -128,9 +128,9 @@ export function HomePage() {
                   ["Security", "Secure-by-default architecture"],
                   ["Support", "Clear complaint pathways"]
                 ].map(([t, d]) => (
-                  <div key={t} className="p-6 rounded-2xl border border-border/50 bg-white hover:border-brand/20 hover:shadow-xl transition-all duration-300">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-brand/10 to-brand2/10 flex items-center justify-center mb-4">
-                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand to-brand2"></div>
+                  <div key={t} className="p-6 rounded-2xl border border-border/50 bg-white hover:border-brand/30 hover:shadow-xl transition-all duration-300">
+                    <div className="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center mb-4">
+                      <div className="w-5 h-5 rounded-full bg-gradient-to-br from-brand via-brand2 to-brand"></div>
                     </div>
                     <h3 className="font-bold text-base mb-2">{t}</h3>
                     <p className="text-sm text-muted">{d}</p>
