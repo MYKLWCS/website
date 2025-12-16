@@ -13,6 +13,8 @@ export default {
         grey: "rgb(var(--grey) / <alpha-value>)",
         brand: "rgb(var(--brand) / <alpha-value>)",
         brand2: "rgb(var(--brand2) / <alpha-value>)",
+        primary: "rgb(var(--primary) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
         danger: "rgb(var(--danger) / <alpha-value>)",
         warn: "rgb(var(--warn) / <alpha-value>)",
         ok: "rgb(var(--ok) / <alpha-value>)"

@@ -21,7 +21,7 @@ export function Infographic({
   className?: string;
 }) {
   return (
-    <section className={cn("rounded-2xl border border-border/70 bg-panel/45 p-5 shadow-glow", className)}>
+    <section className={cn("rounded-2xl border border-border/70 bg-panel/45 p-5 shadow-sm", className)}>
       <div className="flex items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-muted">Infographic</p>

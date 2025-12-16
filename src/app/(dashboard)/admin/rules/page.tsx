@@ -232,8 +232,8 @@ export default function Page() {
             </div>
           </Card>
 
-          <Card className="p-6 bg-brand2/5 border-brand2/30">
-            <h2 className="text-sm font-semibold tracking-tight text-brand2">Rate Floor & Ceiling</h2>
+          <Card className="p-6 bg-brand/5 border-brand/30">
+            <h2 className="text-sm font-semibold tracking-tight text-brand">Rate Floor & Ceiling</h2>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               <div>
                 <label className="text-xs font-medium text-muted">Minimum Rate (Floor)</label>

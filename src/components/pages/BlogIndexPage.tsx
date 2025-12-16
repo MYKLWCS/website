@@ -34,7 +34,7 @@ export function BlogIndexPage() {
               <Link
                 key={p.slug}
                 href={`/blog/${p.slug}`}
-                className="rounded-2xl border border-border/70 bg-panel/45 p-6 shadow-glow transition hover:bg-panel/60"
+                className="rounded-2xl border border-border/70 bg-panel/45 p-6 shadow-sm transition hover:bg-panel/60"
               >
                 <p className="text-xs text-muted">{new Date(p.date).toLocaleDateString()}</p>
                 <h2 className="mt-2 text-xl font-semibold tracking-tight">{p.title}</h2>

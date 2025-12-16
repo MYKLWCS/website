@@ -13,7 +13,7 @@ export default function PartnersPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-grey/5 to-white border-b border-border">
+      <div className="bg-panel border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="text-center">
             <Badge variant="default" className="mb-4">Partner Program</Badge>
@@ -37,7 +37,7 @@ export default function PartnersPage() {
       <div className="mx-auto max-w-7xl px-6 py-12">
         <div className="grid gap-4 md:grid-cols-4">
           <Card className="p-6 text-center">
-            <p className="text-4xl font-bold text-brand2">$25</p>
+            <p className="text-4xl font-bold text-brand">$25</p>
             <p className="text-sm text-muted mt-2">Per Qualified Lead</p>
           </Card>
           <Card className="p-6 text-center">
@@ -49,7 +49,7 @@ export default function PartnersPage() {
             <p className="text-sm text-muted mt-2">API Uptime</p>
           </Card>
           <Card className="p-6 text-center">
-            <p className="text-4xl font-bold text-brand2">USD/USDT</p>
+            <p className="text-4xl font-bold text-brand">USD/USDT</p>
             <p className="text-sm text-muted mt-2">Payment Options</p>
           </Card>
         </div>
@@ -159,8 +159,8 @@ export default function PartnersPage() {
             {/* Compliance */}
             <div>
               <h2 className="text-3xl font-bold mb-6">Compliance & Guidelines</h2>
-              <Card className="p-6 bg-brand2/5 border-brand2/30">
-                <h3 className="font-semibold mb-4 text-brand2">Partner Requirements</h3>
+              <Card className="p-6 bg-brand/5 border-brand/30">
+                <h3 className="font-semibold mb-4 text-brand">Partner Requirements</h3>
                 <div className="space-y-2 text-sm text-muted">
                   <p>• <strong>No Guaranteed Approval Claims:</strong> Never promise guaranteed loan approval</p>
                   <p>• <strong>Accurate Rate Disclosure:</strong> All rate information must include APR ranges and CAB disclosures</p>
@@ -334,7 +334,7 @@ export default function PartnersPage() {
                 <h3 className="text-xl font-semibold mb-2">Starter</h3>
                 <p className="text-sm text-muted mb-4">0-50 qualified leads/month</p>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold text-brand2">$25</span>
+                  <span className="text-4xl font-bold text-brand">$25</span>
                   <span className="text-muted">/lead</span>
                 </div>
                 <ul className="space-y-2 text-sm text-muted">
@@ -353,7 +353,7 @@ export default function PartnersPage() {
                 </div>
                 <p className="text-sm text-muted mb-4">51-200 qualified leads/month</p>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold text-brand2">$30</span>
+                  <span className="text-4xl font-bold text-brand">$30</span>
                   <span className="text-muted">/lead</span>
                 </div>
                 <ul className="space-y-2 text-sm text-muted">
@@ -369,7 +369,7 @@ export default function PartnersPage() {
                 <h3 className="text-xl font-semibold mb-2">Enterprise</h3>
                 <p className="text-sm text-muted mb-4">200+ qualified leads/month</p>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold text-brand2">$35</span>
+                  <span className="text-4xl font-bold text-brand">$35</span>
                   <span className="text-muted">/lead</span>
                 </div>
                 <ul className="space-y-2 text-sm text-muted">
@@ -402,7 +402,7 @@ export default function PartnersPage() {
                   </ul>
                 </Card>
 
-                <Card className="p-6 bg-gradient-to-b from-brand2/10 to-transparent border-brand2/30">
+                <Card className="p-6 bg-panel/45 border-brand/30">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="text-3xl">₮</div>
                     <h4 className="text-lg font-semibold">USDT Crypto Payments</h4>
@@ -426,14 +426,14 @@ export default function PartnersPage() {
               <h3 className="text-xl font-semibold mb-4">Payout Schedule</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <div className="bg-brand2 text-white rounded-lg px-3 py-1 text-sm font-semibold">Day 0</div>
+                  <div className="bg-brand text-white rounded-lg px-3 py-1 text-sm font-semibold">Day 0</div>
                   <div>
                     <p className="font-semibold">Lead Submitted</p>
                     <p className="text-sm text-muted">Partner submits lead via API</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <div className="bg-brand2 text-white rounded-lg px-3 py-1 text-sm font-semibold">Day 1</div>
+                  <div className="bg-brand text-white rounded-lg px-3 py-1 text-sm font-semibold">Day 1</div>
                   <div>
                     <p className="font-semibold">Qualification Review</p>
                     <p className="text-sm text-muted">Our team reviews lead against criteria</p>
@@ -472,9 +472,9 @@ export default function PartnersPage() {
 
       {/* Footer Disclaimer */}
       <div className="mx-auto max-w-7xl px-6 py-8">
-        <Card className="p-6 bg-brand2/5 border-brand2/30">
+        <Card className="p-6 bg-panel/45 border-brand/30">
           <p className="text-xs text-muted leading-relaxed">
-            <strong className="text-brand2">Partner Program Terms:</strong> All partners must comply with Texas CAB regulations and Dollar Loans compliance guidelines. Payouts are contingent upon lead qualification meeting minimum eligibility criteria. Volume bonuses calculated monthly based on qualified leads only. USDT payments subject to network confirmation times and gas fees (paid by recipient). Partners are responsible for tax reporting and compliance in their jurisdiction. Dollar Loans reserves the right to modify payout terms with 30 days notice.
+            <strong className="text-brand">Partner Program Terms:</strong> All partners must comply with Texas CAB regulations and Dollar Loans compliance guidelines. Payouts are contingent upon lead qualification meeting minimum eligibility criteria. Volume bonuses calculated monthly based on qualified leads only. USDT payments subject to network confirmation times and gas fees (paid by recipient). Partners are responsible for tax reporting and compliance in their jurisdiction. Dollar Loans reserves the right to modify payout terms with 30 days notice.
           </p>
         </Card>
       </div>

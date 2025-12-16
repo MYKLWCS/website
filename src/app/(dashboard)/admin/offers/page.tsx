@@ -153,8 +153,8 @@ export default function Page() {
       </Card>
 
       {/* Offer Guidelines */}
-      <Card className="p-6 border-brand2/30 bg-brand2/5">
-        <h2 className="text-sm font-semibold tracking-tight text-brand2">Offer Guidelines</h2>
+      <Card className="p-6 border-brand/30 bg-brand/5">
+        <h2 className="text-sm font-semibold tracking-tight text-brand">Offer Guidelines</h2>
         <div className="mt-4 space-y-2 text-sm text-muted">
           <p>• <strong>Rate Range:</strong> 16.5% - 21.9% based on vehicle value</p>
           <p>• <strong>Term Options:</strong> 12, 18, 24, 30, or 36 months</p>

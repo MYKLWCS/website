@@ -3,16 +3,19 @@
 @tailwind utilities;
 
 :root {
-  /* Core Color Palette: White, Black, Grey, Gold (Primary), Pink (Accent) */
+  /* Core Color Palette: White, Black, Grey, Pink, Gold */
   --bg: 255 255 255; /* Pure White background */
   --panel: 249 250 251; /* Subtle light gray panel */
   --border: 229 231 235; /* Light gray border */
   --fg: 17 24 39; /* Deep black text */
   --muted: 107 114 128; /* Medium gray for secondary text */
   --grey: 156 163 175; /* Light gray for tertiary elements */
-  --brand: 234 179 8; /* Gold - PRIMARY brand color */
-  --brand2: 236 72 153; /* Pink - accent/touch color */
-  --accent: 236 72 153; /* Pink - accent/touch color (alias) */
+  /* Primary colors: black (text) + gold (primary UI) */
+  --primary: 17 24 39; /* Primary: deep black */
+  --brand: 234 179 8; /* Gold - primary brand/CTA */
+  /* Accent colors */
+  --accent: 236 72 153; /* Pink - accents */
+  --brand2: 236 72 153; /* Legacy name kept for compatibility (pink) */
   --danger: 239 68 68; /* Red for errors */
   --warn: 234 179 8; /* Gold for warnings */
   --ok: 34 197 94; /* Green for success */
@@ -25,10 +28,17 @@ body {
 
 body {
   background: rgb(var(--bg));
-  color: rgb(var(--fg));
+  color: rgb(var(--primary));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+}
+
+/* Base typography */
+body, button, input, textarea {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-size: 16px;
+  line-height: 1.45;
 }
 
 * {
@@ -46,8 +56,8 @@ body {
 }
 
 ::selection {
-  background: rgb(var(--brand) / 0.25);
-  color: rgb(var(--fg));
+  background: rgb(var(--accent) / 0.28);
+  color: rgb(var(--primary));
 }
 
 /* Smooth transitions for interactive elements */
@@ -57,79 +67,70 @@ body {
   }
 
   .card-clean {
-    background: rgb(var(--bg));
-    border: 1px solid rgb(var(--border) / 0.5);
-    border-radius: 20px;
-    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgb(var(--panel));
+    border: 1px solid rgb(var(--border) / 0.85);
+    border-radius: 16px;
+    transition: all 200ms ease-out;
   }
 
   .card-clean:hover {
-    border-color: rgb(var(--brand) / 0.2);
-    box-shadow:
-      0 10px 40px rgb(0 0 0 / 0.04),
-      0 2px 8px rgb(0 0 0 / 0.02);
-    transform: translateY(-2px);
+    border-color: rgb(var(--border));
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.06);
   }
 
   .button-clean {
-    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 150ms ease-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid transparent;
   }
 
   .button-clean:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      0 10px 30px rgb(var(--brand) / 0.2),
-      0 4px 12px rgb(var(--brand) / 0.15);
+    transform: translateY(-1px);
   }
 
   .button-clean:active {
     transform: translateY(0);
   }
-
-  /* Premium floating graphics - transparent backgrounds */
-  .graphic-float {
-    position: relative;
-    mix-blend-mode: multiply;
-    filter: drop-shadow(0 20px 60px rgb(0 0 0 / 0.05));
-  }
-
-  .graphic-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem;
-  }
-
-  /* Subtle glow effect for premium feel */
-  .glow-subtle {
-    position: relative;
-  }
-
-  .glow-subtle::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgb(var(--brand) / 0.05) 0%, transparent 70%);
-    border-radius: 50%;
-    z-index: -1;
-  }
 }
 
-/* Crisp, clean image rendering - transparent backgrounds */
+/* Common utility classes for primary/accents */
+.text-primary { color: rgb(var(--primary)) !important; }
+.bg-primary { background-color: rgb(var(--brand)) !important; }
+.text-brand { color: rgb(var(--brand)) !important; }
+.text-accent { color: rgb(var(--accent)) !important; }
+.bg-accent { background-color: rgb(var(--accent)) !important; }
+.border-muted { border-color: rgb(var(--border)) !important; }
+
+/* Button variants */
+.btn-primary {
+  background: rgb(var(--brand));
+  color: rgb(var(--primary));
+  padding: 0.55rem 1rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.06);
+}
+.btn-primary:hover { filter: brightness(1.02); }
+
+.btn-outline-accent { background: transparent; border: 1px solid rgb(var(--accent)); color: rgb(var(--accent)); padding: 0.45rem 0.8rem; border-radius: 10px; }
+
+/* Links default to accent pink for subtle pops */
+a { color: rgb(var(--accent)); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: rgb(var(--brand)); }
+
+/* Crisp, clean image rendering */
 img {
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-}
-
-img[src*=".png"],
-img[src*="transparent"] {
-  mix-blend-mode: multiply;
-  filter: drop-shadow(0 10px 40px rgb(0 0 0 / 0.08));
 }
 
 /* Accessibility: Respect reduced motion preferences */

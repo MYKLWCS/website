@@ -21,7 +21,7 @@ export function UploadGuidanceCard({
         <div className="h-10 w-10 rounded-xl border border-border/60 bg-white/5" />
       </div>
       <div className="mt-4 overflow-hidden rounded-2xl border border-border/60 bg-bg/25 p-4">
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border/60 bg-gradient-to-br from-white/8 to-white/0">
+      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-border/60 bg-panel">
           <div className="absolute inset-3 rounded-lg border border-dashed border-border/70" />
           <div className="absolute bottom-3 left-3 rounded-full border border-border/60 bg-bg/40 px-3 py-1 text-xs text-muted">
             {frameLabel}

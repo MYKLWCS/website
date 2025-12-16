@@ -5,7 +5,7 @@ type Tone = "info" | "cab" | "warn" | "danger";
 
 const tones: Record<Tone, string> = {
   info: "border-border bg-white shadow-sm",
-  cab: "border-brand2/40 bg-brand2/5",
+  cab: "border-brand/40 bg-brand/5",
   warn: "border-warn/40 bg-warn/5",
   danger: "border-danger/40 bg-danger/5"
 };
