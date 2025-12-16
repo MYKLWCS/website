@@ -11,12 +11,12 @@ export function HomeHero() {
 
   return (
     <div className="relative">
-      <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-brand/10 via-brand2/5 to-brand/10 border-2 border-brand/30 mb-10 backdrop-blur-sm shadow-lg hover:shadow-[0_10px_30px_rgb(var(--brand)/0.2)] transition-all duration-300">
+      <div className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gradient-to-r from-brand/15 via-brand/10 to-brand/15 border-2 border-brand/40 mb-12 backdrop-blur-sm shadow-[0_8px_25px_rgb(var(--brand)/0.25)] hover:shadow-[0_12px_35px_rgb(var(--brand)/0.35)] transition-all duration-300">
         <div className="relative">
-          <div className="w-2.5 h-2.5 rounded-full bg-brand animate-pulse"></div>
-          <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-brand animate-ping opacity-75"></div>
+          <div className="w-3 h-3 rounded-full bg-brand shadow-[0_0_10px_rgb(var(--brand)/0.6)] animate-pulse"></div>
+          <div className="absolute inset-0 w-3 h-3 rounded-full bg-brand animate-ping opacity-60"></div>
         </div>
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">Texas Credit Access Business</p>
+        <p className="text-xs font-extrabold uppercase tracking-[0.2em] bg-gradient-to-r from-brand to-brand/80 bg-clip-text text-transparent">Licensed Texas CAB</p>
       </div>
 
       <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05] mb-10 bg-gradient-to-br from-fg via-fg to-fg/80 bg-clip-text text-transparent animate-fade-in-up">

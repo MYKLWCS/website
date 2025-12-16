@@ -13,10 +13,10 @@ type ButtonProps = ComponentProps<"button"> & {
 
 const styles: Record<Variant, string> = {
   primary:
-    "bg-gradient-to-br from-brand to-brand/90 text-white shadow-[0_10px_30px_rgb(var(--brand)/0.3),0_4px_12px_rgb(0,0,0/0.08)] hover:shadow-[0_14px_40px_rgb(var(--brand)/0.4),0_6px_16px_rgb(0,0,0/0.12)] border border-white/20 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250",
-  secondary: "bg-white hover:bg-panel text-fg border border-border hover:border-brand/40 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250",
-  tertiary: "bg-transparent hover:bg-panel/80 text-fg border border-transparent hover:border-border transition-all duration-250",
-  danger: "bg-gradient-to-br from-danger to-danger/90 text-white border border-white/20 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-250"
+    "bg-gradient-to-br from-brand to-brand/85 text-fg shadow-[0_12px_35px_rgb(var(--brand)/0.4),0_5px_15px_rgb(0,0,0/0.1),inset_0_1px_0_rgb(255,255,255/0.3)] hover:shadow-[0_18px_45px_rgb(var(--brand)/0.5),0_8px_20px_rgb(0,0,0/0.15)] border border-brand/80 hover:-translate-y-1 hover:scale-[1.02] active:translate-y-0 active:scale-100 transition-all duration-300 font-extrabold",
+  secondary: "bg-white hover:bg-panel text-fg border-2 border-border hover:border-brand/50 shadow-lg hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 transition-all duration-300 font-semibold",
+  tertiary: "bg-transparent hover:bg-panel/80 text-fg border border-transparent hover:border-border/50 transition-all duration-200",
+  danger: "bg-gradient-to-br from-danger to-danger/90 text-white border border-white/20 shadow-lg hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 transition-all duration-300 font-bold"
 };
 
 const sizes: Record<Size, string> = {
