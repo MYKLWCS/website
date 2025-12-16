@@ -18,7 +18,7 @@ export default function Page() {
       label: "Pending Review",
       value: (appStats.inReview + appStats.needsDocs).toString(),
       subtext: `${appStats.inReview} in review, ${appStats.needsDocs} waiting`,
-      valueClass: "text-brand2"
+      valueClass: "text-brand"
     },
     {
       label: "Ready for Offer",
@@ -43,9 +43,9 @@ export default function Page() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "in_review":
-        return "text-brand2 bg-brand2/10";
+        return "text-brand bg-brand/10";
       case "needs_docs":
-        return "text-brand2 bg-brand2/10";
+        return "text-brand bg-brand/10";
       case "offer_ready":
         return "text-brand bg-brand/10";
       case "accepted":
@@ -145,12 +145,12 @@ export default function Page() {
         <div className="mt-4 grid gap-3 md:grid-cols-3">
           <div className="rounded-lg border border-border/40 p-4">
             <p className="text-xs font-medium text-muted">In Review</p>
-            <p className="mt-1 text-2xl font-semibold text-brand2">{appStats.inReview}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand">{appStats.inReview}</p>
             <p className="mt-1 text-xs text-muted">Actively being reviewed</p>
           </div>
           <div className="rounded-lg border border-border/40 p-4">
             <p className="text-xs font-medium text-muted">Needs Documents</p>
-            <p className="mt-1 text-2xl font-semibold text-brand2">{appStats.needsDocs}</p>
+            <p className="mt-1 text-2xl font-semibold text-brand">{appStats.needsDocs}</p>
             <p className="mt-1 text-xs text-muted">Awaiting applicant documents</p>
           </div>
           <div className="rounded-lg border border-border/40 p-4">
@@ -287,8 +287,8 @@ export default function Page() {
       </div>
 
       {/* Compliance Reminders */}
-      <Card className="p-6 border-brand2/30 bg-brand2/5">
-        <h2 className="text-sm font-semibold tracking-tight text-brand2">Compliance Reminders</h2>
+      <Card className="p-6 border-brand/30 bg-brand/5">
+        <h2 className="text-sm font-semibold tracking-tight text-brand">Compliance Reminders</h2>
         <ul className="mt-3 space-y-2 text-sm text-muted">
           <li>✓ CAB disclosures provided to {appStats.signed + appStats.funded} applicants</li>
           <li>✓ {appStats.total} total applications in system</li>

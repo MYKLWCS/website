@@ -96,7 +96,7 @@ export default function HelpCenterPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-grey/5 to-white border-b border-border">
+      <div className="bg-panel border-b border-border">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="text-center">
             <h1 className="text-5xl font-bold tracking-tight">Help Center</h1>
@@ -222,7 +222,7 @@ export default function HelpCenterPage() {
 
       {/* Contact CTA */}
       <div className="mx-auto max-w-7xl px-6 py-16">
-        <Card className="p-12 text-center bg-gradient-to-b from-brand/5 to-transparent border-brand/20">
+        <Card className="p-12 text-center bg-panel/45 border-brand/20">
           <h2 className="text-3xl font-bold mb-4">Still need help?</h2>
           <p className="text-muted mb-8 max-w-2xl mx-auto">
             Our support team is available 7 days a week to assist you with any questions or concerns.

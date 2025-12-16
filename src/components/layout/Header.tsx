@@ -13,16 +13,16 @@ export function Header() {
   if (isAuth) return null;
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/12 bg-bg/70 backdrop-blur-xl">
-      <nav className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 border-b border-border/12 bg-bg/90">
+      <nav className="mx-auto max-w-7xl px-6 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-brand2 to-brand2/60 shadow-glow">
-            <span className="text-lg font-bold text-bg">$</span>
+          <div className="h-10 w-10 flex items-center justify-center rounded-full bg-brand">
+            <span className="text-lg font-bold text-primary">$</span>
           </div>
-          <div className="flex flex-col">
-            <span className="text-lg font-bold tracking-tight text-fg">Dollar</span>
-            <span className="text-xs font-semibold text-brand2 uppercase tracking-widest">Loans</span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-base font-semibold text-primary">Dollar</span>
+            <span className="text-xs font-medium text-muted uppercase tracking-widest">Loans</span>
           </div>
         </Link>
 
@@ -30,27 +30,22 @@ export function Header() {
         <div className="hidden md:flex items-center gap-8">
           {!isDashboard && !isAdmin && (
             <>
-              <Link
-                href="/how-it-works"
-                className="text-sm font-medium text-muted hover:text-fg transition-colors"
-              >
-                How It Works
-              </Link>
+              <Link href="/how-it-works" className="text-sm font-medium text-muted hover:text-primary transition-colors">How It Works</Link>
               <Link
                 href="/calculator"
-                className="text-sm font-medium text-muted hover:text-fg transition-colors"
+                className="text-sm font-medium text-muted hover:text-primary transition-colors"
               >
                 Calculator
               </Link>
               <Link
                 href="/rates-fees"
-                className="text-sm font-medium text-muted hover:text-fg transition-colors"
+                className="text-sm font-medium text-muted hover:text-primary transition-colors"
               >
                 Rates & Fees
               </Link>
               <Link
                 href="/faq"
-                className="text-sm font-medium text-muted hover:text-fg transition-colors"
+                className="text-sm font-medium text-muted hover:text-primary transition-colors"
               >
                 FAQ
               </Link>
@@ -64,13 +59,13 @@ export function Header() {
             <>
               <Link
                 href="/auth/login"
-                className="hidden sm:block text-sm font-medium text-muted hover:text-fg transition-colors"
+                className="hidden sm:block text-sm font-medium text-muted hover:text-primary transition-colors"
               >
                 Sign In
               </Link>
               <Link
                 href="/dashboard/get-cash"
-                className="rounded-full bg-brand2 px-6 py-2 text-sm font-semibold text-bg shadow-glow transition hover:brightness-110"
+                className="btn-primary"
               >
                 Get Cash
               </Link>

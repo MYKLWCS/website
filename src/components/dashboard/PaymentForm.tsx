@@ -151,7 +151,7 @@ export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215,
               className={cn(
                 "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
                 paymentMethod === method.id
-                  ? "border-brand2/40 bg-brand2/10"
+                  ? "border-brand/40 bg-brand/10"
                   : "border-border/14 bg-bg/40 hover:border-border/24"
               )}
             >
@@ -200,7 +200,7 @@ export function PaymentForm({ minAmount = 50, maxAmount = 5000, dueAmount = 215,
       </div>
 
       {/* Processing Time Info */}
-      <div className="mt-4 p-3 bg-brand2/5 border border-brand2/20 rounded-lg text-xs text-muted">
+      <div className="mt-4 p-3 bg-brand/5 border border-brand/20 rounded-lg text-xs text-muted">
         💡 Payments are typically applied within 1-2 business days. Your payment schedule will update automatically.
       </div>
 

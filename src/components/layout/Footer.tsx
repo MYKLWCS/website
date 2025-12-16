@@ -4,119 +4,28 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border/12 bg-bg pt-16 pb-8">
-      <div className="mx-auto max-w-7xl px-6">
-        {/* Top Section */}
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4 mb-12">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-brand2 to-brand2/60 shadow-glow">
-                <span className="text-sm font-bold text-bg">$</span>
-              </div>
-              <span className="font-bold text-fg">Dollar Loans</span>
+    <footer className="border-t border-border/12 bg-bg py-10">
+      <div className="mx-auto max-w-4xl px-6">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 flex items-center justify-center rounded-full bg-brand">
+              <span className="text-sm font-bold text-primary">$</span>
             </div>
-            <p className="text-xs text-muted leading-relaxed">
-              Texas CAB facilitating transparent vehicle equity access.
-            </p>
+            <div>
+              <div className="font-semibold text-primary">Dollar Loans</div>
+              <div className="text-xs text-muted">Transparent vehicle equity access</div>
+            </div>
           </div>
 
-          {/* Product */}
-          <div>
-            <h3 className="font-semibold text-fg text-sm mb-4">Product</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/how-it-works" className="text-xs text-muted hover:text-fg transition-colors">
-                  How It Works
-                </Link>
-              </li>
-              <li>
-                <Link href="/calculator" className="text-xs text-muted hover:text-fg transition-colors">
-                  Calculator
-                </Link>
-              </li>
-              <li>
-                <Link href="/rates-fees" className="text-xs text-muted hover:text-fg transition-colors">
-                  Rates & Fees
-                </Link>
-              </li>
-              <li>
-                <Link href="/eligibility" className="text-xs text-muted hover:text-fg transition-colors">
-                  Eligibility
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="font-semibold text-fg text-sm mb-4">Company</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/about" className="text-xs text-muted hover:text-fg transition-colors">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link href="/careers" className="text-xs text-muted hover:text-fg transition-colors">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/press" className="text-xs text-muted hover:text-fg transition-colors">
-                  Press
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-xs text-muted hover:text-fg transition-colors">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Legal */}
-          <div>
-            <h3 className="font-semibold text-fg text-sm mb-4">Legal</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/legal/terms" className="text-xs text-muted hover:text-fg transition-colors">
-                  Terms
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/privacy" className="text-xs text-muted hover:text-fg transition-colors">
-                  Privacy
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/cab-disclosures" className="text-xs text-muted hover:text-fg transition-colors">
-                  CAB Disclosures
-                </Link>
-              </li>
-              <li>
-                <Link href="/legal/cookies" className="text-xs text-muted hover:text-fg transition-colors">
-                  Cookies
-                </Link>
-              </li>
-            </ul>
+          <div className="flex items-center gap-4">
+            <Link href="/about" className="text-sm text-muted hover:text-primary transition-colors">About</Link>
+            <Link href="/faq" className="text-sm text-muted hover:text-primary transition-colors">FAQ</Link>
+            <Link href="/contact" className="text-sm text-muted hover:text-primary transition-colors">Contact</Link>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-border/12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted text-center md:text-left">
-            © 2025 Dollar Loans. All rights reserved. Dollar Loans is a Texas Credit Access Business (CAB).
-          </p>
-          <div className="flex items-center gap-4">
-            <Link href="/legal/privacy" className="text-xs text-muted hover:text-fg transition-colors">
-              Privacy Policy
-            </Link>
-            <span className="text-border">/</span>
-            <Link href="/legal/terms" className="text-xs text-muted hover:text-fg transition-colors">
-              Terms of Service
-            </Link>
-          </div>
+        <div className="border-t border-border/12 pt-6 text-center md:text-left">
+          <p className="text-xs text-muted">© 2025 Dollar Loans. All rights reserved. Dollar Loans is a Texas CAB.</p>
         </div>
       </div>
     </footer>

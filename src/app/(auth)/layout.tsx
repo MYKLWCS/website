@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       <header className="border-b border-border/60 bg-bg/60 backdrop-blur">
         <Container className="flex items-center justify-between py-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl border border-border/70 bg-gradient-to-b from-white/10 to-white/0 shadow-glow" />
+            <div className="h-9 w-9 rounded-lg border border-border/70 bg-panel/60 shadow-sm" />
             <div className="leading-tight">
               <p className="text-sm font-semibold tracking-tight">Dollar Loans</p>
               <p className="text-xs text-muted">Texas CAB access services</p>

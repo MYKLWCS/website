@@ -147,7 +147,7 @@ export function AutopaySetup() {
                 className={cn(
                   "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
                   selectedMethod === method.id
-                    ? "border-brand2/40 bg-brand2/10"
+                    ? "border-brand/40 bg-brand/10"
                     : "border-border/14 bg-bg/30 hover:border-border/24"
                 )}
               >
@@ -187,7 +187,7 @@ export function AutopaySetup() {
             </select>
           </div>
 
-          <div className="mt-6 p-4 bg-brand2/5 rounded-lg border border-brand2/20 text-xs text-muted">
+          <div className="mt-6 p-4 bg-brand/5 rounded-lg border border-brand/20 text-xs text-muted">
             ℹ️ Your monthly payment of <strong>$215.00</strong> will be automatically charged on the{" "}
             <strong>{paymentDay}th</strong> of each month starting next month.
           </div>

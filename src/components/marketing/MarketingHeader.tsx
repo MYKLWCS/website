@@ -7,7 +7,9 @@ export function MarketingHeader() {
     <header className="sticky top-0 z-40 border-b border-border bg-white/95 backdrop-blur shadow-sm">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <Link href="/" className="group flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl border border-brand/20 bg-gradient-to-br from-brand to-brand/70 shadow-sm" />
+          <div className="h-9 w-9 rounded-full border border-brand/20 bg-brand flex items-center justify-center shadow-sm">
+            <span className="text-sm font-bold text-primary">$</span>
+          </div>
           <div className="leading-tight">
             <p className="text-sm font-semibold tracking-tight">Dollar Loans</p>
             <p className="text-xs text-muted">Texas CAB title access</p>
