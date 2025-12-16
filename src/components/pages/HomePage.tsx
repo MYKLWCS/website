@@ -1,52 +1,51 @@
 import { Accordion } from "@/components/ui/Accordion";
-import { Button, ButtonLink } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PrequalMiniWizard } from "@/components/prequal/PrequalMiniWizard";
 
 // --- Nano Banana Image Prompts ---
-// 1. Hero Image: A stunning, abstract image of a gold liquid swirling and forming the shape of a high-end sports car. The background is a dark, rich brown.
-//    Prompt: "Abstract, 8k, hyper-realistic, liquid gold forming the silhouette of a luxury sports car, dark brown background, cinematic lighting, dramatic shadows"
-// 2. Feature Icons: A set of 3 icons in a gold and pink style: (1) A stopwatch with wings, (2) A shield with a dollar sign, (3) A car with an upward-pointing arrow.
-//    Prompt: "3 minimalist icons, gold and pink on a dark brown background: (1) A stopwatch with wings, (2) A shield with a dollar sign, (3) A car with an upward-pointing arrow. Clean, vector style."
+// 1. Hero Background: An abstract, ethereal 8k image with glowing, geometric lines in rose and gold on a light beige background. It should feel like a futuristic circuit board.
+//    Prompt: "8k, abstract, ethereal, glowing geometric lines, rose and gold, light beige background, futuristic circuit board, minimalist, clean"
+// 2. Feature Icons: A set of 3 icons in a rose and gold gradient on a white background: (1) A lightning bolt, (2) A fingerprint scanner, (3) A rising chart arrow.
+//    Prompt: "3 minimalist icons, rose and gold gradient on a white background: (1) lightning bolt, (2) fingerprint scanner, (3) rising chart arrow. 3D, glowing, clean."
 
 export function HomePage() {
   return (
-    <main>
+    <main className="bg-beige">
       {/* --- Hero Section --- */}
-      <Section className="relative pt-48 pb-32 text-center text-white bg-brown-900">
-        <div className="absolute inset-0 bg-gradient-to-b from-brown-900 via-brown-800 to-brown-900 opacity-80"></div>
+      <Section className="relative pt-48 pb-32 text-center">
         {/* Placeholder for Nano Banana Image 1 */}
-        <div className="absolute inset-0 bg-cover bg-center" style={{backgroundImage: 'url("[Nano Banana: Hero Image]")'}}></div>
+        <div className="absolute inset-0 bg-cover bg-center opacity-20" style={{backgroundImage: 'url("[Nano Banana: Hero Background]")'}}></div>
         <Container className="relative">
-          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6 text-shadow-lg">
-            Your Vehicle's Hidden Value, Unleashed.
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-4">
+            Unlock Your Car's <span className="gradient-text">Aura</span>.
           </h1>
-          <p className="text-xl md:text-2xl text-gold-100/80 leading-relaxed max-w-3xl mx-auto mb-10">
-            Access the equity in your car without selling it. Gilded Finance offers a seamless, secure, and sophisticated way to get the cash you need.
+          <p className="text-xl md:text-2xl text-grey-500 leading-relaxed max-w-3xl mx-auto mb-10">
+            Instantly access the hidden value of your vehicle with a process that is as seamless and sophisticated as our technology.
           </p>
-          <Button href="#prequal" size="xl" className="bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-600 hover:to-gold-700 text-white shadow-2xl transform hover:scale-105">
-            Unlock Your Cash Offer
+          <Button href="#prequal" size="xl" className="bg-rose-500 hover:bg-rose-600 text-white shadow-lg shadow-glow-rose transform hover:scale-105">
+            Activate Your Offer
           </Button>
         </Container>
       </Section>
 
       {/* --- Features Section --- */}
-      <Section className="py-24 md:py-32">
+      <Section className="py-24 md:py-32 bg-white">
         <Container>
-          <div className="grid md:grid-cols-3 gap-12 text-center">
+          <div className="grid md:grid-cols-3 gap-8">
             {[
-              ["Speed", "From application to cash in as little as 24 hours."],
-              ["Security", "Bank-level security and data protection."],
-              ["Value", "Get the most from your vehicle's equity."],
+              ["Instant Offers", "Our AI-powered engine gives you a real offer in seconds."],
+              ["Secure & Private", "End-to-end encryption and bank-level security."],
+              ["Maximum Value", "We find the highest possible value for your vehicle."],
             ].map(([title, desc], i) => (
-              <div key={i} className="p-8">
-                {/* Placeholder for Nano Banana Image 2 */}
-                <div className="w-24 h-24 rounded-full bg-gold-100 mx-auto mb-6 flex items-center justify-center">
-                  <p className="text-gold-500">[Icon {i+1}]</p>
-                </div>
+              <div key={i} className="p-8 text-center">
+                 {/* Placeholder for Nano Banana Image 2 */}
+                 <div className="w-24 h-24 rounded-2xl bg-white shadow-lg mx-auto mb-6 flex items-center justify-center">
+                   <p className="text-rose-500">[Icon {i+1}]</p>
+                 </div>
                 <h3 className="text-2xl font-bold mb-2">{title}</h3>
-                <p className="text-muted">{desc}</p>
+                <p className="text-grey-500">{desc}</p>
               </div>
             ))}
           </div>
@@ -54,12 +53,12 @@ export function HomePage() {
       </Section>
 
       {/* --- Prequalification Section --- */}
-      <Section id="prequal" className="scroll-mt-20 py-24 md:py-32 bg-panel">
+      <Section id="prequal" className="scroll-mt-20 py-24 md:py-32">
         <Container>
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-5xl md:text-6xl font-black mb-4">See Your Offer</h2>
-            <p className="text-xl text-muted mb-12">
-              No commitment, no impact to your credit score. Just a real offer in real time.
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-5xl md:text-6xl font-black mb-4">Check Your Rate</h2>
+            <p className="text-lg text-grey-500 mb-12">
+             See your personalized offer with no commitment and no impact on your credit score.
             </p>
           </div>
           <PrequalMiniWizard />
@@ -67,25 +66,25 @@ export function HomePage() {
       </Section>
 
       {/* --- FAQ Section --- */}
-      <Section className="py-24 md:py-32">
+      <Section className="py-24 md:py-32 bg-white">
         <Container>
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-5xl md:text-6xl font-black mb-4">Frequently Asked Questions</h2>
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <h2 className="text-5xl md:text-6xl font-black mb-4">How It Works</h2>
           </div>
           <div className="max-w-3xl mx-auto">
             <Accordion
               items={[
                 {
-                  q: "How is Gilded Finance different?",
-                  a: "We combine technology, deep automotive expertise, and a commitment to customer service to provide a seamless and sophisticated experience. We see your vehicle not just as a car, but as a valuable asset.",
+                  q: "What makes Aura different?",
+                  a: "Aura uses cutting-edge technology to provide a faster, more transparent, and more secure way to unlock the equity in your vehicle. We treat your car like the high-value asset it is.",
                 },
                 {
-                  q: "What do I need to apply?",
-                  a: "You'll need a valid driver's license, proof of income, and your vehicle's title. Our secure online portal makes it easy to upload everything in minutes.",
+                  q: "How long does the process take?",
+                  a: "From starting your application to receiving your funds, the entire process can take as little as a few hours. Our digital-first approach eliminates unnecessary paperwork and delays.",
                 },
                 {
-                  q: "Can I still drive my car?",
-                  a: "Yes! A title loan allows you to use your car's title as collateral, so you can get the cash you need and keep driving your car.",
+                  q: "Is my data secure?",
+                  a: "Absolutely. We use bank-level security protocols and end-to-end encryption to protect your personal information. Your privacy is our top priority.",
                 },
               ]}
             />

@@ -2,19 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  /* --- Project Gilded Rose --- */
-  --bg: 253 251 249; /* Warm, off-white */
-  --panel: 255 255 255;
-  --border: 229 224 219; /* Soft, warm grey */
-  --fg: 67 38 26; /* Rich Brown */
-  --muted: 155 132 119;
+  /* --- Project Aura --- */
+  --bg: 245 245 245;       /* Light, clean beige */
+  --panel: 255 255 255;   /* Pure white for panels */
+  --border: 229 229 229;   /* Soft grey for borders */
+  --fg: 0 0 0;            /* Crisp black for text */
+  --muted: 107 114 128;   /* Grey for muted text */
 
-  /* Brand Colors */
-  --brand: 185 149 85; /* Gold */
-  --accent: 219 39 119; /* Pink */
+  /* Brand & Accent Colors */
+  --brand: 244 63 94;     /* Vibrant Rose */
+  --accent: 212 175 55;   /* Elegant Gold */
 
   /* Semantic Colors */
   --danger: 220 38 38;
@@ -28,48 +28,45 @@ body {
 }
 
 body {
-  background: rgb(var(--bg));
+  background-color: rgb(var(--bg));
   color: rgb(var(--fg));
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
-body, button, input, textarea {
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  letter-spacing: -0.04em;
 }
 
 ::selection {
   background: rgb(var(--brand) / 0.1);
-  color: rgb(var(--fg));
 }
 
 a {
   color: rgb(var(--brand));
   font-weight: 600;
   text-decoration: none;
+  transition: color 150ms ease-in-out;
 }
 
 a:hover {
-  color: rgb(var(--accent));
-  text-decoration: underline;
+  color: rgb(var(--fg));
+}
+
+.gradient-text {
+  background: -webkit-linear-gradient(45deg, rgb(var(--brand)), rgb(var(--accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Animations */
-@keyframes fade-in-up {
-  from { opacity: 0; transform: translateY(20px); }
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(15px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fade-in-up {
-  animation: fade-in-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.4, 0, 0.2, 1) both;
 }

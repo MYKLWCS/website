@@ -11,49 +11,40 @@ export default {
         fg: "rgb(var(--fg) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
         
-        // --- Project Gilded Rose ---
+        // --- Project Aura ---
+        beige: {
+          DEFAULT: "#F5F5F5", // Light, clean beige
+          50: "#FFFFFF",
+          100: "#F5F5F5",
+          200: "#E5E5E5",
+          300: "#D4D4D4",
+        },
+        rose: {
+          DEFAULT: "#F43F5E", // Bright, vibrant rose
+          500: "#F43F5E",
+          600: "#E11D48",
+          700: "#BE123C",
+        },
         gold: {
-          DEFAULT: "#B99555", // A rich, metallic gold
-          50: "#FDFBF5",
-          100: "#F9F4E6",
-          200: "#F1E8CD",
-          300: "#E9DBB4",
-          400: "#DBC78F",
-          500: "#CFAA6A",
-          600: "#B99555",
-          700: "#9E7B4A",
-          800: "#83613F",
-          900: "#684734",
-          950: "#3F261A",
+          DEFAULT: "#D4AF37", // Classic, elegant gold
+          500: "#D4AF37",
+          600: "#C09E31",
+          700: "#A98A2A",
         },
-        pink: {
-          DEFAULT: "#EC4899", // Vibrant, energetic pink
-          50: "#FDF2F8",
-          100: "#FCE7F3",
-          200: "#FBCFE8",
-          300: "#F9A8D4",
-          400: "#F472B6",
-          500: "#EC4899",
-          600: "#DB2777",
-          700: "#BE185D",
-          800: "#9D174D",
-          900: "#831843",
-          950: "#500724",
+        grey: {
+          DEFAULT: "#808080",
+          100: "#E5E7EB",
+          200: "#D1D5DB",
+          300: "#9CA3AF",
+          400: "#6B7280",
+          500: "#4B5563",
+          600: "#374151",
+          700: "#1F2937",
+          800: "#111827",
+          900: "#000000",
         },
-        brown: {
-          DEFAULT: "#43261A", // Dark, rich brown for text
-          50: "#F7F5F4",
-          100: "#EFECE9",
-          200: "#E1D9D3",
-          300: "#D3C6BD",
-          400: "#B7A59A",
-          500: "#9B8477",
-          600: "#7F6354",
-          700: "#634231",
-          800: "#43261A",
-          900: "#240F08",
-          950: "#120704",
-        },
+        black: "#000000",
+        white: "#FFFFFF",
         
         // Semantic colors
         danger: "rgb(var(--danger) / <alpha-value>)",
@@ -61,7 +52,8 @@ export default {
         ok: "rgb(var(--ok) / <alpha-value>)",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgb(var(--border) / 0.14), 0 18px 70px rgb(0 0 0 / 0.65), 0 0 60px rgb(var(--brand) / 0.10)",
+        "glow-rose": "0 0 20px 0 rgba(244, 63, 94, 0.3)",
+        "glow-gold": "0 0 20px 0 rgba(212, 175, 55, 0.3)",
       },
       keyframes: {
         "fade-up": {
@@ -70,7 +62,7 @@ export default {
         },
       },
       animation: {
-        "fade-up": "fade-up 500ms ease-out both",
+        "fade-up": "fade-up 600ms ease-out both",
       },
     },
   },
