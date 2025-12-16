@@ -10,8 +10,12 @@
   --fg: 17 24 39; /* Deep black text */
   --muted: 107 114 128; /* Medium gray for secondary text */
   --grey: 156 163 175; /* Light gray for tertiary elements */
-  --brand: 236 72 153; /* Pink - primary brand color */
-  --brand2: 234 179 8; /* Gold - secondary brand color */
+  /* Primary colors: black (text) + gold (primary UI) */
+  --primary: 17 24 39; /* Primary: deep black */
+  --brand: 234 179 8; /* Gold - primary brand/CTA */
+  /* Accent colors */
+  --accent: 236 72 153; /* Pink - accents */
+  --brand2: 236 72 153; /* Legacy name kept for compatibility (pink) */
   --danger: 239 68 68; /* Red for errors */
   --warn: 234 179 8; /* Gold for warnings */
   --ok: 34 197 94; /* Green for success */
@@ -24,7 +28,7 @@ body {
 
 body {
   background: rgb(var(--bg));
-  color: rgb(var(--fg));
+  color: rgb(var(--primary));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -45,8 +49,8 @@ body {
 }
 
 ::selection {
-  background: rgb(var(--brand) / 0.25);
-  color: rgb(var(--fg));
+  background: rgb(var(--accent) / 0.28);
+  color: rgb(var(--primary));
 }
 
 /* Smooth transitions for interactive elements */
@@ -56,8 +60,8 @@ body {
   }
 
   .card-clean {
-    background: rgb(var(--bg));
-    border: 1px solid rgb(var(--border) / 0.7);
+    background: rgb(var(--panel));
+    border: 1px solid rgb(var(--border) / 0.85);
     border-radius: 16px;
     transition: all 200ms ease-out;
   }
@@ -69,6 +73,14 @@ body {
 
   .button-clean {
     transition: all 150ms ease-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-weight: 600;
+    border: 1px solid transparent;
   }
 
   .button-clean:hover {
@@ -79,6 +91,22 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Common utility classes for primary/accents */
+.text-primary { color: rgb(var(--primary)) !important; }
+.bg-primary { background-color: rgb(var(--brand)) !important; }
+.text-brand { color: rgb(var(--brand)) !important; }
+.text-accent { color: rgb(var(--accent)) !important; }
+.bg-accent { background-color: rgb(var(--accent)) !important; }
+.border-muted { border-color: rgb(var(--border)) !important; }
+
+/* Button variants */
+.btn-primary { background: rgb(var(--brand)); color: rgb(var(--primary)); }
+.btn-outline-accent { background: transparent; border: 1px solid rgb(var(--accent)); color: rgb(var(--accent)); }
+
+/* Links default to accent pink for subtle pops */
+a { color: rgb(var(--accent)); text-decoration: underline; text-underline-offset: 3px; }
+a:hover { color: rgb(var(--brand)); }
 
 /* Crisp, clean image rendering */
 img {
