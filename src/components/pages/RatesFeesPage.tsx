@@ -63,18 +63,30 @@ export function RatesFeesPage() {
         ]}
       />
 
-      <Section>
-        <Container>
-          <div className="mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-center mb-4">Transparent Pricing</h2>
-            <p className="text-lg text-muted text-center max-w-3xl mx-auto">
-              Understanding costs is important. We break down fee categories in plain language.
-            </p>
+      <Section className="relative py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-panel/30 via-white to-panel/20"></div>
+        <div className="absolute top-0 left-1/2 w-[800px] h-[400px] bg-gradient-to-b from-brand/10 to-transparent rounded-full blur-3xl -translate-x-1/2"></div>
+        <div className="absolute bottom-1/3 right-0 w-[600px] h-[300px] bg-gradient-to-l from-brand2/10 to-transparent rounded-full blur-3xl"></div>
+
+        <Container className="relative">
+          <div className="max-w-5xl mx-auto mb-20">
+            <div className="text-center">
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/10 to-brand2/10 border border-brand/20 mb-8 backdrop-blur-sm">
+                <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
+                <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">Transparent Pricing</p>
+              </div>
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-10 bg-gradient-to-br from-fg to-fg/70 bg-clip-text text-transparent">
+                Clear Cost Breakdown
+              </h2>
+              <p className="text-xl md:text-2xl text-muted leading-relaxed max-w-3xl mx-auto">
+                Understanding costs is important. We break down fee categories in plain language.
+              </p>
+            </div>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2 mb-12">
+          <div className="grid gap-10 lg:grid-cols-2 mb-20 max-w-6xl mx-auto">
             <div className="group relative">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand to-brand2 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-brand to-brand2 rounded-3xl opacity-20 blur-xl transition-all duration-500"></div>
               <div className="relative">
                 <FeeBreakdown
                   items={[
@@ -87,49 +99,75 @@ export function RatesFeesPage() {
               </div>
             </div>
             <div className="space-y-6">
-              <Notice tone="cab" title="CAB-safe language" className="p-6">
-                Dollar Loans facilitates access to credit as a Texas Credit Access Business (CAB). We do not present ourselves as a traditional lender in marketing copy.
-              </Notice>
-              <Notice tone="warn" title="Not guaranteed" className="p-6">
-                Estimates, pre-qualification, and examples are not guarantees of approval or final terms.
-              </Notice>
-              <Notice tone="info" title="Want the full text?" className="p-6">
-                See{" "}
-                <Link className="underline underline-offset-4 hover:text-brand font-semibold" href="/legal/cab-disclosures">
-                  CAB disclosures
-                </Link>{" "}
-                and{" "}
-                <Link className="underline underline-offset-4 hover:text-brand font-semibold" href="/legal/texas-disclosures">
-                  Texas disclosures
-                </Link>
-                .
-              </Notice>
+              <div className="relative p-8 rounded-3xl border-2 border-brand/30 bg-gradient-to-br from-brand/5 via-white to-brand2/5 shadow-[0_20px_50px_rgb(var(--brand)/0.1)] hover:shadow-[0_25px_60px_rgb(var(--brand)/0.15)] transition-all duration-500">
+                <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-brand/20 to-transparent rounded-tl-3xl"></div>
+                <Notice tone="cab" title="CAB-safe language" className="!p-0 !bg-transparent !border-0">
+                  Dollar Loans facilitates access to credit as a Texas Credit Access Business (CAB). We do not present ourselves as a traditional lender in marketing copy.
+                </Notice>
+              </div>
+              <div className="relative p-8 rounded-3xl border-2 border-warn/40 bg-gradient-to-br from-warn/5 via-white to-warn/5 shadow-lg hover:shadow-[0_20px_50px_rgb(var(--warn)/0.15)] transition-all duration-500">
+                <Notice tone="warn" title="Not guaranteed" className="!p-0 !bg-transparent !border-0">
+                  Estimates, pre-qualification, and examples are not guarantees of approval or final terms.
+                </Notice>
+              </div>
+              <div className="relative p-8 rounded-3xl border-2 border-border bg-white shadow-lg hover:shadow-[0_20px_50px_rgb(0,0,0,0.08)] transition-all duration-500">
+                <Notice tone="info" title="Want the full text?" className="!p-0 !bg-transparent !border-0">
+                  See{" "}
+                  <Link className="underline underline-offset-4 hover:text-brand font-semibold transition-colors" href="/legal/cab-disclosures">
+                    CAB disclosures
+                  </Link>{" "}
+                  and{" "}
+                  <Link className="underline underline-offset-4 hover:text-brand font-semibold transition-colors" href="/legal/texas-disclosures">
+                    Texas disclosures
+                  </Link>
+                  .
+                </Notice>
+              </div>
             </div>
           </div>
 
-          <div className="mb-16">
-            <EstimatedPaymentsToggle />
+          <div className="mb-20 max-w-5xl mx-auto">
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-r from-brand/15 via-brand2/15 to-brand/15 rounded-3xl blur-2xl"></div>
+              <div className="relative">
+                <EstimatedPaymentsToggle />
+              </div>
+            </div>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-2">
+          <div className="grid gap-10 md:grid-cols-2 max-w-6xl mx-auto">
             <div className="group relative">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand to-brand2 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
-              <div className="relative">
-                <Infographic
-                  variant="cabWhoDoesWhat"
-                  title="Who does what"
-                  caption="CAB facilitation vs. creditor extension of credit (if approved)."
-                />
+              <div className="absolute -inset-1 bg-gradient-to-r from-brand to-brand2 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
+              <div className="relative p-8 rounded-3xl border-2 border-border bg-white hover:border-brand/30 hover:shadow-[0_30px_60px_rgb(var(--brand)/0.15)] transition-all duration-500 group-hover:-translate-y-2">
+                <div className="mb-6">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-brand/20 to-brand2/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-brand to-brand2"></div>
+                  </div>
+                </div>
+                <div className="graphic-float transform group-hover:scale-105 transition-transform duration-700">
+                  <Infographic
+                    variant="cabWhoDoesWhat"
+                    title="Who does what"
+                    caption="CAB facilitation vs. creditor extension of credit (if approved)."
+                  />
+                </div>
               </div>
             </div>
             <div className="group relative">
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-brand to-brand2 rounded-2xl opacity-0 group-hover:opacity-10 transition duration-300"></div>
-              <div className="relative">
-                <Infographic
-                  variant="securityDataJourney"
-                  title="Verification data journey (high-level)"
-                  caption="What happens to your info in the process (placeholder)."
-                />
+              <div className="absolute -inset-1 bg-gradient-to-r from-brand to-brand2 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
+              <div className="relative p-8 rounded-3xl border-2 border-border bg-white hover:border-brand/30 hover:shadow-[0_30px_60px_rgb(var(--brand)/0.15)] transition-all duration-500 group-hover:-translate-y-2">
+                <div className="mb-6">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-brand/20 to-brand2/20 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-brand to-brand2"></div>
+                  </div>
+                </div>
+                <div className="graphic-float transform group-hover:scale-105 transition-transform duration-700">
+                  <Infographic
+                    variant="securityDataJourney"
+                    title="Verification data journey (high-level)"
+                    caption="What happens to your info in the process (placeholder)."
+                  />
+                </div>
               </div>
             </div>
           </div>
