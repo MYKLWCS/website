@@ -1,70 +1,59 @@
-"use client";
-
 import Link from "next/link";
+import { Container } from "@/components/layout/Container";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-black pt-20 pb-10">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-gradient-to-br from-gray-800 to-black border border-white/10">
-                <span className="text-xl font-bold text-white">$</span>
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-lg font-bold text-white tracking-tight">DOLLAR</span>
-                <span className="text-[10px] font-bold text-primary tracking-[0.2em] uppercase">LOANS</span>
-              </div>
-            </Link>
-            <p className="text-gray-400 text-sm max-w-sm mb-6">
-              The modern way to access vehicle equity. Instant decisions, transparent fees, and a completely digital experience tailored for the future.
-            </p>
-            <div className="flex gap-4">
-              {/* Social placeholders */}
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="w-10 h-10 rounded-full bg-white/5 border border-white/5 hover:bg-white/10 hover:border-primary/50 transition-colors cursor-pointer" />
-              ))}
+    <footer className="bg-white border-t border-border">
+      <Container>
+        <div className="py-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {/* Logo & Social */}
+            <div className="col-span-2 md:col-span-1">
+              <Link href="/" className="flex items-center gap-2.5 mb-4">
+                <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center">
+                  <div className="w-4 h-4 rounded-full bg-rose-500"></div>
+                </div>
+                <span className="text-xl font-bold tracking-tighter">Aura</span>
+              </Link>
+              <p className="text-sm text-grey-400 max-w-xs">
+                The future of asset-backed lending.
+              </p>
+            </div>
+
+            {/* Product Links */}
+            <div>
+              <h3 className="text-sm font-semibold text-black mb-4">Product</h3>
+              <ul className="space-y-3 text-sm">
+                <li><Link href="/how-it-works" className="text-grey-500 hover:text-black transition-colors">How It Works</Link></li>
+                <li><Link href="/get-offer" className="text-grey-500 hover:text-black transition-colors">Get an Offer</Link></li>
+                <li><Link href="/security" className="text-grey-500 hover:text-black transition-colors">Security</Link></li>
+              </ul>
+            </div>
+
+            {/* Company Links */}
+            <div>
+              <h3 className="text-sm font-semibold text-black mb-4">Company</h3>
+              <ul className="space-y-3 text-sm">
+                <li><Link href="/about" className="text-grey-500 hover:text-black transition-colors">About Us</Link></li>
+                <li><Link href="/blog" className="text-grey-500 hover:text-black transition-colors">Blog</Link></li>
+                <li><Link href="/contact" className="text-grey-500 hover:text-black transition-colors">Contact</Link></li>
+              </ul>
+            </div>
+
+            {/* Legal Links */}
+            <div>
+              <h3 className="text-sm font-semibold text-black mb-4">Legal</h3>
+              <ul className="space-y-3 text-sm">
+                <li><Link href="/terms" className="text-grey-500 hover:text-black transition-colors">Terms of Service</Link></li>
+                <li><Link href="/privacy" className="text-grey-500 hover:text-black transition-colors">Privacy Policy</Link></li>
+              </ul>
             </div>
           </div>
-
-          <div>
-            <h4 className="font-bold text-white mb-6">Platform</h4>
-            <ul className="space-y-4">
-              {['How It Works', 'Calculator', 'Rates & Fees', 'Vehicle Value'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-sm text-gray-400 hover:text-primary transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-white mb-6">Support</h4>
-            <ul className="space-y-4">
-              {['Help Center', 'Contact Us', 'Privacy Policy', 'Terms of Service'].map((item) => (
-                <li key={item}>
-                  <Link href="#" className="text-sm text-gray-400 hover:text-primary transition-colors">
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-gray-500">
-            © 2025 Dollar Loans. All rights reserved. Dollar Loans is a licensed Credit Access Business (CAB).
-          </p>
-          <div className="flex items-center gap-2">
-             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-             <span className="text-xs text-gray-400">All Systems Operational</span>
-          </div>
+        <div className="border-t border-border py-6">
+          <p className="text-sm text-center text-grey-400">&copy; {new Date().getFullYear()} Aura Financial. All Rights Reserved.</p>
         </div>
-      </div>
+      </Container>
     </footer>
   );
 }

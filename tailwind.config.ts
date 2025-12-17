@@ -5,70 +5,66 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Semantic Token Mapping
         bg: "rgb(var(--bg) / <alpha-value>)",
         panel: "rgb(var(--panel) / <alpha-value>)",
         border: "rgb(var(--border) / <alpha-value>)",
         fg: "rgb(var(--fg) / <alpha-value>)",
-        "fg-muted": "rgb(var(--fg-muted) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
         
-        // Brand & Accents
-        primary: "rgb(var(--primary) / <alpha-value>)",
-        secondary: "rgb(var(--secondary) / <alpha-value>)",
-        accent: "rgb(var(--accent) / <alpha-value>)",
+        // --- Project Aura ---
+        beige: {
+          DEFAULT: "#F5F5F5", // Light, clean beige
+          50: "#FFFFFF",
+          100: "#F5F5F5",
+          200: "#E5E5E5",
+          300: "#D4D4D4",
+        },
+        rose: {
+          DEFAULT: "#F43F5E", // Bright, vibrant rose
+          500: "#F43F5E",
+          600: "#E11D48",
+          700: "#BE123C",
+        },
+        gold: {
+          DEFAULT: "#D4AF37", // Classic, elegant gold
+          500: "#D4AF37",
+          600: "#C09E31",
+          700: "#A98A2A",
+        },
+        grey: {
+          DEFAULT: "#808080",
+          100: "#E5E7EB",
+          200: "#D1D5DB",
+          300: "#9CA3AF",
+          400: "#6B7280",
+          500: "#4B5563",
+          600: "#374151",
+          700: "#1F2937",
+          800: "#111827",
+          900: "#000000",
+        },
+        black: "#000000",
+        white: "#FFFFFF",
         
-        // State
-        success: "rgb(var(--success) / <alpha-value>)",
-        warning: "rgb(var(--warning) / <alpha-value>)",
-        error: "rgb(var(--error) / <alpha-value>)",
-        
-        // High-Tech Specifics
-        "tech-black": "#050505",
-        "tech-zinc": "#1A1A1A",
-        "tech-panel": "#111111",
-        "neon-blue": "#00f3ff",
-        "neon-purple": "#bc13fe",
-      },
-      fontFamily: {
-        sans: ["var(--font-heading)", "Inter", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'hero-glow': 'conic-gradient(from 180deg at 50% 50%, var(--primary) 0deg, var(--accent) 180deg, var(--primary) 360deg)',
+        // Semantic colors
+        danger: "rgb(var(--danger) / <alpha-value>)",
+        warn: "rgb(var(--warn) / <alpha-value>)",
+        ok: "rgb(var(--ok) / <alpha-value>)",
       },
       boxShadow: {
-        glow: "0 0 40px -10px rgba(var(--primary), 0.3)",
-        "glow-accent": "0 0 40px -10px rgba(var(--accent), 0.3)",
+        "glow-rose": "0 0 20px 0 rgba(244, 63, 94, 0.3)",
+        "glow-gold": "0 0 20px 0 rgba(212, 175, 55, 0.3)",
       },
       keyframes: {
-        "fade-in": { "0%": { opacity: "0" }, "100%": { opacity: "1" } },
         "fade-up": {
-          "0%": { opacity: "0", transform: "translateY(20px)" },
-          "100%": { opacity: "1", transform: "translateY(0)" }
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        "slide-left": {
-          "0%": { transform: "translateX(100%)" },
-          "100%": { transform: "translateX(0)" }
-        },
-        shimmer: {
-          "0%": { backgroundPosition: "200% 0" },
-          "100%": { backgroundPosition: "-200% 0" }
-        },
-        pulse: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: ".5" }
-        }
       },
       animation: {
-        "fade-in": "fade-in 0.5s ease-out",
-        "fade-up": "fade-up 0.7s ease-out",
-        "slide-left": "slide-left 0.5s ease-out",
-        shimmer: "shimmer 3s linear infinite",
-        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        "spin-slow": "spin 3s linear infinite",
-      }
-    }
+        "fade-up": "fade-up 600ms ease-out both",
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 } satisfies Config;
