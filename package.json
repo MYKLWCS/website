@@ -12,25 +12,29 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@octokit/rest": "^21.1.1",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.23.26",
+    "lucide-react": "^0.561.0",
     "next": "^14.2.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.68.0",
+    "tailwind-merge": "^3.4.0",
     "zod": "^4.2.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^20.11.30",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.19",
-    "@testing-library/react": "^14.0.0",
-    "@testing-library/jest-dom": "^6.0.0",
-    "vitest": "^1.6.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.0",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "vitest": "^1.6.0"
   }
 }

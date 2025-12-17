@@ -1,371 +1,268 @@
-import Link from "next/link";
+"use client";
+
+import { Button, ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
-import { ButtonLink } from "@/components/ui/Button";
-import { TrustStrip } from "@/components/marketing/TrustStrip";
-import { PrequalMiniWizard } from "@/components/prequal/PrequalMiniWizard";
-import { Infographic } from "@/components/infographics/Infographic";
-import { Accordion } from "@/components/ui/Accordion";
-import { TrackEvent } from "@/components/common/TrackEvent";
-import { Notice } from "@/components/ui/Notice";
-import { HomeHero } from "@/components/pages/HomeHero";
+import { ArrowRight, Zap, Shield, Globe, Users, TrendingUp, MessageSquare } from "lucide-react";
+import { useEffect, useState } from "react";
+
+// --- Nano Banana Image Prompts ---
+// 1. Hero Illustration: A highly detailed, isometric 3D illustration of a futuristic digital city or bank vault, glowing with cyan and violet neon lines on a dark background. Floating coins or digital assets.
+//    Prompt: "isometric 3d illustration, futuristic digital bank vault, glowing neon cyan and violet lines, floating digital assets, dark background, high tech, unreal engine 5 render, 8k"
+
+function LiveTicker() {
+    const [rate, setRate] = useState(13.4);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setRate(prev => prev + (Math.random() - 0.5) * 0.1);
+        }, 2000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="flex items-center gap-2 text-xs font-mono text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-800">
+            <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+            <span>LIVE APR INDEX: {rate.toFixed(2)}%</span>
+            <span className="text-green-500 text-[10px]">▲ 0.05%</span>
+        </div>
+    );
+}
+
+function ChatBot() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (
+        <div className="fixed bottom-6 right-6 z-50">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="h-14 w-14 rounded-full bg-electric-cyan text-black hover:bg-white hover:scale-105 transition-all shadow-[0_0_30px_rgba(34,211,238,0.4)] flex items-center justify-center"
+            >
+                <MessageSquare className="w-6 h-6 fill-current" />
+            </button>
+
+            {isOpen && (
+                <div className="absolute bottom-16 right-0 w-80 md:w-96 h-[500px] bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fade-in origin-bottom-right">
+                    <div className="p-4 bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 rounded-full bg-green-500" />
+                            <span className="font-bold text-sm">Aura Assistant</span>
+                        </div>
+                        <span className="text-xs text-zinc-500">Online</span>
+                    </div>
+                    <div className="flex-1 p-4 overflow-y-auto space-y-4">
+                        <div className="flex gap-3">
+                            <div className="w-8 h-8 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center shrink-0">
+                                <Zap className="w-4 h-4 text-electric-violet" />
+                            </div>
+                            <div className="bg-zinc-100 dark:bg-zinc-900 p-3 rounded-2xl rounded-tl-none text-sm text-zinc-600 dark:text-zinc-300">
+                                Hello! I can help you unlock your vehicle's equity. What brings you here today?
+                            </div>
+                        </div>
+                    </div>
+                    <div className="p-4 border-t border-zinc-200 dark:border-zinc-800">
+                        <input
+                            type="text"
+                            placeholder="Type a message..."
+                            className="w-full bg-transparent text-sm focus:outline-none text-zinc-900 dark:text-white"
+                        />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+}
 
 export function HomePage() {
-  return (
-    <main>
-      <TrackEvent name="visit_home" />
+    return (
+        <div className="overflow-hidden">
+            <ChatBot />
 
-      <Section className="relative pt-20 md:pt-32 pb-16 md:pb-24 overflow-hidden">
-        <div className="absolute inset-0 grid-glow"></div>
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-br from-brand/10 via-brand2/5 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-tr from-brand2/8 to-transparent rounded-full blur-3xl"></div>
+            {/* --- HERO SECTION --- */}
+            <section className="relative min-h-[90vh] flex flex-col justify-center pt-24 pb-12 overflow-hidden bg-grid-zinc-900/5 dark:bg-grid-white/5">
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
 
-        <Container className="relative z-10">
-          <div className="grid items-center gap-16 lg:grid-cols-2">
-            <div className="animate-fade-in-up">
-              <HomeHero />
-            </div>
-            <div id="prequal" className="scroll-mt-28 animate-fade-in-up animation-delay-200">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-brand via-brand2 to-brand rounded-3xl opacity-20 blur-2xl"></div>
-                <div className="relative">
-                  <PrequalMiniWizard />
-                </div>
-              </div>
-            </div>
-          </div>
+                <Container className="relative z-20">
+                    <div className="max-w-4xl">
+                        <div className="inline-flex items-center gap-2 mb-6 animate-fade-in">
+                            <LiveTicker />
+                            <div className="px-3 py-1 rounded-full border border-electric-violet/30 bg-electric-violet/10 text-electric-violet text-xs font-bold tracking-wide uppercase">
+                                New v2.0 Protocol Live
+                            </div>
+                        </div>
 
-          <div className="mt-24 animate-fade-in-up animation-delay-400">
-            <TrustStrip />
-          </div>
-        </Container>
-      </Section>
+                        <h1 className="text-6xl md:text-8xl font-black tracking-tighter mb-6 leading-[0.9] animate-fade-up">
+                            LIQUIDITY <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-electric-violet drop-shadow-sm">
+                                UNLOCKED.
+                            </span>
+                        </h1>
 
-      <Section className="relative bg-gradient-to-b from-white via-panel/30 to-white py-32">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgb(var(--brand)/0.05),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgb(var(--brand2)/0.05),transparent_50%)]"></div>
+                        <p className="text-xl md:text-2xl text-zinc-500 dark:text-zinc-400 max-w-2xl mb-10 leading-relaxed font-light animate-fade-up style={{animationDelay: '100ms'}}">
+                            The world's first decentralized-style vehicle equity platform.
+                            Instant access. Zero friction. Bank-grade security.
+                        </p>
 
-        <Container className="relative">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/15 to-brand2/15 border-2 border-brand/30 mb-6 backdrop-blur-sm shadow-lg">
-              <div className="w-2 h-2 rounded-full bg-brand animate-pulse"></div>
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">Lightning Fast Process</p>
-            </div>
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 bg-gradient-to-br from-fg via-fg to-fg/80 bg-clip-text text-transparent">
-              Get Your Loan in 3 Simple Steps
-            </h2>
-            <p className="text-xl md:text-2xl text-muted leading-relaxed max-w-2xl mx-auto">
-              From application to cash in your account — <span className="text-brand font-bold">in as little as 1 hour</span>
-            </p>
-          </div>
-
-          <div className="grid gap-8 md:grid-cols-3 max-w-6xl mx-auto">
-            {[
-              ["1", "Apply in 60 Seconds", "Tell us about your car and how much cash you need. Instant pre-approval decision."],
-              ["2", "Upload Your Docs", "Quick photo upload of your ID, car title, and vehicle. We verify everything instantly."],
-              ["3", "Get Your Cash", "E-sign your loan agreement and receive funds directly to your bank account today."]
-            ].map(([n, t, d], i) => (
-              <div key={t} className="group relative animate-fade-in-up" style={{ animationDelay: `${i * 150}ms` }}>
-                <div className="absolute -inset-1 bg-gradient-to-br from-brand via-brand2 to-brand rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
-                <div className="relative rounded-3xl border-2 border-border bg-white p-10 transition-all duration-500 group-hover:border-brand/50 group-hover:shadow-[0_20px_60px_rgb(var(--brand)/0.15)] group-hover:-translate-y-2 h-full">
-                  <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-brand via-brand to-brand2 text-white font-bold text-2xl mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500">
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent"></div>
-                    <span className="relative">{n}</span>
-                  </div>
-                  <h3 className="text-2xl font-bold tracking-tight mb-4 text-fg group-hover:text-brand transition-colors duration-300">{t}</h3>
-                  <p className="text-base text-muted leading-relaxed">{d}</p>
-                  <div className="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-brand/5 to-transparent rounded-tl-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-16 text-center">
-            <div className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-panel/80 to-white/80 border-2 border-brand/20 shadow-xl backdrop-blur-sm">
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-brand2 border-3 border-white shadow-md"></div>
-                ))}
-              </div>
-              <div className="text-left">
-                <p className="font-bold text-lg text-brand">5,000+ Loans Approved</p>
-                <p className="text-sm text-muted font-medium">Join thousands of satisfied Texas customers</p>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="relative py-32 md:py-40 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-panel/50 via-white to-panel/30"></div>
-        <div className="absolute top-1/2 left-0 w-[600px] h-[600px] bg-gradient-to-r from-brand/10 to-transparent rounded-full blur-3xl -translate-y-1/2"></div>
-
-        <Container className="relative">
-          <div className="grid gap-24 lg:grid-cols-2 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="relative graphic-container">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-brand2/10 rounded-3xl blur-2xl"></div>
-                <div className="relative graphic-float w-full transform hover:scale-105 transition-transform duration-700">
-                  <Infographic
-                    variant="howItWorksFlow"
-                    title="From estimate to agreement"
-                    caption="A simple, disclosure-forward flow designed for speed and clarity."
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="order-1 lg:order-2">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/10 to-brand2/10 border border-brand/20 mb-8 backdrop-blur-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">How it works</p>
-              </div>
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-10 leading-[1.1] bg-gradient-to-br from-fg to-fg/70 bg-clip-text text-transparent">
-                A calm, predictable process
-              </h2>
-              <p className="text-xl md:text-2xl text-muted leading-relaxed mb-14">
-                You start with an estimate range. If you continue, we will collect the information needed to facilitate
-                access and present CAB disclosures before any agreement is signed.
-              </p>
-
-              <div className="space-y-4 mb-14">
-                {[
-                  ["Estimate range", "Vehicle basics and desired amount"],
-                  ["Verify", "Upload photos and provide details"],
-                  ["Offer + disclosures", "Review fee categories and CAB info"],
-                  ["E-sign + funding", "Sign and track your funding"]
-                ].map(([t, d], i) => (
-                  <div key={t} className="group flex gap-5 p-7 rounded-2xl border-2 border-border/50 bg-white hover:border-brand/30 hover:shadow-[0_20px_50px_rgb(var(--brand)/0.1)] transition-all duration-500 hover:-translate-x-1">
-                    <div className="flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-brand/20 to-brand2/20 group-hover:from-brand group-hover:to-brand2 transition-all duration-500">
-                      <div className="w-3 h-3 rounded-full bg-brand group-hover:bg-white transition-colors duration-500"></div>
+                        <div className="flex flex-col sm:flex-row gap-4 animate-fade-up style={{animationDelay: '200ms'}}">
+                            <Button href="#start" variant="neon" size="xl" className="shadow-[0_0_40px_rgba(34,211,238,0.3)]">
+                                Start Application <ArrowRight className="w-5 h-5 ml-2" />
+                            </Button>
+                            <ButtonLink href="/how-it-works" variant="outline" size="xl" className="border-zinc-300 dark:border-zinc-700">
+                                View Protocol
+                            </ButtonLink>
+                        </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="font-bold text-lg mb-2 text-fg group-hover:text-brand transition-colors duration-300">{t}</p>
-                      <p className="text-base text-muted leading-relaxed">{d}</p>
-                    </div>
-                    <div className="flex-shrink-0 text-brand opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300 text-xl">→</div>
-                  </div>
-                ))}
-              </div>
+                </Container>
 
-              <div className="flex flex-wrap gap-5">
-                <ButtonLink href="/how-it-works" size="lg" className="shadow-lg hover:shadow-[0_20px_40px_rgb(var(--brand)/0.25)] transition-shadow duration-300">
-                  Explore the steps
-                </ButtonLink>
-                <ButtonLink variant="tertiary" href="/rates-fees" size="lg" className="hover:shadow-lg transition-shadow duration-300">
-                  See rates
-                </ButtonLink>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      <Section className="relative bg-gradient-to-b from-white via-panel/40 to-white py-32 md:py-40 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgb(var(--brand)/0.08),transparent_60%)]"></div>
-        <div className="absolute top-1/2 right-0 w-[500px] h-[500px] bg-gradient-to-l from-brand2/10 to-transparent rounded-full blur-3xl"></div>
-
-        <Container className="relative">
-          <div className="grid gap-24 lg:grid-cols-2 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/10 to-brand2/10 border border-brand/20 mb-8 backdrop-blur-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">Why Dollar Loans</p>
-              </div>
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-10 leading-[1.1] bg-gradient-to-br from-fg to-fg/70 bg-clip-text text-transparent">
-                Built like a big-company fintech
-              </h2>
-              <p className="text-xl md:text-2xl text-muted leading-relaxed mb-16">
-                Premium visuals, predictable steps, and disclosure-first clarity.
-              </p>
-
-              <div className="grid gap-6 sm:grid-cols-2 mb-16">
-                {[
-                  ["Transparency", "Fee categories in plain language"],
-                  ["Speed", "Step-by-step flow with autosave"],
-                  ["Security", "Secure-by-default architecture"],
-                  ["Support", "Clear complaint pathways"]
-                ].map(([t, d], i) => (
-                  <div key={t} className="group relative" style={{ animationDelay: `${i * 100}ms` }}>
-                    <div className="absolute -inset-0.5 bg-gradient-to-br from-brand to-brand2 rounded-2xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
-                    <div className="relative p-8 rounded-2xl border-2 border-border/50 bg-white hover:border-brand/40 hover:shadow-[0_20px_50px_rgb(var(--brand)/0.1)] transition-all duration-500 h-full group-hover:-translate-y-1">
-                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-brand/20 to-brand2/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                        <div className="w-7 h-7 rounded-full bg-gradient-to-br from-brand via-brand2 to-brand shadow-lg"></div>
-                      </div>
-                      <h3 className="font-bold text-lg mb-3 text-fg group-hover:text-brand transition-colors duration-300">{t}</h3>
-                      <p className="text-base text-muted leading-relaxed">{d}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  ["CAB Model Explained", "How access facilitation works", "/cab-model-explained"],
-                  ["Security & Trust", "How we handle your data", "/security-trust"],
-                  ["Eligibility", "Pre-check for Texas", "/eligibility"]
-                ].map(([t, d, href]) => (
-                  <Link
-                    key={t}
-                    href={href}
-                    className="group flex items-center justify-between p-7 rounded-2xl border-2 border-border/50 bg-white hover:border-brand/30 hover:shadow-[0_20px_50px_rgb(var(--brand)/0.1)] transition-all duration-500 hover:scale-[1.02]"
-                  >
-                    <div className="flex-1">
-                      <p className="font-bold text-lg mb-2 text-fg group-hover:text-brand transition-colors duration-300">{t}</p>
-                      <p className="text-base text-muted">{d}</p>
-                    </div>
-                    <div className="flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-brand/5 group-hover:bg-brand text-brand group-hover:text-white transition-all duration-300 text-2xl group-hover:translate-x-1">
-                      →
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            <div className="order-first lg:order-last">
-              <div className="relative graphic-container">
-                <div className="absolute inset-0 bg-gradient-to-br from-brand/15 via-transparent to-brand2/15 rounded-3xl blur-3xl"></div>
-                <div className="relative graphic-float w-full glow-subtle transform hover:scale-105 transition-transform duration-700">
-                  <Infographic
-                    variant="cabWhoDoesWhat"
-                    title="Who does what in the CAB model"
-                    caption="Dollar Loans facilitates access; a third-party creditor may extend credit if approved."
-                  />
+                {/* 3D Illustration Placeholder (Right Side) */}
+                <div className="hidden lg:block absolute top-1/2 -translate-y-1/2 -right-24 xl:right-0 w-[800px] h-[800px] z-0 opacity-50 dark:opacity-80 pointer-events-none">
+                    {/* This would be a 3D spline or transparent PNG */}
+                    <div className="w-full h-full bg-gradient-radial from-electric-cyan/20 to-transparent blur-3xl rounded-full animate-slow-pulse" />
                 </div>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
+            </section>
 
-      <Section className="relative py-32 md:py-40 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-panel/30 via-white to-panel/20"></div>
-        <div className="absolute top-0 left-1/2 w-[800px] h-[400px] bg-gradient-to-b from-brand/10 to-transparent rounded-full blur-3xl -translate-x-1/2"></div>
-
-        <Container className="relative">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-20">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/10 to-brand2/10 border border-brand/20 mb-8 backdrop-blur-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">Customer stories</p>
-              </div>
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-10 bg-gradient-to-br from-fg to-fg/70 bg-clip-text text-transparent">
-                Trusted by Texans
-              </h2>
-              <p className="text-xl md:text-2xl text-muted leading-relaxed max-w-3xl mx-auto">
-                Real feedback from customers who value transparency and clarity.
-              </p>
-            </div>
-
-            <div className="grid gap-8 md:grid-cols-3 mb-16">
-              {[
-                ["Felt legit from the start", "The site explained the CAB model clearly."],
-                ["Loved the progress tracking", "Autosave made it easy to finish later."],
-                ["Cost categories were clear", "I understood everything before signing."]
-              ].map(([q, d], i) => (
-                <div key={q} className="group relative" style={{ animationDelay: `${i * 100}ms` }}>
-                  <div className="absolute -inset-0.5 bg-gradient-to-br from-brand to-brand2 rounded-3xl opacity-0 group-hover:opacity-20 blur-xl transition-all duration-500"></div>
-                  <div className="relative p-10 rounded-3xl border-2 border-border/50 bg-white hover:border-brand/40 hover:shadow-[0_30px_60px_rgb(var(--brand)/0.15)] transition-all duration-500 h-full group-hover:-translate-y-2">
-                    <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand/10 to-brand2/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
-                      <div className="text-brand text-3xl font-serif">"</div>
+            {/* --- STATS TICKER --- */}
+            <div className="border-y border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/50 backdrop-blur-sm">
+                <Container>
+                    <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-zinc-200 dark:divide-zinc-800">
+                        {[
+                            { label: "Total Liquidity", value: "$42M+" },
+                            { label: "Active Users", value: "12,400" },
+                            { label: "Avg. Approval", value: "4.2s" },
+                            { label: "Security", value: "AES-256" },
+                        ].map((stat, i) => (
+                            <div key={i} className="py-6 px-4 flex flex-col items-center justify-center text-center">
+                                <span className="text-2xl md:text-3xl font-black tracking-tight">{stat.value}</span>
+                                <span className="text-xs uppercase tracking-widest text-zinc-500 font-bold mt-1">{stat.label}</span>
+                            </div>
+                        ))}
                     </div>
-                    <p className="font-bold text-xl mb-4 text-fg group-hover:text-brand transition-colors duration-300 leading-tight">{q}</p>
-                    <p className="text-base text-muted leading-relaxed">{d}</p>
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-brand/5 to-transparent rounded-br-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  </div>
-                </div>
-              ))}
+                </Container>
             </div>
 
-            <div className="flex items-center justify-center gap-6 mb-16">
-              <div className="flex -space-x-2">
-                {[1, 2, 3, 4, 5].map(i => (
-                  <div key={i} className="w-12 h-12 rounded-full bg-gradient-to-br from-brand to-brand2 border-3 border-white shadow-lg"></div>
-                ))}
-              </div>
-              <div className="text-left">
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="flex gap-1">
-                    {[1, 2, 3, 4, 5].map(i => (
-                      <svg key={i} className="w-5 h-5 text-brand" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="font-bold text-lg">4.9/5</span>
-                </div>
-                <p className="text-sm text-muted">Rated by 1,200+ customers</p>
-              </div>
-            </div>
+            {/* --- FEATURE GRID --- */}
+            <Section className="relative">
+                <Container>
+                    <div className="text-center max-w-3xl mx-auto mb-20">
+                        <h2 className="text-4xl md:text-6xl font-black tracking-tight mb-6">Engineered for Humans.</h2>
+                        <p className="text-lg text-zinc-500 dark:text-zinc-400">
+                            Forget outdated loan offices. Aura brings institution-grade financial tools to your pocket.
+                        </p>
+                    </div>
 
-            <div className="max-w-3xl mx-auto">
-              <div className="relative p-8 rounded-3xl border-2 border-brand/30 bg-gradient-to-br from-brand/5 via-white to-brand2/5 shadow-[0_20px_50px_rgb(var(--brand)/0.1)]">
-                <div className="absolute top-0 left-0 w-20 h-20 bg-gradient-to-br from-brand/20 to-transparent rounded-tl-3xl"></div>
-                <div className="absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-brand2/20 to-transparent rounded-br-3xl"></div>
-                <Notice tone="cab" title="Compliance-first transparency" className="!p-0 !bg-transparent !border-0">
-                  Estimates are ranges only and not a commitment to extend credit. Dollar Loans is a Texas CAB that facilitates access to credit; a third-party creditor may extend credit if approved.
-                </Notice>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {[
+                            {
+                                icon: Zap,
+                                title: "Flash Transfer",
+                                desc: "Funds settle in your account instantly via RTP networks.",
+                                color: "text-yellow-400"
+                            },
+                            {
+                                icon: Shield,
+                                title: "Vault Security",
+                                desc: "Your data is encrypted and never sold to third parties.",
+                                color: "text-electric-cyan"
+                            },
+                            {
+                                icon: Globe,
+                                title: "Works Everywhere",
+                                desc: "Access your dashboard from any device, anywhere in Texas.",
+                                color: "text-electric-violet"
+                            },
+                            {
+                                icon: TrendingUp,
+                                title: "Dynamic Rates",
+                                desc: "Our AI adjusts rates in real-time based on market conditions.",
+                                color: "text-green-400"
+                            },
+                            {
+                                icon: Users,
+                                title: "Peerless Support",
+                                desc: "24/7 dedicated concierge for all Aura members.",
+                                color: "text-pink-400"
+                            },
+                            {
+                                icon: MessageSquare,
+                                title: "Smart Alerts",
+                                desc: "Get notified instantly about payment milestones.",
+                                color: "text-orange-400"
+                            }
+                        ].map((item, i) => (
+                            <div key={i} className="group relative p-8 rounded-3xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:hover:shadow-zinc-900/50">
+                                <div className="absolute inset-0 bg-gradient-to-br from-transparent to-zinc-50 dark:to-zinc-800/50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <div className="relative z-10">
+                                    <div className={`w-12 h-12 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                                        <item.icon className={`w-6 h-6 ${item.color}`} />
+                                    </div>
+                                    <h3 className="text-xl font-bold mb-3">{item.title}</h3>
+                                    <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed text-sm">
+                                        {item.desc}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </Container>
+            </Section>
 
-      <Section className="relative bg-gradient-to-b from-panel/20 via-white to-panel/30 py-32 md:py-40 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgb(var(--brand)/0.05),transparent_70%)]"></div>
-        <div className="absolute bottom-0 left-1/2 w-[700px] h-[350px] bg-gradient-to-t from-brand2/10 to-transparent rounded-full blur-3xl -translate-x-1/2"></div>
+            {/* --- DASHBOARD PREVIEW --- */}
+            <Section className="bg-zinc-50 dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-800 overflow-hidden">
+                <Container>
+                    <div className="flex flex-col md:flex-row items-center gap-16">
+                        <div className="flex-1 space-y-8">
+                            <h2 className="text-4xl md:text-5xl font-black tracking-tight">
+                                Control Center <br />
+                                <span className="text-electric-cyan">Pro.</span>
+                            </h2>
+                            <p className="text-lg text-zinc-500 dark:text-zinc-400">
+                                Manage your loan with a professional-grade dashboard. Make payments, view amortization schedules, and track your equity in real-time.
+                            </p>
 
-        <Container className="relative">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-20">
-              <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-brand/10 to-brand2/10 border border-brand/20 mb-8 backdrop-blur-sm">
-                <div className="w-1.5 h-1.5 rounded-full bg-brand"></div>
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">FAQ</p>
-              </div>
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-10 bg-gradient-to-br from-fg to-fg/70 bg-clip-text text-transparent">
-                Questions, answered directly
-              </h2>
-              <p className="text-xl md:text-2xl text-muted leading-relaxed max-w-2xl mx-auto">
-                Transparent, CAB-safe answers.
-              </p>
-            </div>
+                            <div className="space-y-4">
+                                {["Real-time Equity Tracking", "One-tap Payoffs", "Document Vault"].map((feat, i) => (
+                                    <div key={i} className="flex items-center gap-3">
+                                        <div className="w-6 h-6 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center text-xs font-bold">✓</div>
+                                        <span className="font-semibold">{feat}</span>
+                                    </div>
+                                ))}
+                            </div>
 
-            <div className="mb-12">
-              <Accordion
-                items={[
-                  {
-                    q: "Are you a lender?",
-                    a: (
-                      <>
-                        Dollar Loans is a Texas Credit Access Business (CAB) that facilitates access to credit. A third-party
-                        creditor may extend credit if you are approved.
-                      </>
-                    )
-                  },
-                  {
-                    q: "Is approval guaranteed?",
-                    a: "No. Estimates and pre-qualification are not guarantees. Final terms depend on verification and eligibility."
-                  },
-                  {
-                    q: "What affects my estimate?",
-                    a: "Vehicle year/mileage/condition, title status, verification results, and other eligibility factors."
-                  }
-                ]}
-              />
-            </div>
+                            <Button variant="outline" size="lg">Explore Dashboard</Button>
+                        </div>
 
-            <div className="text-center">
-              <div className="inline-flex flex-col gap-4">
-                <ButtonLink variant="secondary" href="/faq" size="lg" className="shadow-lg hover:shadow-[0_20px_40px_rgb(var(--brand)/0.15)] transition-all duration-300">
-                  View all FAQs
-                </ButtonLink>
-                <p className="text-sm text-muted">
-                  Or <a href="/contact" className="text-brand font-semibold hover:underline underline-offset-4">get in touch</a> with our support team
-                </p>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-    </main>
-  );
+                        <div className="flex-1 relative">
+                            {/* Abstract Representation of Dashboard */}
+                            <div className="relative z-10 w-full aspect-[4/3] bg-zinc-900 rounded-3xl border border-zinc-700 shadow-2xl overflow-hidden group">
+                                <div className="absolute top-0 left-0 w-full h-12 bg-zinc-800 border-b border-zinc-700 flex items-center px-4 gap-2">
+                                    <div className="w-3 h-3 rounded-full bg-red-500" />
+                                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                                    <div className="w-3 h-3 rounded-full bg-green-500" />
+                                </div>
+                                {/* Content mockup */}
+                                <div className="p-8 space-y-6">
+                                    <div className="flex justify-between items-end">
+                                        <div>
+                                            <div className="text-zinc-500 text-xs uppercase font-bold tracking-wider mb-1">Total Balance</div>
+                                            <div className="text-4xl font-mono text-white">$4,250.00</div>
+                                        </div>
+                                        <div className="text-green-500 font-mono text-sm">+2.4% Equity</div>
+                                    </div>
+                                    {/* Fake Graph */}
+                                    <div className="w-full h-32 flex items-end justify-between gap-1">
+                                        {[40, 60, 45, 70, 50, 80, 65, 90, 75, 100].map((h, i) => (
+                                            <div key={i} className="w-full bg-electric-cyan/20 hover:bg-electric-cyan transition-colors rounded-t-sm" style={{ height: `${h}%` }} />
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Glow effects */}
+                            <div className="absolute -inset-10 bg-electric-cyan/20 blur-3xl rounded-full -z-10" />
+                        </div>
+                    </div>
+                </Container>
+            </Section>
+        </div>
+    );
 }

@@ -14,6 +14,17 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   app.status = "in_review";
   app.updatedAt = now;
 
+  // Save to GitHub if configured
+  try {
+    const { saveSubmissionToRepo } = await import("@/lib/github");
+    if (process.env.GITHUB_TOKEN) {
+      await saveSubmissionToRepo(app.id, app);
+    }
+  } catch (error) {
+    // Failed to save submission to GitHub
+    // Ideally we might want a background job or a more robust queue.
+  }
+
   return NextResponse.json({
     ok: true,
     message: "Application submitted",
