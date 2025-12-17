@@ -1,431 +1,102 @@
-# Dollar Loans Website Design System
+# Dollar Loans "High-Tech" Design System
 
-**Version:** 1.0
-**Last Updated:** 2025-12-15
-
-## Overview
-
-This design system establishes a clean, modern, and professional aesthetic for the Dollar Loans website. The design emphasizes clarity, trust, and accessibility while maintaining a premium fintech appearance.
+**Version:** 2.0 (The "Aura" Protocol)
+**Theme:** Cyber / Dark / Metal / Glass
+**Last Updated:** 2025-12-17
 
 ---
 
-## Color Palette
+## 1. Core Philosophy
 
-### Primary Colors
+**"The Bank Vault of the Future."**
 
-The website uses a refined, sophisticated color scheme:
-
-| Color | Purpose | Hex | RGB | Usage |
-|-------|---------|-----|-----|-------|
-| **White** | Primary Background | `#FFFFFF` | `255, 255, 255` | Page backgrounds, cards, primary surfaces |
-| **Black** | Primary Text | `#111827` | `17, 24, 39` | Headings, body text, primary content |
-| **Grey** | Secondary/Muted | `#6B7280` | `107, 114, 128` | Secondary text, captions, labels |
-| **Light Grey** | Borders/Panels | `#E5E7EB` | `229, 231, 235` | Borders, dividers, subtle backgrounds |
-| **Pink** | Primary Brand | `#EC4899` | `236, 72, 153` | Primary CTA buttons, links, accents |
-| **Gold** | Secondary Brand | `#EAB308` | `234, 179, 8` | Secondary accents, premium features, highlights |
-
-### Semantic Colorsz
-
-| Purpose | Color | RGB |
-|---------|-------|-----|
-| Success | Green | `34, 197, 94` |
-| Warning | Gold | `234, 179, 8` |
-| Error/Danger | Red | `239, 68, 68` |
-
-### Color Usage Guidelines
-
-1. **White Background**: All pages should have a pure white (`#FFFFFF`) background for maximum clarity
-2. **Text Hierarchy**:
-   - Primary text: Black (`#111827`)
-   - Secondary text: Grey (`#6B7280`)
-   - Disabled text: Light Grey (`#9CA3AF`)
-3. **Brand Colors**:
-   - **Pink**: Use for primary CTAs, active states, and important interactive elements
-   - **Gold**: Use for premium features, secondary CTAs, and special highlights
-4. **Contrast**: Ensure WCAG AA compliance (4.5:1 for normal text, 3:1 for large text)
+We are not a traditional lender. We are a decentralized-style vehicle equity platform.
+The design must feel:
+- **Impenetrable**: Heavy brushed metal, carbon fiber.
+- **Transparent**: Glassmorphism, see-through panels.
+- **Electric**: Neon pulses, live data, energy.
+- **Premium**: Luxury car aesthetic (matte black, gold, chrome).
 
 ---
 
-## Typography
+## 2. Color Palette
 
-### Font Stack
+### Base (The Void)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `bg` | `#050505` | Deepest black background |
+| `panel` | `#111111` | Card/Panel backgrounds |
+| `metal` | `#1A1A1A` | Brushed metal surfaces |
 
+### Neon Accents (The Energy)
+| Token | Hex | Usage |
+|-------|-----|-------|
+| `primary` | `#00F3FF` | **Electric Cyan** (Main actions, glow) |
+| `secondary` | `#BC13FE` | **Neon Violet** (Gradients, secondary actions) |
+| `brand` | `#FACC15` | **24K Gold** (Luxury, money, success) |
+| `danger` | `#FF0033` | **Laser Red** (Errors, alerts) |
+
+---
+
+## 3. Materials & Textures
+
+### Glass (`.glass-panel`)
+Used for all cards and floating elements.
 ```css
-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+background: rgba(17, 17, 17, 0.6);
+backdrop-filter: blur(12px);
+border: 1px solid rgba(255, 255, 255, 0.08);
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 ```
 
-### Type Scale
+### Neon Glow (`.text-glow`, `.box-glow`)
+Used to emphasize key data points or active states.
+```css
+text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+```
 
-| Style | Size | Weight | Line Height | Usage |
-|-------|------|--------|-------------|-------|
-| **Hero** | 48px / 3rem | 700 (Bold) | 1.1 | Hero headlines |
-| **H1** | 36px / 2.25rem | 600 (SemiBold) | 1.2 | Page titles |
-| **H2** | 24px / 1.5rem | 600 (SemiBold) | 1.3 | Section headings |
-| **H3** | 20px / 1.25rem | 600 (SemiBold) | 1.4 | Subsection headings |
-| **Body Large** | 16px / 1rem | 400 (Regular) | 1.6 | Large body text |
-| **Body** | 14px / 0.875rem | 400 (Regular) | 1.6 | Standard body text |
-| **Small** | 12px / 0.75rem | 400 (Regular) | 1.5 | Captions, labels |
-| **Tiny** | 10px / 0.625rem | 600 (SemiBold) | 1.4 | Micro-labels, badges |
-
-### Typography Guidelines
-
-1. **Tracking (Letter Spacing)**:
-   - Headlines: `-0.025em` (tight)
-   - Labels/Tiny text: `0.05em` (wide)
-   - Body: Default
-2. **Font Smoothing**: Apply `-webkit-font-smoothing: antialiased` for crisp rendering
-3. **Hierarchy**: Use size, weight, and color to establish clear visual hierarchy
+### Grid Background (`.tech-grid`)
+Subtle background pattern to give technical depth.
+```css
+background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), ...
+```
 
 ---
 
-## Spacing System
+## 4. Typography
 
-Use a consistent 4px base unit spacing system:
+### Headings: **Inter**
+Bold, tight tracking, crisp.
+`tracking-tighter`, `font-black`.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `xs` | 4px | Tight spacing, icon gaps |
-| `sm` | 8px | Small component padding |
-| `md` | 16px | Standard component padding |
-| `lg` | 24px | Section spacing |
-| `xl` | 32px | Large section spacing |
-| `2xl` | 48px | Extra large section spacing |
-| `3xl` | 64px | Hero spacing |
+### Data/Tech: **JetBrains Mono**
+Used for numbers, rates, code snippets, and "system status" indicators.
+`font-mono`, `text-xs`.
 
 ---
 
-## Layout & Grid
-
-### Container
-
-- **Max Width**: 1280px
-- **Padding**: 24px (mobile), 32px (tablet+)
-- **Centering**: `margin: 0 auto`
-
-### Grid System
-
-- **Columns**: 12-column grid
-- **Gap**: 24px
-- **Breakpoints**:
-  - Mobile: < 768px
-  - Tablet: 768px - 1024px
-  - Desktop: > 1024px
-
-### Section Spacing
-
-- **Between sections**: 64px (mobile), 96px (desktop)
-- **Within sections**: 32px - 48px
-
----
-
-## Components
+## 5. UI Components
 
 ### Buttons
+- **Neon Variant**: Solid Cyan background, black text, strong glow.
+- **Glass Variant**: Transparent, white border, backdrop blur.
+- **Gold Variant**: Gradient Gold background, metallic shine effect.
 
-#### Primary Button
-- **Background**: Pink (`#EC4899`)
-- **Text**: White
-- **Padding**: 12px 24px
-- **Border Radius**: 12px
-- **Font**: 14px, 600 weight
-- **Hover**: Darken by 10%
-- **Shadow**: Subtle elevation
+### Charts & Data
+- Thin lines (1px).
+- Gradient fills (Cyan to transparent).
+- Glowing dots on data points.
 
-#### Secondary Button
-- **Background**: White
-- **Border**: 1px solid Light Grey
-- **Text**: Black
-- **Padding**: 12px 24px
-- **Border Radius**: 12px
-- **Hover**: Background to Light Grey
-
-#### Tertiary Button
-- **Background**: Transparent
-- **Text**: Black
-- **Padding**: 12px 24px
-- **Hover**: Background to Light Grey
-
-### Cards
-
-```css
-.card {
-  background: white;
-  border: 1px solid rgba(229, 231, 235, 0.7);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.card-hover {
-  transition: all 200ms ease;
-}
-
-.card-hover:hover {
-  border-color: rgba(229, 231, 235, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-```
-
-### Inputs
-
-- **Height**: 44px (touch-friendly)
-- **Padding**: 12px 16px
-- **Border**: 1px solid Light Grey
-- **Border Radius**: 8px
-- **Focus**: Pink border, subtle glow
-- **Font**: 14px
-
-### Panels
-
-Light grey background panels for secondary content:
-- **Background**: `rgba(249, 250, 251, 0.45)`
-- **Border**: 1px solid `rgba(229, 231, 235, 0.7)`
-- **Border Radius**: 16px
+### Imagery (Nano Banana Style)
+- **Style**: Flat 2D, Vector-like, Cartoon-ish but Tech-themed.
+- **Subjects**: Isometric digital cities, bank vaults, floating coins, futuristic dashboards.
+- **Vibe**: "Kurzgesagt meets Cyberpunk".
 
 ---
 
-## Images & Media
+## 6. Layout Principles
 
-### Image Guidelines
-
-1. **No Backgrounds**: All product images, icons, and graphics should have transparent backgrounds (PNG/SVG)
-2. **Format**:
-   - Icons: SVG (preferred)
-   - Images: WebP with PNG fallback
-   - Max size: 1MB per image
-3. **Responsive**: Use `srcset` for different screen densities
-4. **Loading**: Lazy load images below the fold
-5. **Alt Text**: Always include descriptive alt text
-
-### Image Treatment
-
-```css
-.image-clean {
-  background: transparent;
-  mix-blend-mode: multiply; /* For seamless integration */
-}
-```
-
-### Icons
-
-- **Size**: 16px (small), 20px (medium), 24px (large)
-- **Stroke Width**: 1.5px - 2px
-- **Style**: Outlined (preferred) or solid
-- **Color**: Inherit from parent or use brand colors
-
----
-
-## UI/UX Principles
-
-### 1. Clarity First
-- Clear visual hierarchy
-- Generous white space
-- Obvious interactive elements
-- No clutter
-
-### 2. Trust & Transparency
-- Clean, professional appearance
-- Clear CTAs
-- Honest copy
-- Compliance-first design
-
-### 3. Accessibility
-- WCAG 2.1 AA compliance
-- Keyboard navigation
-- Screen reader support
-- Sufficient color contrast
-- Touch-friendly targets (44px minimum)
-
-### 4. Performance
-- Fast page loads (< 3s)
-- Optimized images
-- Minimal animations (respect `prefers-reduced-motion`)
-- Progressive enhancement
-
-### 5. Consistency
-- Reusable components
-- Consistent spacing
-- Predictable interactions
-- Unified visual language
-
----
-
-## Interaction Patterns
-
-### Hover States
-- **Buttons**: Background color change, subtle lift
-- **Cards**: Border emphasis, shadow increase
-- **Links**: Underline, color shift to Pink
-
-### Focus States
-- **Visible outline**: 2px solid Pink
-- **Offset**: 2px from element
-- **Never remove**: Always show focus indicators
-
-### Transitions
-- **Duration**: 150ms - 250ms
-- **Easing**: `ease-out` for entrances, `ease-in` for exits
-- **Properties**: Transform, opacity, color (avoid animating layout properties)
-
-### Loading States
-- **Skeleton screens**: For content loading
-- **Spinners**: For actions/submissions
-- **Progress bars**: For multi-step processes
-
----
-
-## Responsive Design
-
-### Mobile First
-Design for mobile screens first, then enhance for larger screens.
-
-### Breakpoints
-```css
-/* Mobile: Default (< 768px) */
-/* Tablet: 768px */
-@media (min-width: 768px) { }
-
-/* Desktop: 1024px */
-@media (min-width: 1024px) { }
-
-/* Large Desktop: 1280px */
-@media (min-width: 1280px) { }
-```
-
-### Mobile Considerations
-- Touch targets: Minimum 44px × 44px
-- Readable font sizes: 14px minimum for body text
-- Single column layouts
-- Simplified navigation
-
----
-
-## Design Tokens (CSS Variables)
-
-```css
-:root {
-  /* Colors */
-  --bg: 255 255 255;              /* White */
-  --panel: 249 250 251;           /* Light gray panel */
-  --border: 229 231 235;          /* Light gray border */
-  --fg: 17 24 39;                 /* Black text */
-  --muted: 107 114 128;           /* Gray muted */
-  --grey: 156 163 175;            /* Medium gray */
-  --brand: 236 72 153;            /* Pink */
-  --brand2: 234 179 8;            /* Gold */
-  --danger: 239 68 68;            /* Red */
-  --warn: 234 179 8;              /* Gold */
-  --ok: 34 197 94;                /* Green */
-
-  /* Spacing */
-  --space-xs: 4px;
-  --space-sm: 8px;
-  --space-md: 16px;
-  --space-lg: 24px;
-  --space-xl: 32px;
-
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-
-  /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.12);
-}
-```
-
----
-
-## Page Templates
-
-### Marketing Page Template
-```
-1. Header (sticky navigation)
-2. Hero section (large headline + CTA)
-3. Content sections (alternating layout)
-4. Trust indicators
-5. FAQ section
-6. Footer
-```
-
-### Dashboard Page Template
-```
-1. Dashboard header (breadcrumbs, user menu)
-2. Page title + description
-3. Main content area
-4. Sidebar (if needed)
-5. Footer (minimal)
-```
-
----
-
-## Brand Voice & Tone
-
-### Visual Tone
-- **Clean**: Uncluttered, spacious layouts
-- **Modern**: Contemporary design patterns
-- **Professional**: Trustworthy, premium appearance
-- **Approachable**: Friendly, not intimidating
-- **Crisp**: Sharp, well-defined edges and typography
-
-### Design Adjectives
-- Elegant
-- Minimal
-- Confident
-- Transparent
-- Polished
-
----
-
-## Quality Checklist
-
-Before deploying any page, verify:
-
-- [ ] White background on all pages
-- [ ] Colors match palette (White, Black, Grey, Pink, Gold)
-- [ ] Images have no backgrounds
-- [ ] Proper text hierarchy
-- [ ] Consistent spacing
-- [ ] Mobile responsive
-- [ ] Touch targets are 44px minimum
-- [ ] WCAG AA contrast ratios
-- [ ] Loading states implemented
-- [ ] Hover/focus states working
-- [ ] No console errors
-- [ ] Fast page load (< 3s)
-
----
-
-## Tools & Resources
-
-### Design Tools
-- Figma (design mockups)
-- TailwindCSS (utility framework)
-- Heroicons (icon library)
-
-### Testing Tools
-- Chrome DevTools (responsive testing)
-- WebAIM Contrast Checker (accessibility)
-- Lighthouse (performance & accessibility)
-- WAVE (accessibility evaluation)
-
-### References
-- [TailwindCSS Documentation](https://tailwindcss.com)
-- [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
-- [Material Design (spacing reference)](https://material.io/design)
-
----
-
-## Maintenance
-
-This design system is a living document. Update it when:
-- New components are created
-- Color palette changes
-- Layout patterns evolve
-- Accessibility requirements change
-
-**Document Owner**: Development Team
-**Review Frequency**: Quarterly
+1.  **Bento Grids**: Content organized in grid-like bento boxes.
+2.  **Floating Elements**: Nothing feels "stuck" to the background.
+3.  **Contrast**: Extreme contrast between the deep black background and neon brights.
+4.  **Motion**: constant subtle movement (slow pulses, shimmers, floating).
